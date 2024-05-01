@@ -23,12 +23,19 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-
+//admin routes group
 Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
+    Route::get('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
 });
 
 
-Route::middleware(['auth'])->group(function () {
+
+//instructor routes group
+Route::middleware(['auth','role:instructor'])->group(function () {
+
     Route::get('/instructor/dashboard', [InstructorController::class, 'InstructorDashboard'])->name('instructor.dashboard');
 });
+
+
+
