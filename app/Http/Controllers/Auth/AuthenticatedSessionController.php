@@ -16,7 +16,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        return view('admin.admin_login');
     }
 
     /**
@@ -42,12 +42,10 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended($url);
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        Auth::guard('web')->logout();
+
+    public function destroy(Request $request) : RedirectResponse
+     {
+         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
 
