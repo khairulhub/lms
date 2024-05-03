@@ -19,9 +19,10 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('photo')->nullable();
+            $table->string('phone')->nullable();
             $table->string('address')->nullable();
-            $table->enum('role',['admin','instructor','user'])->default('user');
-            $table->enum('status',['1','0'])->default('1')->comment('1 for active and 0 for inactive');
+            $table->enum('role', ['admin', 'instructor', 'user'])->default('user');
+            $table->enum('status', ['1', '0'])->default('1')->comment('1 for active and 0 for inactive');
             $table->rememberToken();
             $table->timestamps();
         });
