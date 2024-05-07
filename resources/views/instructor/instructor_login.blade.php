@@ -50,7 +50,7 @@
                                         <img src="assets/images/logo-icon.png" width="60" alt="">
                                     </div>
                                     <div class="mb-4 text-center">
-                                        <h5 class="">instructor Login</h5>
+                                        <h5 class="">Instructor Login</h5>
                                         <p class="mb-0">Please log in to your account</p>
                                     </div>
                                     <div class="form-body">

@@ -16,7 +16,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('admin.admin_login');
+        return view('frontend.dashboard.login');
     }
 
     /**
@@ -29,23 +29,20 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $url = '';
-        if($request->user()->role==='admin'){
+        if ($request->user()->role === 'admin') {
             $url = '/admin/dashboard';
-        }
-        elseif($request->user()->role==='instructor'){
+        } elseif ($request->user()->role === 'instructor') {
             $url = '/instructor/dashboard';
-        }
-        elseif($request->user()->role==='user'){
+        } elseif ($request->user()->role === 'user') {
             $url = '/dashboard';
         }
 
         return redirect()->intended($url);
     }
 
-
-    public function destroy(Request $request) : RedirectResponse
-     {
-         Auth::guard('web')->logout();
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard('web')->logout();
 
         $request->session()->invalidate();
 
