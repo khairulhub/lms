@@ -112,6 +112,10 @@
                                                 class="form-control @error('old_password')
                                                 is-invalid
                                             @enderror" />
+
+                                            @error('old_password')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
@@ -123,6 +127,10 @@
                                                 class="form-control @error('new_password')
                                                 is-invalid
                                             @enderror" />
+
+                                            @error('new_password')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
