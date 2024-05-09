@@ -25,9 +25,9 @@
     <link rel="stylesheet" href="{{ asset('/backend/assets/css/dark-theme.css') }} " />
     <link rel="stylesheet" href="{{ asset('/backend/assets/css/semi-dark.css') }} " />
     <link rel="stylesheet" href="{{ asset('/backend/assets/css/header-colors.css') }} " />
-
+    <link href="{{ asset('backend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
-    <title>Learning Management System</title>
+    <title>Admin Dashboard</title>
 </head>
 
 <body>
@@ -59,6 +59,7 @@
 
     <!-- Bootstrap JS -->
     <script src="{{ asset('backend/assets/js/bootstrap.bundle.min.js') }} "></script>
+    
     <!--plugins-->
     <script src="{{ asset('backend/assets/js/jquery.min.js') }} "></script>
     <script src="{{ asset('backend/assets/plugins/simplebar/js/simplebar.min.js') }} "></script>
@@ -68,11 +69,25 @@
     <script src="{{ asset('backend/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }} "></script>
     <script src="{{ asset('backend/assets/plugins/chartjs/js/chart.js') }} "></script>
     <script src="{{ asset('backend/assets/js/index.js') }} "></script>
+    <script src="{{ asset('backend/assets/js/validate.min.js') }} "></script>
     <!--app JS-->
     <script src="{{ asset('backend/assets/js/app.js') }} "></script>
     <script>
         new PerfectScrollbar(".app-container")
     </script>
+
+
+
+<script src="{{ asset('backend/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+      } );
+</script>
+
+
+
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
