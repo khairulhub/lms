@@ -64,7 +64,7 @@
 
     <!-- Bootstrap JS -->
     <script src="{{ asset('backend/assets/js/bootstrap.bundle.min.js') }} "></script>
-    
+
     <!--plugins-->
     <script src="{{ asset('backend/assets/js/jquery.min.js') }} "></script>
     <script src="{{ asset('backend/assets/plugins/simplebar/js/simplebar.min.js') }} "></script>
@@ -87,11 +87,11 @@
 <script src="{{ asset('backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
 
     {{-- sweet alaert --}}
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <script src="{{ asset('backend/assets/js/code.js') }}"></script>
-   
+
 
 <script>
     $(document).ready(function() {
@@ -126,6 +126,15 @@
             }
         @endif
     </script>
+
+<script>
+    function updateStatus(userId, checkbox) {
+        let form = document.getElementById('statusForm' + userId);
+        form.querySelector('input[name="is_checked"]').value = checkbox.checked ? 1 : 0;
+        form.submit();
+    }
+    </script>
+
 </body>
 
 </html>

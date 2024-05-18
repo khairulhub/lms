@@ -64,3 +64,69 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+==========================>
+by using toggle button take the value inactive and active 
+## controller value 
+    // AllInstructor
+    public function AllInstructor(){
+        $allinstructor = User::where('role','instructor')->latest()->get();
+        return view('admin.backend.instructor.all_instructor',compact('allinstructor'));
+    }
+
+    // important code for getting all instructor information
+
+    public function UpdateUserStatus(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $isChecked = $request->input('is_checked', 0); // Default to 0 if not provided
+        $user = User::find($userId);
+    
+        if ($user) {
+            $user->status = $isChecked;
+            $user->save();
+            return redirect()->route('all.instructor');
+        } 
+    }
+    
+
+    ## web.route  admin should be login 
+      
+    Route::controller(AdminController::class)->group(function(){
+        Route::get('/all/instructor','AllInstructor')->name('all.instructor');
+        // Route::get('/add/subcategory','AddSubCategory')->name('add.subcategory');
+        // Route::post('/store/subcategory','StoreSubCategory')->name('store.subcategory');
+        // Route::get('/edit/subcategory/{id}','EditSubCategory')->name('edit.subcategory');
+        Route::post('/update/userstatus','UpdateUserStatus')->name('update.userstatus');
+        // Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
+    });
+
+    ## all instructor page manage 
+      <td>
+                                <form id="statusForm{{ $item->id }}" action="{{ route('update.userstatus') }}" method="POST">
+                                    @csrf
+                                   
+                                    <input type="hidden" name="user_id" value="{{ $item->id }}">
+                <input type="hidden" name="is_checked" value="{{ $item->status }}">
+                <div class="form-check form-switch">
+                    <input class="form-check-input status-toggle" type="checkbox" {{ $item->status == 1 ? 'checked' : '' }} onchange="updateStatus({{ $item->id }}, this)">
+                </div>
+                                </form>
+                            </td>
+
+## js code for update status with status toggle disabled and disabled 
+<script>
+    function updateStatus(userId, checkbox) {
+        let form = document.getElementById('statusForm' + userId);
+        form.querySelector('input[name="is_checked"]').value = checkbox.checked ? 1 : 0;
+        form.submit();
+    }
+    </script>
+
+
+    ====================================> finish the update 
+
+
+

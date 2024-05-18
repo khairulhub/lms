@@ -33,7 +33,7 @@
                     <div
                         class="col-12 col-xl-7 col-xxl-8 auth-cover-left align-items-center justify-content-center d-none d-xl-flex">
 
-                        <div class="card shadow-none bg-transparent shadow-none rounded-0 mb-0">
+                        <div class="mb-0 bg-transparent shadow-none card rounded-0">
                             <div class="card-body">
                                 <img src="{{ asset('backend/assets/images/login-images/login-cover.svg') }}"
                                     class="img-fluid auth-img-cover-login" width="650" alt="" />
@@ -43,13 +43,13 @@
                     </div>
 
                     <div class="col-12 col-xl-5 col-xxl-4 auth-cover-right align-items-center justify-content-center">
-                        <div class="card rounded-0 m-3 shadow-none bg-transparent mb-0">
+                        <div class="m-3 mb-0 bg-transparent shadow-none card rounded-0">
                             <div class="card-body p-sm-5">
                                 <div class="">
                                     <div class="mb-3 text-center">
                                         <img src="assets/images/logo-icon.png" width="60" alt="">
                                     </div>
-                                    <div class="text-center mb-4">
+                                    <div class="mb-4 text-center">
                                         <h5 class="">Admin Login</h5>
                                         <p class="mb-0">Please log in to your account</p>
                                     </div>
@@ -59,8 +59,8 @@
                                             @csrf
                                             <div class="col-12">
                                                 <label for="email" class="form-label">Email</label>
-                                                <input type="email" name="email" class="form-control" id="email"
-                                                    @error('email') is-invalid @enderror placeholder="jhon@example.com">
+                                                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror " id="email"
+                                                    placeholder="jhon@example.com">
                                                 @error('email')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -68,11 +68,11 @@
                                             <div class="col-12">
                                                 <label for="password" class="form-label">Password</label>
                                                 <div class="input-group" id="show_hide_password">
-                                                    <input type="password" class="form-control border-end-0"
+                                                    <input type="password" class="form-control @error('password') is-invalid @enderror border-end-0"
                                                         id="password" name="password"
-                                                        @error('password') is-invalid @enderror
+                                                        
                                                         placeholder="Enter Password"> <a href="javascript:;"
-                                                        class="input-group-text bg-transparent"><i
+                                                        class="bg-transparent input-group-text"><i
                                                             class="bx bx-hide"></i></a>
 
                                                     @error('password')
@@ -107,21 +107,21 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="login-separater text-center mb-5"> <span>OR SIGN IN WITH</span>
+                                    <div class="mb-5 text-center login-separater"> <span>OR SIGN IN WITH</span>
                                         <hr>
                                     </div>
-                                    <div class="list-inline contacts-social text-center">
+                                    <div class="text-center list-inline contacts-social">
                                         <a href="javascript:;"
-                                            class="list-inline-item bg-facebook text-white border-0 rounded-3"><i
+                                            class="text-white border-0 list-inline-item bg-facebook rounded-3"><i
                                                 class="bx bxl-facebook"></i></a>
                                         <a href="javascript:;"
-                                            class="list-inline-item bg-twitter text-white border-0 rounded-3"><i
+                                            class="text-white border-0 list-inline-item bg-twitter rounded-3"><i
                                                 class="bx bxl-twitter"></i></a>
                                         <a href="javascript:;"
-                                            class="list-inline-item bg-google text-white border-0 rounded-3"><i
+                                            class="text-white border-0 list-inline-item bg-google rounded-3"><i
                                                 class="bx bxl-google"></i></a>
                                         <a href="javascript:;"
-                                            class="list-inline-item bg-linkedin text-white border-0 rounded-3"><i
+                                            class="text-white border-0 list-inline-item bg-linkedin rounded-3"><i
                                                 class="bx bxl-linkedin"></i></a>
                                     </div>
 

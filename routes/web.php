@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/logout', [UserController::class, 'UserLogout'])->name('user.logout');
     Route::get('/user/change/password', [UserController::class, 'UserChangePassword'])->name('user.change.password');
     Route::post('/user/update/password', [UserController::class, 'UserPasswordUpdate'])->name('user.password.update');
-    
+
 });
 
 require __DIR__.'/auth.php';
@@ -47,7 +47,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/store/category','StoreCategory')->name('store.category');
         Route::get('/edit/category/{id}','EditCategory')->name('edit.category');
         Route::post('/update/category','UpdateCategory')->name('update.category');
-        Route::get('/delete/category/{id}','DeleteCategory')->name('delete.category'); 
+        Route::get('/delete/category/{id}','DeleteCategory')->name('delete.category');
     });
 
 
@@ -59,15 +59,38 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/store/subcategory','StoreSubCategory')->name('store.subcategory');
         Route::get('/edit/subcategory/{id}','EditSubCategory')->name('edit.subcategory');
         Route::post('/update/subcategory','UpdateSubCategory')->name('update.subcategory');
-        Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory'); 
+        Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
+    });
+
+
+    Route::controller(AdminController::class)->group(function(){
+        Route::get('/all/instructor','AllInstructor')->name('all.instructor');
+        // Route::get('/add/subcategory','AddSubCategory')->name('add.subcategory');
+        // Route::post('/store/subcategory','StoreSubCategory')->name('store.subcategory');
+        // Route::get('/edit/subcategory/{id}','EditSubCategory')->name('edit.subcategory');
+        Route::post('/update/userstatus','UpdateUserStatus')->name('update.userstatus');
+        // Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
     });
 
 
 
 
 });
-
+// admin login route
 Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
+
+// become a instructor route
+
+Route::get('/become/instructor', [AdminController::class, 'BecomeInstructor'])->name('become.instructor');
+
+Route::post('/instructor/registration', [AdminController::class, 'InstructorRegistration'])->name('instructor.registration');
+// Route::post('/all/instructor', [AdminController::class, 'AllInstructor'])->name('all.instructor');
+
+
+
+
+
+
 
 //instructor routes group
 Route::middleware(['auth', 'role:instructor'])->group(function () {

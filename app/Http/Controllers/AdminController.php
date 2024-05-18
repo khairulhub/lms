@@ -107,4 +107,68 @@ class AdminController extends Controller
         return back()->with($notification);
 
     }
+
+
+
+
+    // BecomeInstructor
+
+    public function BecomeInstructor(){
+        return view('frontend.instructor.reg_instructor');
+    }
+
+    // InstructorRegistration
+    public function InstructorRegistration(Request $request){
+
+        $request->validate([
+            'name' => ['required','string', 'max:50'],
+            'email'=>['required','string', 'unique:users']
+         ]);
+
+         User::insert([
+             'name' => $request->name,
+             'username' => $request->username,
+             'email' => $request->email,
+             'phone' => $request->phone,
+             'address' => $request->address,
+             'password' =>  Hash::make($request->password),
+             'role' => 'instructor',
+            'status' => '0',
+         ]);
+
+         $notification = [
+            'message' => 'Instructor request send  Successfully ',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('instructor.login')->with($notification);
+    }
+
+
+    // AllInstructor
+    public function AllInstructor(){
+        $allinstructor = User::where('role','instructor')->latest()->get();
+        return view('admin.backend.instructor.all_instructor',compact('allinstructor'));
+    }
+
+    // important code for getting all instructor information
+
+    public function UpdateUserStatus(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $isChecked = $request->input('is_checked', 0); // Default to 0 if not provided
+        $user = User::find($userId);
+    
+        if ($user) {
+            $user->status = $isChecked;
+            $user->save();
+            return redirect()->route('all.instructor');
+        } 
+    }
+    
+
+
+
+
+
 }
