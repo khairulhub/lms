@@ -1,3 +1,11 @@
+
+@php
+    $id = Auth::user()->id;
+    $instructorid = App\Models\User::find($id);
+    $status = $instructorid->status;
+@endphp
+
+
 <div class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
@@ -19,14 +27,17 @@
             </a>
         </li>
 
+        @if ($status === '1')
+  
+
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
-                <div class="menu-title">Application</div>
+                <div class="menu-title">Course Manage</div>
             </a>
             <ul>
-                <li> <a href="app-emailbox.html"><i class='bx bx-radio-circle'></i>Email</a>
+                <li> <a href="{{ route('all.course') }}"><i class='bx bx-radio-circle'></i>All Course</a>
                 </li>
                 <li> <a href="app-chat-box.html"><i class='bx bx-radio-circle'></i>Chat Box</a>
                 </li>
@@ -125,6 +136,10 @@
                 <div class="menu-title">Documentation</div>
             </a>
         </li>
+        @else
+
+                  
+        @endif
         <li>
             <a href="https://themeforest.net/user/codervent" target="_blank">
                 <div class="parent-icon"><i class="bx bx-support"></i>

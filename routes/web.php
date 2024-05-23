@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\CategoryController;
 
 // Route::get('/', function () {
@@ -62,7 +63,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
     });
 
-
+// all instructor route
     Route::controller(AdminController::class)->group(function(){
         Route::get('/all/instructor','AllInstructor')->name('all.instructor');
         // Route::get('/add/subcategory','AddSubCategory')->name('add.subcategory');
@@ -76,6 +77,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 
 });
+
+
+
+
 // admin login route
 Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
 
@@ -84,7 +89,7 @@ Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.
 Route::get('/become/instructor', [AdminController::class, 'BecomeInstructor'])->name('become.instructor');
 
 Route::post('/instructor/registration', [AdminController::class, 'InstructorRegistration'])->name('instructor.registration');
-// Route::post('/all/instructor', [AdminController::class, 'AllInstructor'])->name('all.instructor');
+
 
 
 
@@ -101,5 +106,24 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
     Route::post('/instructor/profile/store', [InstructorController::class, 'InstructorProfileStore'])->name('instructor.profile.store');
     Route::get('/instructor/change/password', [InstructorController::class, 'InstructorChangePassword'])->name('instructor.change.password');
     Route::post('/instructor/password/update', [InstructorController::class, 'InstructorPasswordUpdate'])->name('instructor.password.update');
+
+
+// add course controller routes
+
+    Route::controller(CourseController::class)->group(function(){
+        Route::get('/all/course','AllCourse')->name('all.course');
+        Route::get('/add/course','AddCourse')->name('add.course');
+        Route::get('/subcategory/ajax/{category_id}','GetSubCategory');
+        Route::post('/store/course','StoreCourse')->name('store.course');
+        Route::get('/edit/course/{id}','EditCourse')->name('edit.course');
+        Route::post('/update/course','UpdateCourse')->name('update.course');
+        Route::post('/update/course/image','UpdateCourseImage')->name('update.course.image');
+        Route::post('/update/course/video','UpdateCourseVideo')->name('update.course.video');
+        Route::post('/update/course/goals','UpdateCourseGoals')->name('update.course.goals');
+        Route::get('/delete/course/{id}','DeleteCourse')->name('delete.course');
+    });
+
 });
+
+
 Route::get('/instructor/login', [InstructorController::class, 'InstructorLogin'])->name('instructor.login');

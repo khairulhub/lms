@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="{{ asset('/backend/assets/css/semi-dark.css') }} " />
     <link rel="stylesheet" href="{{ asset('/backend/assets/css/header-colors.css') }} " />
 
+
+    {{-- data table --}}
+    <link href="{{ asset('backend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
     <title>Learning Management System</title>
 </head>
@@ -68,13 +71,45 @@
     <script src="{{ asset('backend/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }} "></script>
     <script src="{{ asset('backend/assets/plugins/chartjs/js/chart.js') }} "></script>
     <script src="{{ asset('backend/assets/js/index.js') }} "></script>
+    <script src="{{ asset('backend/assets/js/validate.min.js') }} "></script>
     <!--app JS-->
     <script src="{{ asset('backend/assets/js/app.js') }} "></script>
     <script>
         new PerfectScrollbar(".app-container")
     </script>
 
+<script src="{{ asset('backend/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    {{-- sweet alaert --}}
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script src="{{ asset('backend/assets/js/code.js') }}"></script>
+
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include TinyMCE -->
+<script src="https://cdn.tiny.cloud/1/nhv07sf4mtfp3nemhg4xfaemxx4nojgj1k9jgtv0lhiilu85/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<!-- Include TinyMCE jQuery Plugin -->
+<script src="https://cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@2/dist/tinymce-jquery.min.js"></script>
+
+<script>
+  tinymce.init({
+    selector: 'textarea#myeditorinstance', // Replace this CSS selector to match the placeholder element for TinyMCE
+    plugins: 'code table lists',
+    toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table'
+  });
+</script>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+          } );
+    </script>
 
     <script>
         @if (Session::has('message'))
