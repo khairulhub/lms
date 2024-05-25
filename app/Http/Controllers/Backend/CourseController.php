@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\Category;
-use App\Models\SubCategory;
 use App\Models\Course_goal;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\Models\CourseLecture;
+use App\Models\CourseSection;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
@@ -129,7 +131,7 @@ class CourseController extends Controller
 
     //========================start UpdateCourse==============
     public function UpdateCourse(Request $request){
-       
+
 
         $cid = $request->course_id;
 
@@ -152,7 +154,7 @@ class CourseController extends Controller
             'bestseller' => $request->bestseller,
             'featured' => $request->featured,
             'highestrated' => $request->highestrated,
-            
+
         ]);
 
         // // Insert course goals into database
@@ -178,7 +180,7 @@ class CourseController extends Controller
     public function UpdateCourseImage(Request $request){
         $course_id = $request->course_id;
         $old_image = $request->old_image;
-    
+
         // Handle course image
         $courseImagePath = null;
         if ($request->file('course_image')) {
@@ -186,22 +188,22 @@ class CourseController extends Controller
             $imageName = hexdec(uniqid()) . '.' . $request->file('course_image')->getClientOriginalExtension();
             $img = $imageManager->read($request->file('course_image'));
             $img->resize(370, 246);
-    
+
             // Save new image
             $courseImagePath = 'upload/course/thumbnail/' . $imageName;
             $img->save(public_path($courseImagePath));
-    
+
             // Delete old image if it exists
             if (file_exists(public_path($old_image))) {
                 unlink(public_path($old_image));
             }
-    
+
             // Update course image path in the database
             Course::find($course_id)->update([
                 'course_image' => $courseImagePath,
                 'updated_at' => Carbon::now(),
             ]);
-    
+
             $notification = array(
                 'message' => 'Course Image Updated Successfully',
                 'alert-type' => 'success'
@@ -212,7 +214,7 @@ class CourseController extends Controller
                 'alert-type' => 'error'
             );
         }
-    
+
         return redirect()->back()->with($notification);
     }//end method
 
@@ -256,7 +258,7 @@ class CourseController extends Controller
         }
 
         return redirect()->back()->with($notification); // Ensure this route exists
-    }//end method 
+    }//end method
 
     //================== Update Course Goals==============
     public function UpdateCourseGoals(Request $request){
@@ -269,14 +271,14 @@ class CourseController extends Controller
 
             // Insert course goals into database
             $goals = count($request->course_goals);
-     
+
                 for ($i = 0; $i < $goals; $i++) {
                     $Cgoals = new Course_goal();
                     $Cgoals->course_id = $id;
                     $Cgoals->goal_name = $request->course_goals[$i];
                     $Cgoals->save(); // Save each goal
                 }
-         
+
         }
 
         $notification = array(
@@ -310,6 +312,99 @@ class CourseController extends Controller
         return redirect()->route('all.course')->with($notification);
     }
      // =======================End Delete Course =====================
+
+
+
+//================================================================================================
+//                                add course section and lecture                                 //
+//================================================================================================
+
+
+public function AddCourseLecture($id){
+    $course = Course::find($id);
+    $section = CourseSection::where('course_id',$id)->latest()->get();
+    return view('instructor.courses.section.add_course_lecture', compact('course','section'));
+}// add course section and lecture
+
+public function AddCourseSection(Request $request){
+    $cID = $request->id;
+    CourseSection::insert([
+        'course_id' => $cID,
+        'section_title'=> $request->section_title,
+    ]);
+    $notification = array(
+        'message' => 'Course Section Added Successfully',
+        'alert-type' => 'success'
+    );
+
+    return redirect()->back()->with($notification);
 }
 
-    
+public function SaveLecture(Request $request){
+    $lecture = new CourseLecture();
+
+    $lecture->course_id = $request->course_id;
+    $lecture->section_id = $request->section_id;
+    $lecture->lecture_title = $request->lecture_title;
+    $lecture->content = $request->content;
+    $lecture->url = $request->lecture_url;
+    $lecture->save();
+
+    return response()->json(['success' => 'Lecture added successfully']);
+}//end method
+
+public function EditLecture($id){
+
+    $lecture = CourseLecture::find($id);
+    return view('instructor.courses.lecture.edit_course_lecture',compact('lecture'));
+}
+
+//=========================================UpdateCourseLecture
+public function UpdateCourseLecture(Request $request){
+    $lectureid = $request->id;
+    CourseLecture::find($lectureid)->update([
+        'lecture_title' => $request->lecture_title,
+        'url' => $request->url,
+        'content' => $request->content,
+    ]);
+    $notification = array(
+        'message' => 'Course Lecture Updated Successfully',
+        'alert-type' => 'success'
+    );
+
+    return redirect()->back()->with($notification);
+}//end method
+
+public function DeleteLecture($id){
+    CourseLecture::find($id)->delete();
+     
+    $notification = array(
+        'message' => 'Course Lecture Deleted Successfully',
+        'alert-type' => 'success'
+    );
+
+    return redirect()->back()->with($notification);
+}//end method
+
+public function DeleteSection($id){
+    $section = CourseSection::find($id);
+    $section->lectures()->delete($id);
+    $section->delete();
+
+
+    $notification = array(
+        'message' => 'Course Section Deleted Successfully',
+        'alert-type' => 'success'
+    );
+
+    return redirect()->back()->with($notification);
+
+}
+
+
+
+
+
+}
+
+

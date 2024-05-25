@@ -55,12 +55,13 @@
 
                             <td>
                                 <div class="gap-2 btn-group">
-                                    <a href="{{ route('edit.course', $item->id) }}" class="px-5 btn btn-success">Edit</a>
-                                    <a href="{{ route('delete.course', $item->id) }}" class="px-5 btn btn-danger" id="delete">Delete</a>
+                                    <a href="{{ route('edit.course', $item->id) }}" class="px-2 btn btn-success" title="Edit"><i class="lni lni-eraser"></i></a>
+                                    <a href="{{ route('delete.course', $item->id) }}" class="px-2 btn btn-danger" id="delete" title="Delete"><i class="lni lni-trash"></i></a>
+                                    <a href="{{ route('add.course.lecture', $item->id) }}" class="px-2 text-white btn btn-warning" title="Lecture"><i class="lni lni-list"></i></a>
 
                                 </div>
                             </td>
-
+ 
                         </tr>
                         @endforeach
 
