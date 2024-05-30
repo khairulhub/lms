@@ -36,11 +36,16 @@
                         <span class="pl-2 student-total">540,815 students</span>
                     </div>
                 </div><!-- end d-flex -->
+
+
                 <p class="pt-2 pb-1">Created by <a href="teacher-detail.html" class="text-color hover-underline">{{ $course['user']['name'] }}</a></p>
+
+
+
                 <div class="flex-wrap d-flex align-items-center">
                     <p class="pr-3 d-flex align-items-center">
                         <svg class="mr-1 svg-icon-color-gray" width="16px" viewBox="0 0 24 24"><path d="M23 12l-2.44-2.78.34-3.68-3.61-.82-1.89-3.18L12 3 8.6 1.54 6.71 4.72l-3.61.81.34 3.68L1 12l2.44 2.78-.34 3.69 3.61.82 1.89 3.18L12 21l3.4 1.46 1.89-3.18 3.61-.82-.34-3.68L23 12zm-10 5h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg>
-                        Last updated {{ $course->updated_at->format('M D Y') }}
+                        Last updated {{ $course->created_at->format('M D Y') }}
                     </p>
                     <p class="pr-3 d-flex align-items-center">
                         <svg class="mr-1 svg-icon-color-gray" width="16px" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95a15.65 15.65 0 00-1.38-3.56A8.03 8.03 0 0118.92 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A7.987 7.987 0 015.08 16zm2.95-8H5.08a7.987 7.987 0 014.33-3.56A15.65 15.65 0 008.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 01-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"></path></svg>
@@ -78,12 +83,10 @@
                    <div class="p-4 rounded course-overview-card bg-gray">
                        <h3 class="pb-3 fs-24 font-weight-semi-bold">What you'll learn?</h3>
                        <ul class="generic-list-item overview-list-item">
-                           <li><i class="mr-1 text-black la la-check"></i> Learn the core Java skills needed to apply for Java developer positions in just 14 hours.</li>
-                           <li><i class="mr-1 text-black la la-check"></i> Be able to demonstrate your understanding of Java to future employers.</li>
-                           <li><i class="mr-1 text-black la la-check"></i> Acquire essential java basics for transitioning to the Spring Framework, Java EE, Android development and more.</li>
-                           <li><i class="mr-1 text-black la la-check"></i> Be able to sit for and pass the Oracle Java Certificate exam if you choose.</li>
-                           <li><i class="mr-1 text-black la la-check"></i> Learn industry "best practices" in Java software development from a professional Java developer who has worked in the language for 18 years.</li>
-                           <li><i class="mr-1 text-black la la-check"></i> Obtain proficiency in Java 8 and Java 11.</li>
+                        @foreach ($goals as $goal)
+                        <li><i class="mr-1 text-black la la-check"></i>{{ $goal->goal_name }}</li>  
+                        @endforeach
+                           
                        </ul>
                    </div><!-- end course-overview-card -->
                    <div class="p-4 rounded course-overview-card bg-gray">
@@ -92,32 +95,28 @@
                    <div class="course-overview-card">
                        <h3 class="pb-3 fs-24 font-weight-semi-bold">Requirements</h3>
                        <ul class="generic-list-item generic-list-item-bullet fs-15">
-                           <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
-                           <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
-                           <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
+                           <li>{{ $course->prerequisites }}</li>
+                     
                        </ul>
                    </div><!-- end course-overview-card -->
                     <div class="p-4 border rounded course-overview-card border-gray">
                        <h3 class="fs-20 font-weight-semi-bold">Top companies trust Aduca</h3>
                        <p class="pb-1 fs-15">Get your team access to Aduca's top 5,000+ courses</p>
                         <div class="pb-3">
-                            <img width="85" class="mr-3" src="images/sponsor-img.png" alt="company logo">
-                            <img width="80" class="mr-3" src="images/sponsor-img2.png" alt="company logo">
-                            <img width="80" class="mr-3" src="images/sponsor-img3.png" alt="company logo">
-                            <img width="70" class="mr-3" src="images/sponsor-img4.png" alt="company logo">
+                            <img width="85" class="mr-3" src="{{ asset('frontend/images/sponsor-img.png') }}" alt="company logo">
+                            <img width="80" class="mr-3" src="{{ asset('frontend/images/sponsor-img2.png') }}" alt="company logo">
+                            <img width="80" class="mr-3" src="{{ asset('frontend/images/sponsor-img3.png') }}" alt="company logo">
+                            <img width="70" class="mr-3" src="{{ asset('frontend/images/sponsor-img4.png') }}" alt="company logo">
                         </div>
                         <a href="for-business.html" class="btn theme-btn theme-btn-sm">Try Aduca for Business</a>
                    </div><!-- end course-overview-card -->
                    <div class="course-overview-card">
                        <h3 class="pb-3 fs-24 font-weight-semi-bold">Description</h3>
-                       <p class="pb-2 fs-15">Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                       <p class="pb-2 fs-15">It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy</p>
-                       <p class="pb-1 fs-15">- Lorem ipsum dolor sit amet, consectetur.</p>
-                       <p class="pb-1 fs-15">- Lorem ipsum dolor sit amet, consectetur.</p>
-                       <p class="pb-1 fs-15">- Lorem ipsum dolor sit amet, consectetur.</p>
-                       <p class="pt-3 pb-2 fs-15 lh-22"><strong class="text-black font-weight-semi-bold">Are you aiming to get your first Java Programming job but struggling to find out what skills employers want</strong> and which course will give you those skills?</p>
-                       <p class="pb-2 fs-15">This course is designed to give you the Java skills you need to get a job as a Java developer.  By the end of the course, you will understand Java extremely well and be able to build your own Java apps and be productive as a software developer.</p>
-                       <div class="collapse" id="collapseMore">
+                       {{-- <p class="pb-2 fs-15">{{ !!$course->description!! }}</p> --}}
+                       <p class="pb-2 fs-15">{{ $course->description }}</p>
+                      
+                      
+                       {{-- <div class="collapse" id="collapseMore">
                            <p class="pb-2 fs-15">The core java material you need to learn java development is covered in the first seven sections (around 14 hours in total).  The Java Basics are covered in those sections. The rest of the course covers intermediate, advanced, and optional material you do not technically need to go through.</p>
                            <h4 class="py-2 fs-20 font-weight-semi-bold">Who this course is for:</h4>
                            <ul class="generic-list-item generic-list-item-bullet fs-15">
@@ -129,7 +128,7 @@
                        <a class="collapse-btn collapse--btn fs-15" data-toggle="collapse" href="#collapseMore" role="button" aria-expanded="false" aria-controls="collapseMore">
                            <span class="collapse-btn-hide">Show more<i class="ml-1 la la-angle-down fs-14"></i></span>
                            <span class="collapse-btn-show">Show less<i class="ml-1 la la-angle-up fs-14"></i></span>
-                       </a>
+                       </a> --}}
                    </div><!-- end course-overview-card -->
                    <div class="course-overview-card">
                        <div class="pb-4 curriculum-header d-flex align-items-center justify-content-between">
@@ -1021,7 +1020,7 @@
                 <div class="copy-to-clipboard">
                     <span class="success-message">Copied!</span>
                     <div class="input-group">
-                        <input type="text" class="pl-3 form-control form--control copy-input" value="https://www.aduca.com/share/101WxMB0oac1hVQQ==/">
+                        <input type="text" class="pl-3 form-control form--control copy-input" value="http://127.0.0.1:8000/{{ Request::path() }}">
                         <div class="input-group-append">
                             <button class="shadow-none btn theme-btn theme-btn-sm copy-btn"><i class="mr-1 la la-copy"></i> Copy</button>
                         </div>

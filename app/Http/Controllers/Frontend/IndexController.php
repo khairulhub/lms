@@ -24,8 +24,8 @@ class IndexController extends Controller
     //=============================course details page show
     public function CourseDetails($id,$slug){
         $course = Course::find($id);
-
-        return view('frontend.course.course_details', compact('course'));
+        $goals=Course_goal::where('course_id',$id)->orderBy('id','DESC')->get();
+        return view('frontend.course.course_details', compact('course','goals'));
 
     }//end method 
 }
