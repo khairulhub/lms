@@ -1,3 +1,11 @@
+
+@php
+    $courses = App\Models\Course::where('status',1)->orderBy('id','ASC')->limit(6)->get();
+    $categories = App\Models\Category::orderBy('category_name','ASC')->get();
+@endphp
+
+
+
 <section class="course-area pb-120px">
     <div class="container">
         <div class="text-center section-heading">
@@ -7,25 +15,17 @@
         </div><!-- end section-heading -->
         <ul class="pb-4 nav nav-tabs generic-tab justify-content-center" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="business-tab" data-toggle="tab" href="#business" role="tab"
-                    aria-controls="business" aria-selected="true">Business</a>
+                <a class="nav-link " id="business-tab" data-toggle="tab" href="#business" role="tab"
+                    aria-controls="business" aria-selected="true">All</a>
             </li>
+            @foreach ( $categories as $category)
+
+
             <li class="nav-item">
-                <a class="nav-link" id="design-tab" data-toggle="tab" href="#design" role="tab"
-                    aria-controls="design" aria-selected="false">Design</a>
+                <a class="nav-link" id="business-tab" data-toggle="tab" href="#business{{ $category->id }}" role="tab"
+                    aria-controls="business" aria-selected="false">{{ $category->category_name }}</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" id="development-tab" data-toggle="tab" href="#development" role="tab"
-                    aria-controls="development" aria-selected="false">Development</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="drawing-tab" data-toggle="tab" href="#drawing" role="tab"
-                    aria-controls="drawing" aria-selected="false">Drawing</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="marketing-tab" data-toggle="tab" href="#marketing" role="tab"
-                    aria-controls="marketing" aria-selected="false">Marketing</a>
-            </li>
+            @endforeach
         </ul>
     </div><!-- end container -->
     <div class="card-content-wrapper bg-gray pt-50px pb-120px">
@@ -34,23 +34,54 @@
                 <div class="tab-pane fade show active" id="business" role="tabpanel"
                     aria-labelledby="business-tab">
                     <div class="row">
+
+                        @foreach ($courses as $course)
+
+
                         <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_1">
+                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_1{{$course->id}}">
                                 <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
+                                    <a href="{{url('course/details/'.$course->id.'/'.$course->course_name_slug)}}" class="d-block">
+                                        <img class="card-img-top lazy" src="{{ asset($course->course_image) }}"
                                             data-src="images/img8.jpg" alt="Card image cap">
                                     </a>
                                     <div class="course-badge-labels">
+                                        @if ($course->bestseller == 1)
                                         <div class="course-badge">Bestseller</div>
-                                        <div class="course-badge blue">-39%</div>
+                                        @else
+                                        @endif
+                                        @if ($course->	highestrated == 1)
+                                        <div class="course-badge sky-blue">Highestrated</div>
+                                        @else
+                                        @endif
+                                        @if ($course->featured == 1)
+                                        <div class="course-badge">Featured</div>
+                                        @else
+                                        @endif
+
+                                        @php
+                                            $discount = $course->selling_price - $course->discount_price;
+                                            $discount_per = round($discount / $course->selling_price * 100);
+                                        @endphp
+                                        @if ($course->discount_price == NULL)
+                                        <div class="course-badge blue">New</div>
+                                        @else
+                                        <div class="course-badge blue">-{{ $discount_per }}%</div>
+                                        @endif
+
                                     </div>
                                 </div><!-- end card-image -->
                                 <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Business Intelligence
-                                            Analyst Course 2021</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
+
+                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">{{ $course->label }}</h6>
+
+
+                                    <h5 class="card-title"><a href="{{url('course/details/'.$course->id.'/'.$course->course_name_slug)}}">{{ $course->course_name }}</a></h5>
+
+
+
+                                    <p class="card-text"><a href="teacher-detail.html">{{ $course['user']['name'] }}</a></p>
+
                                     <div class="py-2 rating-wrap d-flex align-items-center">
                                         <div class="review-stars">
                                             <span class="rating-number">4.4</span>
@@ -63,200 +94,54 @@
                                         <span class="pl-1 rating-total">(20,230)</span>
                                     </div><!-- end rating-wrap -->
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">12.99 <span
-                                                class="before-price font-weight-medium">129.99</span></p>
+                                       @if ($course->discount_price == NULL)
+                                       <p class="text-black card-price font-weight-bold">${{ $course->selling_price }}</p>
+                                       @else
+                                       <p class="text-black card-price font-weight-bold">${{ $course->discount_price }} <span
+                                        class="before-price font-weight-medium">${{ $course->selling_price }}</span></p>
+                                       @endif
+
+
+
                                         <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
                                             title="Add to Wishlist"><i class="la la-heart-o"></i></div>
                                     </div>
                                 </div><!-- end card-body -->
                             </div><!-- end card -->
                         </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_1">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img9.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge red">Featured</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Business Intelligence
-                                            Analyst Course 2021</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_1">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img10.jpg" alt="Card image cap">
-                                    </a>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Business Intelligence
-                                            Analyst Course 2021</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_1">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img11.jpg" alt="Card image cap">
-                                    </a>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Business Intelligence
-                                            Analyst Course 2021</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_1">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img12.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge green">Free</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Business Intelligence
-                                            Analyst Course 2021</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">Free</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_1">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img13.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge sky-blue">Highest rated</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Business Intelligence
-                                            Analyst Course 2021</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
+                        @endforeach
                     </div><!-- end row -->
                 </div><!-- end tab-pane -->
-                <div class="tab-pane fade" id="design" role="tabpanel" aria-labelledby="design-tab">
+
+
+                @foreach ($categories as $category)
+
+
+                <div class="tab-pane fade" id="business{{ $category->id }}" role="tabpanel" aria-labelledby="business-tab">
                     <div class="row">
+                        @php
+                            $categoryWiseCourse = App\Models\Course::where('category_id', $category->id)->where('status',1)->orderBy('id','DESC')->limit(3)->get();
+                        @endphp
+
+                        @forelse ($categoryWiseCourse as $course)
+
+
                         <div class="col-lg-4 responsive-column-half">
                             <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_2">
                                 <div class="card-image">
                                     <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img11.jpg" alt="Card image cap">
+                                        <img class="card-img-top lazy" src="{{ asset($course->course_image) }}"
+                                        data-src="images/img8.jpg" alt="Card image cap">
                                     </a>
                                 </div><!-- end card-image -->
+
                                 <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">Beginner</h6>
-                                    <h5 class="card-title"><a href="course-details.html">Ultimate Adobe Photoshop
-                                            Training: From Beginner to Pro</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
+                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">{{ $course->label }}</h6>
+                                    <h5 class="card-title"><a href="course-details.html">{{ $course->course_name }}</a></h5>
+                                    <p class="card-text"><a href="teacher-detail.html">{{ $course['user']['name'] }}</a></p>
+
+
+
                                     <div class="py-2 rating-wrap d-flex align-items-center">
                                         <div class="review-stars">
                                             <span class="rating-number">4.4</span>
@@ -268,820 +153,33 @@
                                         </div>
                                         <span class="pl-1 rating-total">(20,230)</span>
                                     </div><!-- end rating-wrap -->
+
+
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
+                                        @if ($course->discount_price == NULL)
+                                        <p class="text-black card-price font-weight-bold">${{ $course->selling_price }}</p>
+                                        @else
+                                        <p class="text-black card-price font-weight-bold">${{ $course->discount_price }} <span
+                                         class="before-price font-weight-medium">${{ $course->selling_price }}</span></p>
+                                        @endif
+
                                         <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
                                             title="Add to Wishlist"><i class="la la-heart-o"></i></div>
                                     </div>
                                 </div><!-- end card-body -->
                             </div><!-- end card -->
                         </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_2">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img12.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge green">Free</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">Beginner</h6>
-                                    <h5 class="card-title"><a href="course-details.html">Ultimate Adobe
-                                            Photoshop Training: From Beginner to Pro</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">Free</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_2">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img13.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge sky-blue">Highest rated</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">Beginner</h6>
-                                    <h5 class="card-title"><a href="course-details.html">Ultimate Adobe
-                                            Photoshop Training: From Beginner to Pro</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_2">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img8.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge">Bestseller</div>
-                                        <div class="course-badge blue">-39%</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">Beginner</h6>
-                                    <h5 class="card-title"><a href="course-details.html">Ultimate Adobe
-                                            Photoshop Training: From Beginner to Pro</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">12.99 <span
-                                                class="before-price font-weight-medium">129.99</span></p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_2">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img9.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge red">Featured</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">Beginner</h6>
-                                    <h5 class="card-title"><a href="course-details.html">Ultimate Adobe
-                                            Photoshop Training: From Beginner to Pro</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_2">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img10.jpg" alt="Card image cap">
-                                    </a>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">Beginner</h6>
-                                    <h5 class="card-title"><a href="course-details.html">Ultimate Adobe
-                                            Photoshop Training: From Beginner to Pro</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
+                        @empty
+                        <h5 class="text-danger">No Course Found</h5>
+
+                        @endforelse
+
+
                     </div><!-- end row -->
                 </div><!-- end tab-pane -->
-                <div class="tab-pane fade" id="development" role="tabpanel" aria-labelledby="development-tab">
-                    <div class="row">
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_3">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img8.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge">Bestseller</div>
-                                        <div class="course-badge blue">-39%</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Complete WordPress
-                                            Website Business Course</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">12.99 <span
-                                                class="before-price font-weight-medium">129.99</span></p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_3">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img9.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge red">Featured</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Complete WordPress
-                                            Website Business Course</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_3">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img10.jpg" alt="Card image cap">
-                                    </a>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Complete WordPress
-                                            Website Business Course</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_3">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img11.jpg" alt="Card image cap">
-                                    </a>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Complete WordPress
-                                            Website Business Course</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_3">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img12.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge green">Free</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Complete WordPress
-                                            Website Business Course</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">Free</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_3">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img13.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge sky-blue">Highest rated</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Complete WordPress
-                                            Website Business Course</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                    </div><!-- end row -->
-                </div><!-- end tab-pane -->
-                <div class="tab-pane fade" id="drawing" role="tabpanel" aria-labelledby="drawing-tab">
-                    <div class="row">
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_4">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img11.jpg" alt="Card image cap">
-                                    </a>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">Beginner</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Ultimate Drawing
-                                            Course - Beginner to Advanced</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_4">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img12.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge green">Free</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">Beginner</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Ultimate Drawing
-                                            Course - Beginner to Advanced</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">Free</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_4">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img13.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge sky-blue">Highest rated</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">Beginner</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Ultimate Drawing
-                                            Course - Beginner to Advanced</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_4">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img8.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge">Bestseller</div>
-                                        <div class="course-badge blue">-39%</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">Beginner</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Ultimate Drawing
-                                            Course - Beginner to Advanced</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">12.99 <span
-                                                class="before-price font-weight-medium">129.99</span></p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_4">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img9.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge red">Featured</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">Beginner</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Ultimate Drawing
-                                            Course - Beginner to Advanced</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_4">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img10.jpg" alt="Card image cap">
-                                    </a>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">Beginner</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Ultimate Drawing
-                                            Course - Beginner to Advanced</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                    </div><!-- end row -->
-                </div><!-- end tab-pane -->
-                <div class="tab-pane fade" id="marketing" role="tabpanel" aria-labelledby="marketing-tab">
-                    <div class="row">
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_5">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img8.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge">Bestseller</div>
-                                        <div class="course-badge blue">-39%</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Complete Digital
-                                            Marketing Course - 12 Courses in 1</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">12.99 <span
-                                                class="before-price font-weight-medium">129.99</span></p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_5">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img9.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge red">Featured</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Complete Digital
-                                            Marketing Course - 12 Courses in 1</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_5">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img10.jpg" alt="Card image cap">
-                                    </a>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Complete Digital
-                                            Marketing Course - 12 Courses in 1</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_5">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img11.jpg" alt="Card image cap">
-                                    </a>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Complete Digital
-                                            Marketing Course - 12 Courses in 1</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_5">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img12.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge green">Free</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Complete Digital
-                                            Marketing Course - 12 Courses in 1</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">Free</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                        <div class="col-lg-4 responsive-column-half">
-                            <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_5">
-                                <div class="card-image">
-                                    <a href="course-details.html" class="d-block">
-                                        <img class="card-img-top lazy" src="images/img-loading.png"
-                                            data-src="images/img13.jpg" alt="Card image cap">
-                                    </a>
-                                    <div class="course-badge-labels">
-                                        <div class="course-badge sky-blue">Highest rated</div>
-                                    </div>
-                                </div><!-- end card-image -->
-                                <div class="card-body">
-                                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">All Levels</h6>
-                                    <h5 class="card-title"><a href="course-details.html">The Complete Digital
-                                            Marketing Course - 12 Courses in 1</a></h5>
-                                    <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
-                                    <div class="py-2 rating-wrap d-flex align-items-center">
-                                        <div class="review-stars">
-                                            <span class="rating-number">4.4</span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star"></span>
-                                            <span class="la la-star-o"></span>
-                                        </div>
-                                        <span class="pl-1 rating-total">(20,230)</span>
-                                    </div><!-- end rating-wrap -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-black card-price font-weight-bold">129.99</p>
-                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
-                                            title="Add to Wishlist"><i class="la la-heart-o"></i></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div><!-- end col-lg-4 -->
-                    </div><!-- end row -->
-                </div><!-- end tab-pane -->
+                @endforeach
+
+
             </div><!-- end tab-content -->
             <div class="mt-4 text-center more-btn-box">
                 <a href="course-grid.html" class="btn theme-btn">Browse all Courses <i
@@ -1090,3 +188,68 @@
         </div><!-- end container -->
     </div><!-- end card-content-wrapper -->
 </section><!-- end courses-area -->
+
+@php
+  $categoryWiseCourse = App\Models\Course::get();
+ @endphp
+
+@foreach ($categoryWiseCourse as $course)
+
+
+<div class="tooltip_templates">
+    <div id="tooltip_content_1{{ $course->id }}">
+        <div class="card card-item">
+            <div class="card-body">
+                <p class="pb-2 card-text">By <a href="teacher-detail.html">{{ $course['user']['name'] }}</a></p>
+                <h5 class="pb-1 card-title"><a href="course-details.html">{{ $course->course_name }}</a></h5>
+                <div class="pb-1 d-flex align-items-center">
+                    @if ($course->bestseller == 1)
+                    <h6 class="mr-2 ribbon fs-14">Bestseller</h6>
+
+                    @else
+                    @endif
+                    @if ($course->	highestrated == 1)
+                    <h6 class="mr-2 ribbon fs-14">Highestrated</h6>
+
+                    @else
+                    @endif
+                    @if ($course->featured == 1)
+                    <h6 class="mr-2 ribbon fs-14">Featured</h6>
+
+                    @else
+                    @endif
+
+                    <p class="text-success fs-14 font-weight-medium">Updated<span
+                            class="pl-1 font-weight-bold">{{ $course->created_at->format('M D Y') }}</span></p>
+                </div>
+                <ul
+                    class="generic-list-item generic-list-item-bullet generic-list-item--bullet d-flex align-items-center fs-14">
+                    <li>{{ $course->duration }} total hours</li>
+                    <li>{{ $course->label }}</li>
+                </ul>
+                {{-- <p class="pt-1 card-text fs-14 lh-22">The skills you need to become a BI Analyst - Statistics,
+                    Database theory, SQL, Tableau – Everything is included</p> --}}
+                <p class="pt-1 card-text fs-14 lh-22">{{ $course->prerequisites }}</p>
+                    @php
+                        $goals = App\Models\Course_goal::where('course_id', $course->id)->orderBy('id', 'desc')->get();
+                    @endphp
+
+                <ul class="py-3 generic-list-item fs-14">
+                    @foreach ($goals as $goal)
+
+                    <li><i class="mr-1 text-black la la-check"></i>{{ $goal->goal_name }} </li>
+                    @endforeach
+
+                </ul>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="#" class="mr-3 btn theme-btn flex-grow-1"><i
+                            class="mr-1 la la-shopping-cart fs-18"></i> Add to Cart</a>
+                    <div class="shadow-sm cursor-pointer icon-element icon-element-sm" title="Add to Wishlist">
+                        <i class="la la-heart-o"></i>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end card -->
+    </div>
+</div><!-- end tooltip_templates -->
+@endforeach

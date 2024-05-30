@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Frontend\IndexController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -108,7 +109,7 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
     Route::post('/instructor/password/update', [InstructorController::class, 'InstructorPasswordUpdate'])->name('instructor.password.update');
 
 
-// add course controller routes
+    // add course controller routes
 
     Route::controller(CourseController::class)->group(function(){
         Route::get('/all/course','AllCourse')->name('all.course');
@@ -123,7 +124,7 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
         Route::get('/delete/course/{id}','DeleteCourse')->name('delete.course');
     });
 
-// add course section and lecture controller routes
+    // add course section and lecture controller routes
 
     Route::controller(CourseController::class)->group(function(){
         Route::get('/add/course/lecture/{id}','AddCourseLecture')->name('add.course.lecture');
@@ -138,5 +139,8 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
 
 });
 
-
+// ===============================================================================================
+//                                 Accessable for all user 
+//=================================================================================================
 Route::get('/instructor/login', [InstructorController::class, 'InstructorLogin'])->name('instructor.login');
+Route::get('/course/details/{id}/{slug}', [IndexController::class, 'CourseDetails'])->name('instructor.login');
