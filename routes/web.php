@@ -143,4 +143,4 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
 //                                 Accessable for all user 
 //=================================================================================================
 Route::get('/instructor/login', [InstructorController::class, 'InstructorLogin'])->name('instructor.login');
-Route::get('/course/details/{id}/{slug}', [IndexController::class, 'CourseDetails'])->name('instructor.login');
+Route::get('/course/details/{id}/{slug}', [IndexController::class, 'CourseDetails']);
