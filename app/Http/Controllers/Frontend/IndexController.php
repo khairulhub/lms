@@ -8,6 +8,7 @@ use App\Models\CourseLecture;
 use App\Models\CourseSection;
 use Carbon\Carbon;
 use App\Models\Course;
+use App\Models\User;
 use App\Models\Category;
 use App\Models\Course_goal;
 use App\Models\SubCategory;
@@ -53,4 +54,11 @@ class IndexController extends Controller
 
         //{{ url('subcategory/'.$subcategory->id.'/'.$subcategory->subcategory_slug) }}
     }//end method
+
+    public function InstructorDetails($id){
+        $instructor = User::find($id);
+        $course = Course::where('instructor_id',$id)->get();
+
+        return view('frontend.instructor.instruction_details',compact('course','instructor'));
+    }
 }

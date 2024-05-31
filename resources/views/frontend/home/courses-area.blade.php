@@ -80,7 +80,7 @@
 
 
 
-                                    <p class="card-text"><a href="teacher-detail.html">{{ $course['user']['name'] }}</a></p>
+                                    <p class="card-text"><a href="{{ route('instructor.details',$course->instructor_id) }}">{{ $course['user']['name'] }}</a></p>
 
                                     <div class="py-2 rating-wrap d-flex align-items-center">
                                         <div class="review-stars">
