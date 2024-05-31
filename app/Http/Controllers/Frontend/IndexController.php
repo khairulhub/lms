@@ -42,5 +42,15 @@ class IndexController extends Controller
         $category = Category::where('id',$id)->first();
         $categories = Category::latest()->get();
         return view('frontend.category.category_all', compact('category','courses','categories'));
-    }
+    }//end method 
+
+    public function SubCategoryCourse($id,$slug){
+        $courses = Course::where('subcategory_id',$id)->where('status','1')->get();
+        $subcategory = SubCategory::where('id',$id)->first();
+        $categories = Category::latest()->get();
+        return view('frontend.category.subcategory_all', compact('subcategory','courses','categories'));
+
+
+        //{{ url('subcategory/'.$subcategory->id.'/'.$subcategory->subcategory_slug) }}
+    }//end method
 }
