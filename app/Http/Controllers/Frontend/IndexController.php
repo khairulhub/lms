@@ -36,4 +36,11 @@ class IndexController extends Controller
         return view('frontend.course.course_details', compact('course','goals','instructorAllCourses','categories','relatedCourses'));
 
     }//end method 
+
+    public function CategoryCourse($id,$slug){
+        $courses = Course::where('category_id',$id)->where('status','1')->get();
+        $category = Category::where('id',$id)->first();
+        $categories = Category::latest()->get();
+        return view('frontend.category.category_all', compact('category','courses','categories'));
+    }
 }

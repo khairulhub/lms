@@ -44,7 +44,7 @@
                                 @if ($course->count() > 0)
                                 <p class="cat__meta">{{ $course->count() }}</p>
                             @endif
-                                <a href="#" class="btn theme-btn theme-btn-sm theme-btn-white">Explore<i
+                                <a href="{{ url('category/'.$item->id.'/'.$item->category_slug) }}" class="btn theme-btn theme-btn-sm theme-btn-white">Explore<i
                                         class="ml-1 la la-arrow-right icon"></i></a>
                             </div>
                         </div><!-- end category-content -->
