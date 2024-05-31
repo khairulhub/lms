@@ -350,7 +350,7 @@
                              class="before-price font-weight-medium">${{ $course->selling_price }}</span></p>
                             @endif
 
-                            <div class="shadow-sm cursor-pointer icon-element icon-element-sm" title="Add to Wishlist"><i class="la la-heart-o"></i></div>
+                            <div class="shadow-sm cursor-pointer icon-element icon-element-sm" title="Add to Wishlist" id="{{$course->id}}" onclick="addToWishList(this.id)"><i class="la la-heart-o"></i></div>
                         </div>
                     </div><!-- end card-body -->
                 </div><!-- end card -->
@@ -438,8 +438,8 @@
 
             </ul>
                 <div class="d-flex justify-content-between align-items-center">
-                    <a href="course-details.html" class="mr-3 btn theme-btn flex-grow-1">Go to course</a>
-                    <div class="shadow-sm cursor-pointer icon-element icon-element-sm" title="Add to Wishlist"><i class="la la-heart-o"></i></div>
+                    <a href="{{url('course/details/'.$course->id.'/'.$course->course_name_slug)}}" class="mr-3 btn theme-btn flex-grow-1">Go to course</a>
+                    <div class="shadow-sm cursor-pointer icon-element icon-element-sm" title="Add to Wishlist" id="{{$course->id}}" onclick="addToWishList(this.id)" ><i class="la la-heart-o"></i></div>
                 </div>
             </div>
         </div><!-- end card -->

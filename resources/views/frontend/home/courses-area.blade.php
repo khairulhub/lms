@@ -251,7 +251,8 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <a href="#" class="mr-3 btn theme-btn flex-grow-1"><i
                             class="mr-1 la la-shopping-cart fs-18"></i> Add to Cart</a>
-                    <div class="shadow-sm cursor-pointer icon-element icon-element-sm" title="Add to Wishlist">
+
+                    <div class="shadow-sm cursor-pointer icon-element icon-element-sm" title="Add to Wishlist" id="{{$course->id}}" onclick="addToWishList(this.id)">
                         <i class="la la-heart-o"></i>
                     </div>
                 </div>

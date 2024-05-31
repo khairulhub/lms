@@ -42,11 +42,25 @@ class WishListController extends Controller
         } else {
             return response()->json(['error' => 'Please login first'], 401); // 401 Unauthorized
         }
+    }//end method 
+
+
+    public function AllWishList(){
+        $profileData = User::where('id', Auth::id())->first();
+        return view('frontend.wishlist.all_wishlist',compact('profileData'));
+    }//end method
+
+    public function GetWishListCourse(){
+        $wishList = WishList::with('course')->where('user_id', Auth::id())->latest()->get();
+        $wishlistquantity = WishList::count();
+        return response()->json(['wishlist' => $wishList, 'wishlistquantity' => $wishlistquantity]);
     }
     
 
-
-
+    public function RemoveWishList($id){
+        WishList::where('user_id', Auth::id())->where('id',$id)->delete();
+        return response()->json(['success' => 'Successfully Course remove from wishlist'], 200); // 200 OK
+    }//end method
 
 
 

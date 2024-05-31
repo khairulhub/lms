@@ -20,6 +20,9 @@ Route::get('/dashboard', function () {
     return view('frontend.dashboard.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+// user controller only user can access
+
 Route::middleware('auth')->group(function () {
     Route::get('/user/profile', [UserController::class, 'UserProfile'])->name('user.profile');
     Route::post('/user/profile/update', [UserController::class, 'UserProfileUpdate'])->name('user.profile.update');
@@ -27,7 +30,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/change/password', [UserController::class, 'UserChangePassword'])->name('user.change.password');
     Route::post('/user/update/password', [UserController::class, 'UserPasswordUpdate'])->name('user.password.update');
 
+
+    // //////////////// User Wishlist Controller all route parameters ////////////////
+
+    Route::controller(WishListController::class)->group(function(){
+        Route::get('/user/wishlist','AllWishList')->name('user.wishlist');
+        Route::get('/get-wishlish-course','GetWishListCourse');
+        Route::get('/remove-wishlist/{id}','RemoveWishList');
+        // Route::get('/add/category','AddCategory')->name('add.category');
+        // Route::post('/store/category','StoreCategory')->name('store.category');
+        // Route::get('/edit/category/{id}','EditCategory')->name('edit.category');
+        // Route::post('/update/category','UpdateCategory')->name('update.category');
+        // Route::get('/delete/category/{id}','DeleteCategory')->name('delete.category');
+    });
+
+
+
 });
+// =============================end Auth middleware==================================
 
 require __DIR__.'/auth.php';
 

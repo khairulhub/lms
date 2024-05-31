@@ -348,7 +348,7 @@
                                      class="before-price font-weight-medium">${{ $course->selling_price }}</span></p>
                                     @endif
                                     
-                                    <div class="shadow-sm cursor-pointer icon-element icon-element-sm" title="Add to Wishlist"><i class="la la-heart-o"></i></div>
+                                    <div class="shadow-sm cursor-pointer icon-element icon-element-sm" title="Add to Wishlist" id="{{$course->id}}" onclick="addToWishList(this.id)"><i class="la la-heart-o"></i></div>
                                 </div>
                             </div><!-- end card-body -->
                         </div><!-- end card -->
