@@ -43,7 +43,7 @@
                                 <div class="card-image">
                                     <a href="{{url('course/details/'.$course->id.'/'.$course->course_name_slug)}}" class="d-block">
                                         <img class="card-img-top lazy" src="{{ asset($course->course_image) }}"
-                                            data-src="images/img8.jpg" alt="Card image cap">
+                                            data-src="{ asset($course->course_image) }}" alt="Card image cap">
                                     </a>
                                     <div class="course-badge-labels">
                                         @if ($course->bestseller == 1)
@@ -200,8 +200,8 @@
     <div id="tooltip_content_1{{ $course->id }}">
         <div class="card card-item">
             <div class="card-body">
-                <p class="pb-2 card-text">By <a href="teacher-detail.html">{{ $course['user']['name'] }}</a></p>
-                <h5 class="pb-1 card-title"><a href="course-details.html">{{ $course->course_name }}</a></h5>
+                <p class="pb-2 card-text">By <a href="{{ route('instructor.details',$course->instructor_id) }}">{{ $course['user']['name'] }}</a></p>
+                <h5 class="pb-1 card-title"><a href="{{url('course/details/'.$course->id.'/'.$course->course_name_slug)}}">{{ $course->course_name }}</a></h5>
                 <div class="pb-1 d-flex align-items-center">
                     @if ($course->bestseller == 1)
                     <h6 class="mr-2 ribbon fs-14">Bestseller</h6>

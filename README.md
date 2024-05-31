@@ -130,3 +130,14 @@ by using toggle button take the value inactive and active
 
 
 
+
+
+
+
+
+
+  -- teacher details page route -- {{ route('instructor.details',$course->instructor_id) }}
+  -- course details url -- {{url('course/details/'.$course->id.'/'.$course->course_name_slug)}}
+
+
+

@@ -21,8 +21,13 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
-            $table->text('shortdescription')->nullable();
-            $table->text('longdescription')->nullable();
+            $table->string('shortdescription')->nullable();
+            $table->string('longdescription')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('linkedin')->nullable();
+            $table->string('youtube')->nullable();
             $table->enum('role', ['admin', 'instructor', 'user'])->default('user');
             $table->enum('status', ['1', '0'])->default('1')->comment('1 for active and 0 for inactive');
             $table->rememberToken();
