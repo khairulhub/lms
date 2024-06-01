@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -163,6 +164,32 @@ class AdminController extends Controller
             $user->status = $isChecked;
             $user->save();
             return redirect()->route('all.instructor');
+        } 
+    }
+
+
+   
+    //==========================admin can see all users in the admin panel =================
+
+    public function AllCourse(){
+        $courses = Course::latest()->get();
+        return view('admin.backend.courses.all_course',compact('courses'));
+    }
+
+
+
+    // important code for getting all course information
+
+    public function UpdateCourseStatus(Request $request)
+    {
+        $courseId = $request->input('course_id');
+        $isChecked = $request->input('is_checked', 0); // Default to 0 if not provided
+        $course = Course::find($courseId);
+    
+        if ($course) {
+            $course->status = $isChecked;
+            $course->save();
+            return redirect()->route('admin.all.courses');
         } 
     }
     
