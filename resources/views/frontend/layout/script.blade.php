@@ -71,7 +71,7 @@
         success:function(response){
             $('#wishlistquantity').text(response.wishlistquantity);
             var rows = "";
-           
+
             $.each(response.wishlist, function(key,value){
                 rows += `
                 <div class="col-lg-4 responsive-column-half">
@@ -80,7 +80,7 @@
                     <a href="/course/details/${value.course.id}/${value.course.course_name_slug}" class="d-block">
                         <img class="card-img-top" src="/${value.course.course_image}" alt="Card image cap">
                     </a>
-                  
+
                 </div><!-- end card-image -->
                 <div class="card-body">
                     <h6 class="ribbon ribbon-blue-bg fs-14 mb-3">${value.course.label}</h6>
@@ -108,30 +108,68 @@
 
 
 
-//    remove WishList
-function removeWishList(id){
-    $.ajax({
-        type: 'GET',
-        dataType: 'json',
-        url: '/remove-wishlist/'+id,
-        success:function(response){
-            wishlist();
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                icon: 'success',
-                showConfirmButton: false,
-                timer: 6000
-            });
-            Toast.fire({
-                icon: 'success',
-                title: response.success
-            });
-        }
-    })
-}
+    //    remove WishList
+    function removeWishList(id){
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '/remove-wishlist/'+id,
+            success:function(response){
+                wishlist();
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 6000
+                });
+                Toast.fire({
+                    icon: 'success',
+                    title: response.success
+                });
+            }
+        })
+    }
 
 
+</script>
+
+
+{{-- add to cart js  --}}
+
+<script type="text/javascript">
+    function addToCart(course_id, course_name, instructor_id, course_name_slug) {
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: {
+                _token: '{{csrf_token()}}',
+                course_name: course_name,
+                course_name_slug: course_name_slug,
+                instructor_id: instructor_id
+            },
+            url: "/cart/data/store/" + course_id,
+            success: function(data) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 6000
+                });
+                if (data.success) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.success
+                    });
+                } else if (data.error) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.error
+                    });
+                }
+            }
+        });
+    }
 </script>
 
 

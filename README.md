@@ -141,3 +141,10 @@ by using toggle button take the value inactive and active
  -- wishlist  --   id="{{$course->id}}" onclick="addToWishList(this.id)"
 
 
+
+
+
+
+ Add to cart take form -- https://packagist.org/packages/anayarojo/shoppingcart
+
+

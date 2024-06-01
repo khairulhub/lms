@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\CategoryController;
@@ -37,11 +38,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/user/wishlist','AllWishList')->name('user.wishlist');
         Route::get('/get-wishlish-course','GetWishListCourse');
         Route::get('/remove-wishlist/{id}','RemoveWishList');
-        // Route::get('/add/category','AddCategory')->name('add.category');
-        // Route::post('/store/category','StoreCategory')->name('store.category');
-        // Route::get('/edit/category/{id}','EditCategory')->name('edit.category');
-        // Route::post('/update/category','UpdateCategory')->name('update.category');
-        // Route::get('/delete/category/{id}','DeleteCategory')->name('delete.category');
     });
 
 
@@ -170,5 +166,7 @@ Route::get('/category/{id}/{slug}', [IndexController::class, 'CategoryCourse']);
 Route::get('/subcategory/{id}/{slug}', [IndexController::class, 'SubCategoryCourse']);
 Route::get('/instructor/details/{id}', [IndexController::class, 'InstructorDetails'])->name('instructor.details');
 
-
+//wishlist an cart controller
 Route::post('/add-to-wishlist/{course_id}', [WishListController::class, 'AddToWishList']);
+Route::post('/cart/data/store/{course_id}', [CartController::class, 'AddToCart']);
+Route::get('/cart/data', [CartController::class, 'CartData']);
