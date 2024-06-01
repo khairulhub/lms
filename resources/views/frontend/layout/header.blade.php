@@ -153,7 +153,7 @@ $categories = App\Models\Category::orderBy('category_name', 'ASC')->get();
                                 <ul>
                                     <li>
                                         <p class="shop-cart-btn d-flex align-items-center">
-                                            <i class="la la-shopping-cart"></i>
+                                          <i class="la la-shopping-cart"></i>
                                             <span class="product-count" id="cartquantity">0</span>
                                         </p>
                                         <ul class="cart-dropdown-menu">
@@ -185,7 +185,7 @@ $categories = App\Models\Category::orderBy('category_name', 'ASC')->get();
                                                 </div>
                                             </li>
                                             <li>
-                                                <a href="shopping-cart.html" class="btn theme-btn w-100">Got to
+                                                <a href="{{route('mycart')}}" class="btn theme-btn w-100">Got to
                                                     cart <i class="ml-1 la la-arrow-right icon"></i></a>
                                             </li>
                                         </ul>

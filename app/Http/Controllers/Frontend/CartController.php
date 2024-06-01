@@ -99,7 +99,33 @@ class CartController extends Controller
         Cart::remove($rowId);
 
         return response()->json(['success' => 'Successfully Course remove from cart']);
+    }//rnd method ======= mini cart page =================
+
+   
+
+    public function MyCart(){
+        return view('frontend.mycart.view_cart');
     }
+
+    public function GetCartCourse(){
+        $carts = Cart::content();
+        $cartTotal = Cart::total();
+        $cartQty = Cart::count();
+
+
+        return response()->json(array(
+            'carts'=>$carts,
+            'cartTotal'=>$cartTotal,
+            'cartQty'=>$cartQty,
+        ));
+    }//end method 
+
+
+    public function courseCartRemove($rowId){
+        Cart::remove($rowId);
+
+        return response()->json(['success' => 'Successfully Course remove from cart page']);
+    }//rnd method ========== cart page =========
 
 
 }

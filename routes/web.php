@@ -81,14 +81,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
     });
 
-// all instructor route
+    // all instructor route
     Route::controller(AdminController::class)->group(function(){
-        Route::get('/all/instructor','AllInstructor')->name('all.instructor');
-        // Route::get('/add/subcategory','AddSubCategory')->name('add.subcategory');
-        // Route::post('/store/subcategory','StoreSubCategory')->name('store.subcategory');
-        // Route::get('/edit/subcategory/{id}','EditSubCategory')->name('edit.subcategory');
+        Route::get('/all/instructor','AllInstructor')->name('all.instructor');       
         Route::post('/update/userstatus','UpdateUserStatus')->name('update.userstatus');
-        // Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
     });
 
 
@@ -172,3 +168,12 @@ Route::post('/cart/data/store/{course_id}', [CartController::class, 'AddToCart']
 Route::get('/cart/data', [CartController::class, 'CartData']);
 Route::get('/course/mini/cart/', [CartController::class, 'AddMiniCart']);
 Route::get('/mini-cart-remove/{rowId}', [CartController::class, 'RemoveMiniCart']);
+
+
+
+ // all Cart route
+Route::controller(CartController::class)->group(function(){
+    Route::get('/mycart','MyCart')->name('mycart');       
+    Route::get('/get-cart-course','GetCartCourse');       
+    Route::get('/cart-course-remove/{rowId}','courseCartRemove');       
+});

@@ -103,7 +103,7 @@
 
 
 {{-- wish List work  function--}}
-                                    <div class="shadow-sm cursor-pointer icon-element  icon-element-sm"
+                                    <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
                                             title="Add to Wishlist" id="{{$course->id}}" onclick="addToWishList(this.id)" ><i class="la la-heart-o"></i>
                                         </div>
 

@@ -83,14 +83,14 @@
 
                 </div><!-- end card-image -->
                 <div class="card-body">
-                    <h6 class="ribbon ribbon-blue-bg fs-14 mb-3">${value.course.label}</h6>
+                    <h6 class="mb-3 ribbon ribbon-blue-bg fs-14">${value.course.label}</h6>
                     <h5 class="card-title"><a href="/course/details/${value.course.id}/${value.course.course_name_slug}">${value.course.course_name}</a></h5>
 
                     <div class="d-flex justify-content-between align-items-center">
 
 
-                        ${value.course.discount_price == null ? `<p class="card-price text-black font-weight-bold">$${value.course.discount_price}</p>` : `<p class="card-price text-black font-weight-bold">$${value.course.discount_price} <span class="before-price font-weight-medium">$${value.course.selling_price}</span></p>` }
-                        <div class="icon-element icon-element-sm shadow-sm cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Wishlist" id="${value.id}" onclick="removeWishList(this.id)"><i class="la la-heart"></i></div>
+                        ${value.course.discount_price == null ? `<p class="text-black card-price font-weight-bold">$${value.course.discount_price}</p>` : `<p class="text-black card-price font-weight-bold">$${value.course.discount_price} <span class="before-price font-weight-medium">$${value.course.selling_price}</span></p>` }
+                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm" data-toggle="tooltip" data-placement="top" title="Remove from Wishlist" id="${value.id}" onclick="removeWishList(this.id)"><i class="la la-heart"></i></div>
                     </div>
                 </div>
             </div>
@@ -237,21 +237,89 @@
         })
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
 
 
+
+
+{{-- start my cart page course  --}}
+
+<script type="text/javascript">
+   function myCart(){
+    $.ajax({
+        type: "GET",
+        url: "/get-cart-course/",
+        dataType: "JSON",
+        success: function (response){
+            $('span[id="cartsubtotal"]').text(response.cartTotal);
+            $('span[id="total"]').text(response.cartTotal);
+
+            var rows = "";
+            $.each(response.carts, function(key, value) {
+                rows += `<tr>
+                    <th scope="row">
+                        <div class="media media-card">
+                            <a href="/course/details/${value.id}/${value.options.slug}" class="mr-0 media-img">
+                                <img src="/${value.options.image}" alt="Cart image">
+                            </a>
+                        </div>
+                    </th>
+                    <td>
+                        <a href="/course/details/${value.id}/${value.options.slug}" class="text-black font-weight-semi-bold">${value.name}</a>
+                    </td>
+                    <td>
+                        <ul class="generic-list-item font-weight-semi-bold">
+                            <li class="text-black lh-18">$${value.price}</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="quantity-item d-flex align-items-center">
+                            <input class="qtyInput" type="text" name="qty-input" value="1">
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button" class="border-0 shadow-sm icon-element icon-element-xs" data-toggle="tooltip" data-placement="top" title="Remove" id="${value.rowId}" onclick="removecourse(this.id)">
+                            <i class="la la-times"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            });
+            $('#cartpage').html(rows);
+        }
+    });
+}
+
+myCart();
+
+// Remove Cart course
+function removecourse(rowId){
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: '/cart-course-remove/' + rowId,
+        success: function(response) {
+            myCart();
+            addToMiniCart();
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 3000
+            });
+            Toast.fire({
+                icon: 'success',
+                title: response.success
+            });
+        }
+    });
+}
+
+
+</script>
+{{--  <button class="qtyBtn qtyDec"><i class="la la-minus"></i></button> --}}
+{{--  <button class="qtyBtn qtyInc"><i class="la la-plus"></i></button> --}}
 
 
 
