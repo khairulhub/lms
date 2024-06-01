@@ -78,6 +78,27 @@ class CartController extends Controller
             'cartTotal'=>$cartTotal,
             'cartQty'=>$cartQty,
         ));
+    }//end method CartData
+
+    public function AddMiniCart(){
+        $carts = Cart::content();
+        $cartTotal = Cart::total();
+        $cartQty = Cart::count();
+
+
+        return response()->json(array(
+            'carts'=>$carts,
+            'cartTotal'=>$cartTotal,
+            'cartQty'=>$cartQty,
+        ));
+    }//end method AddMiniCart
+
+
+
+    public function RemoveMiniCart($rowId){
+        Cart::remove($rowId);
+
+        return response()->json(['success' => 'Successfully Course remove from cart']);
     }
 
 

@@ -18,7 +18,7 @@
                     position: 'top-end',
                     icon: 'success',
                     showConfirmButton: false,
-                    timer: 6000
+                    timer: 3000
                 });
 
                 if (jqXHR.status === 200) {
@@ -39,7 +39,7 @@
                     position: 'top-end',
                     icon: 'error',
                     showConfirmButton: false,
-                    timer: 6000
+                    timer: 3000
                 });
 
                 if (jqXHR.status === 401) {
@@ -121,7 +121,7 @@
                     position: 'top-end',
                     icon: 'success',
                     showConfirmButton: false,
-                    timer: 6000
+                    timer: 3000
                 });
                 Toast.fire({
                     icon: 'success',
@@ -150,11 +150,12 @@
             },
             url: "/cart/data/store/" + course_id,
             success: function(data) {
+                addToMiniCart();
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
-                    timer: 6000
+                    timer: 3000
                 });
                 if (data.success) {
                     Toast.fire({
@@ -172,6 +173,83 @@
     }
 </script>
 
+
+
+
+{{-- add Mini cart js  --}}
+
+<script type="text/javascript">
+    function addToMiniCart() {
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '/course/mini/cart/',
+
+
+            success: function(response){
+                $('span[id="cartsubtotal"]').text(response.cartTotal);
+                $('span[id="cartquantity"]').text(response.cartQty);
+                var minicart = "";
+                $.each(response.carts, function(key, value) {
+                    minicart += `<li class="media media-card">
+                            <a href="shopping-cart.html" class="media-img">
+                                <img src="/${value.options.image}" alt="Cart image">
+                            </a>
+                            <div class="media-body">
+                                <h5><a href="/course/details/${value.id}/${value.options.slug}">${value.name}</a></h5>
+                                <div class="d-flex justify-content-between">
+                                    <span class="d-block fs-14">$${value.price}</span>
+                                <a type="submit" id="${ value.rowId }" onclick="miniCartRemove(this.id)"><i class="la la-times"></i></a>
+                                </div>
+                            </div>
+                    </li>
+                    `
+                });
+
+                $('#minicart').html(minicart);
+            }
+        })
+    }
+
+    addToMiniCart();
+
+
+    // remove miniCartRemove
+    function miniCartRemove(rowId){
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '/mini-cart-remove/'+rowId,
+            success:function(response){
+                addToMiniCart();
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                Toast.fire({
+                    icon: 'success',
+                    title: response.success
+                });
+            }
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
 
 
 
