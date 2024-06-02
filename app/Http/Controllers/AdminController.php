@@ -177,6 +177,11 @@ class AdminController extends Controller
     }
 
 
+    public function AdminCourseDetails($id){
+        $course = Course::find($id);
+        return view('admin.backend.courses.course_details',compact('course'));
+    }//end method
+
 
     // important code for getting all course information
 

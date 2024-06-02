@@ -68,7 +68,7 @@
                             </td>
 
                             <td>
-                                <a href="{{ route('edit.category', $course->id) }}" class=" btn btn-success"><i class="lni lni-eye"></i></a>
+                                <a href="{{ route('admin.course.details', $course->id) }}" class=" btn btn-success"><i class="lni lni-eye"></i></a>
                             </td>
 
                             <td>
