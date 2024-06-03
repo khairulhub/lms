@@ -9,6 +9,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\CuponController;
 use App\Http\Controllers\Frontend\WishListController;
 
 // Route::get('/', function () {
@@ -93,6 +94,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/admin/all/courses','AllCourse')->name('admin.all.courses');       
         Route::get('/admin/course/details/{id}','AdminCourseDetails')->name('admin.course.details');       
         Route::post('/update/coursestatus','UpdateCourseStatus')->name('update.coursestatus');
+    });
+
+    // admin  all course cupons route
+    Route::controller(CuponController::class)->group(function(){
+        Route::get('/admin/all/cupon','AllCupon')->name('admin.all.cupon');       
+        // Route::get('/admin/course/details/{id}','AdminCourseDetails')->name('admin.course.details');       
+        // Route::post('/update/coursestatus','UpdateCourseStatus')->name('update.coursestatus');
     });
 
 
