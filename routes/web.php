@@ -99,8 +99,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // admin  all course cupons route
     Route::controller(CuponController::class)->group(function(){
         Route::get('/admin/all/cupon','AllCupon')->name('admin.all.cupon');       
-        // Route::get('/admin/course/details/{id}','AdminCourseDetails')->name('admin.course.details');       
-        // Route::post('/update/coursestatus','UpdateCourseStatus')->name('update.coursestatus');
+        Route::get('/admin/add/cupon','AdminAddCupon')->name('admin.add.cupon');       
+        Route::post('/admin/store/cupon','AdminStoreCupon')->name('admin.store.cupon');       
+        Route::get('/admin/edit/cupon/{id}','AdminEditCupon')->name('admin.edit.cupon');       
+        Route::post('/admin/update/cupon','AdminUpdateCupon')->name('admin.update.cupon');       
+       
     });
 
 
