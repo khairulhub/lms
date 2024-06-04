@@ -84,26 +84,27 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // all instructor route
     Route::controller(AdminController::class)->group(function(){
-        Route::get('/all/instructor','AllInstructor')->name('all.instructor');       
+        Route::get('/all/instructor','AllInstructor')->name('all.instructor');
         Route::post('/update/userstatus','UpdateUserStatus')->name('update.userstatus');
     });
 
 
     // admin  all courses route
     Route::controller(AdminController::class)->group(function(){
-        Route::get('/admin/all/courses','AllCourse')->name('admin.all.courses');       
-        Route::get('/admin/course/details/{id}','AdminCourseDetails')->name('admin.course.details');       
+        Route::get('/admin/all/courses','AllCourse')->name('admin.all.courses');
+        Route::get('/admin/course/details/{id}','AdminCourseDetails')->name('admin.course.details');
         Route::post('/update/coursestatus','UpdateCourseStatus')->name('update.coursestatus');
     });
 
     // admin  all course cupons route
     Route::controller(CuponController::class)->group(function(){
-        Route::get('/admin/all/cupon','AllCupon')->name('admin.all.cupon');       
-        Route::get('/admin/add/cupon','AdminAddCupon')->name('admin.add.cupon');       
-        Route::post('/admin/store/cupon','AdminStoreCupon')->name('admin.store.cupon');       
-        Route::get('/admin/edit/cupon/{id}','AdminEditCupon')->name('admin.edit.cupon');       
-        Route::post('/admin/update/cupon','AdminUpdateCupon')->name('admin.update.cupon');       
-       
+        Route::get('/admin/all/cupon','AllCupon')->name('admin.all.cupon');
+        Route::get('/admin/add/cupon','AdminAddCupon')->name('admin.add.cupon');
+        Route::post('/admin/store/cupon','AdminStoreCupon')->name('admin.store.cupon');
+        Route::get('/admin/edit/cupon/{id}','AdminEditCupon')->name('admin.edit.cupon');
+        Route::post('/admin/update/cupon','AdminUpdateCupon')->name('admin.update.cupon');
+        Route::get('/admin/delete/cupon/{id}','AdminDeleteCupon')->name('admin.delete.cupon');
+
     });
 
 
@@ -172,7 +173,7 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
 });
 
 // ===============================================================================================
-//                                 Accessable for all user 
+//                                 Accessable for all user
 //=================================================================================================
 Route::get('/instructor/login', [InstructorController::class, 'InstructorLogin'])->name('instructor.login');
 Route::get('/course/details/{id}/{slug}', [IndexController::class, 'CourseDetails']);
@@ -192,7 +193,7 @@ Route::get('/mini-cart-remove/{rowId}', [CartController::class, 'RemoveMiniCart'
 
  // all Cart route
 Route::controller(CartController::class)->group(function(){
-    Route::get('/mycart','MyCart')->name('mycart');       
-    Route::get('/get-cart-course','GetCartCourse');       
-    Route::get('/cart-course-remove/{rowId}','courseCartRemove');       
+    Route::get('/mycart','MyCart')->name('mycart');
+    Route::get('/get-cart-course','GetCartCourse');
+    Route::get('/cart-course-remove/{rowId}','courseCartRemove');
 });

@@ -37,7 +37,7 @@ class CuponController extends Controller
             'cupon_discount' => $request->cupon_discount,
             'cupon_validity' => $request->cupon_validity,
             'created_at'=> Carbon::now(),
-            
+
         ]);
         $notification= array(
             'message' => 'Cupon Added Successfully',
@@ -61,13 +61,23 @@ class CuponController extends Controller
             'cupon_name' => $request->cupon_name,
             'cupon_discount' => $request->cupon_discount,
             'cupon_validity' => $request->cupon_validity,
-            
-            
+
+
         ]);
         $notification= array(
             'message' => 'SubCategory Updated  Successfully',
             'alert-type' =>'success'
         );
         return redirect()->route('admin.all.cupon')->with($notification);
-    }
+    }//end method
+
+
+    public function AdminDeleteCupon($id){
+        Cupon::find($id)->delete();
+        $notification= array(
+            'message' => 'Cupon Deleted Successfully',
+            'alert-type' =>'success'
+        );
+        return redirect()->route('admin.all.cupon')->with($notification);
+    }//end method
 }

@@ -5,7 +5,7 @@
 <div class="page-content">
     <!--breadcrumb-->
     <div class="mb-3 page-breadcrumb d-none d-sm-flex align-items-center">
-   
+
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="p-0 mb-0 breadcrumb">
@@ -18,19 +18,19 @@
         {{-- <div class="ms-auto">
             <div class="btn-group">
                 <a href="{{ route('add.category') }}" class="px-5 btn btn-primary">Add Category</a>
-                
+
             </div>
         </div> --}}
     </div>
     <!--end breadcrumb-->
-    
+
 
     <div class="row">
         <div class="mx-auto col-xl-10">
-            
+
             <div class="card">
                 <div class="p-4 card-body">
-                    <h5 class="mb-4">Edit 
+                    <h5 class="mb-4">Edit
                         Coupon
                     </h5>
                     <form id="myForm" action="{{ route('admin.update.cupon') }}" method="POST" class="row g-3" enctype="multipart/form-data">
@@ -43,37 +43,37 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="input1" class="form-label">Coupon Discount</label>
-                            <input type="text" class="form-control" id="input1" name="cupon_discount" value="{{ $cupon->cupon_discount }}">
+                            <input type="text" class="form-control" id="input1" name="cupon_discount" value="{{ $cupon->cupon_discount }}%">
                         </div>
-       
+
                         <div class="form-group col-md-6">
                             <label for="input1" class="form-label">Coupon Validity</label>
                             <input type="date" class="form-control" min="{{ Carbon\Carbon::now()->format('Y m d') }}"  name="cupon_validity" value="{{ $cupon->cupon_validity }}">
                         </div>
 
-                 
 
 
 
-                      
+
+
                         <div class="col-md-12">
                             <div class="gap-3 d-md-flex d-grid align-items-center">
                                 <button type="submit" class="px-4 btn btn-primary">Submit</button>
-                                
+
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
 
-      
+
 
 
         </div>
     </div>
 
 
-   
+
 </div>
 
 

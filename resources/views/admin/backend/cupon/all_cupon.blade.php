@@ -44,7 +44,7 @@
                         @foreach($cupons as $key=> $cupon)
                         <tr>
                             <td>{{ $key+1 }}</td>
-                            
+
                             <td>{{ $cupon->cupon_name }}</td>
                             <td>{{ $cupon->cupon_discount }}%</td>
                             <td>{{ Carbon\Carbon::parse($cupon->cupon_validity)->format('D d F Y') }}</td>
@@ -52,7 +52,7 @@
                                 @if ($cupon->cupon_validity >= Carbon\Carbon::now()->format('Y m d'))
                                 <span class="badge bg-success">Valid</span>
                                 @else
-                                <span class="badge bg-danger">Invalid</span> 
+                                <span class="badge bg-danger">Invalid</span>
                                 @endif
                             </td>
 
@@ -60,7 +60,7 @@
                             <td>
                                 <div class="gap-2 btn-group">
                                     <a href="{{ route('admin.edit.cupon', $cupon->id) }}" class="px-5 btn btn-success">Edit</a>
-                                    <a href="{{ route('delete.category', $cupon->id) }}" class="px-5 btn btn-danger" id="delete">Delete</a>
+                                    <a href="{{ route('admin.delete.cupon', $cupon->id) }}" class="px-5 btn btn-danger" id="delete">Delete</a>
 
                                 </div>
                             </td>
