@@ -189,6 +189,11 @@ Route::get('/cart/data', [CartController::class, 'CartData']);
 Route::get('/course/mini/cart/', [CartController::class, 'AddMiniCart']);
 Route::get('/mini-cart-remove/{rowId}', [CartController::class, 'RemoveMiniCart']);
 
+// cupon code route
+Route::post('/apply-cupon', [CartController::class, 'ApplyCupon']);
+Route::get('/cupon-calculation', [CartController::class, 'CuponCalculation']);
+Route::get('/cupon-remove', [CartController::class, 'CuponRemove']);
+
 
 
  // all Cart route

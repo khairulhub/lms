@@ -13,7 +13,7 @@
             </div>
             <ul class="flex-wrap generic-list-item generic-list-item-white generic-list-item-arrow d-flex align-items-center">
                 <li><a href="{{ url('/') }}">Home</a></li>
-         
+
                 <li>Shopping Cart</li>
             </ul>
         </div><!-- end breadcrumb-content -->
@@ -52,39 +52,25 @@
 
 
             <div class="flex-wrap pt-4 d-flex align-items-center justify-content-between">
-                <form method="post">
-                    <div class="mb-2 input-group">
-                        <input class="pl-3 form-control form--control" type="text" name="search" placeholder="Coupon code">
+                <form action="#">
+                    <div class="mb-2 input-group" id="cuponField">
+                        <input class="pl-3 form-control form--control" type="text" placeholder="Coupon code" id="cupon_name">
                         <div class="input-group-append">
-                            <button class="btn theme-btn">Apply Code</button>
+                            <a class="btn theme-btn" type="submit" onclick="applyCupon()">Apply Code</a>
                         </div>
                     </div>
                 </form>
-                <a href="#" class="mb-2 btn theme-btn">Update Cart</a>
             </div>
+
+
+
         </div>
         <div class="ml-auto col-lg-4">
-            <div class="p-4 bg-gray rounded-rounded mt-40px">
-                <h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>
-                <div class="divider"><span></span></div>
-                <ul class="pb-4 generic-list-item">
-                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                        <span class="text-black">Subtotal: </span>
-                        <div class="d-flex align-items-center  font-weight-semi-bold">
-                            <span class="m-1">$ </span>
-                            <span id="cartsubtotal"></span>
-                        </div>
-                    </li>
-                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                        <span class="text-black">Total: </span>
-                        <div class="d-flex align-items-center  font-weight-semi-bold">
-                            <span class="m-1">$ </span>
-                            <span id="total"></span>
-                        </div>
-                    </li>
-                </ul>
-                <a href="checkout.html" class="btn theme-btn w-100">Checkout <i class="ml-1 la la-arrow-right icon"></i></a>
+            <div class="p-4 bg-gray rounded-rounded mt-40px" id="cuponCalField">
+                
+
             </div>
+            <a href="checkout.html" class="btn theme-btn w-100">Checkout <i class="ml-1 la la-arrow-right icon"></i></a>
         </div>
     </div><!-- end container -->
 </section>

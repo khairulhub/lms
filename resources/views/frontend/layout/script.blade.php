@@ -298,6 +298,7 @@ function removecourse(rowId){
         dataType: 'json',
         url: '/cart-course-remove/' + rowId,
         success: function(response) {
+            cuponCalculation();
             myCart();
             addToMiniCart();
 
@@ -321,6 +322,179 @@ function removecourse(rowId){
 {{--  <button class="qtyBtn qtyDec"><i class="la la-minus"></i></button> --}}
 {{--  <button class="qtyBtn qtyInc"><i class="la la-plus"></i></button> --}}
 
+
+
+
+
+{{-- start apply cupon front  page course  --}}
+
+<script type="text/javascript">
+
+function applyCupon(){
+        var cupon_name = $('#cupon_name').val();
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                cupon_name: cupon_name
+            },
+            url: "/apply-cupon",
+            success: function(data) {
+                if (data.validity == true) {
+                    $('#cuponField').hide();
+                }
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                if (data.success) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.success
+                    });
+                    cuponCalculation(); // Recalculate totals after applying the coupon
+                } else if (data.error) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.error
+                    });
+                }
+            }
+        });
+    }
+
+
+
+
+
+    //start cupon calculation 
+
+    function cuponCalculation(){
+        $.ajax({
+            type: 'GET',
+            url: "/cupon-calculation",
+            dataType: 'json',
+
+            success:function(data){
+                // console.log(data);
+
+                if(data.total){
+                    $('#cuponCalField').html(`<h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>
+                    <div class="divider"><span></span></div>
+                    <ul class="pb-4 generic-list-item">
+                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                        <span class="text-black">Subtotal: </span>
+                        <div class="d-flex align-items-center font-weight-semi-bold">
+                            <span class="m-1">$ </span>
+                            <span >${data.total}</span>
+                        </div>
+                    </li>
+                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                        <span class="text-black">Total: </span>
+                        <div class="d-flex align-items-center font-weight-semi-bold">
+                            <span class="m-1">$ </span>
+                            <span >${data.total}</span>
+                        </div>
+                    </li>
+                    </ul>
+
+                    
+                
+                        
+                        `
+                    )
+                } 
+                else{ 
+                    $('#cuponCalField').html(`<h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>
+                    <div class="divider"><span></span></div>
+                    <ul class="pb-4 generic-list-item">
+                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                        <span class="text-black">Subtotal: </span>
+                        <div class="d-flex align-items-center font-weight-semi-bold">
+                            <span class="m-1">$ </span>
+                            <span >${data.subtotal}</span>
+                        </div>
+                    </li>
+                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                        <span class="text-black">Coupon Name: </span>
+                        <div class="d-flex align-items-center font-weight-semi-bold">
+                            <span class="m-1"></span>
+                            <span >${data.cupon_name} <button type="button" class="border-0 shadow-sm icon-element icon-element-xs" data-toggle="tooltip"  onclick="removeCupon()">
+                            <i class="la la-times"></i>
+                        </button></span>
+                        </div>
+                    </li>
+                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                        <span class="text-black">Discount Price: </span>
+                        <div class="d-flex align-items-center font-weight-semi-bold">
+                            <span class="m-1">$ </span>
+                            <span >${data.cupon_discount}</span>
+                        </div>
+                    </li>
+                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                        <span class="text-black">Grand Total: </span>
+                        <div class="d-flex align-items-center font-weight-semi-bold">
+                            <span class="m-1">$ </span>
+                            <span >${data.total_amount}</span>
+                        </div>
+                    </li>
+                    </ul> 
+
+                    
+                
+                        `
+                    )
+                }
+            }
+        })
+    }
+    cuponCalculation();
+</script>
+
+{{-- end my cart page course  --}}
+
+
+
+
+{{-- start removeCupon  page course  --}}
+
+<script type="text/javascript">
+
+function removeCupon(){
+    $.ajax({
+        type: 'GET',
+        url: "/cupon-remove",
+        dataType: 'json',
+
+        success:function(data){
+            cuponCalculation();
+            $('#cuponField').show();
+            $('#cupon_name').val('');
+
+            const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                if (data.success) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.success
+                    });
+                } else if (data.error) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.error
+                    });
+                }
+        }
+    });
+}
+</script>
 
 
 

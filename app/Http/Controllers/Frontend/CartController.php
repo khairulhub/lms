@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers\Frontend;
 
+// use session;
 use Carbon\Carbon;
+
 use App\Models\User;
+use App\Models\Cupon;
 
 use App\Models\Course;
 use App\Models\Category;
-
 use App\Models\WishList;
-use App\Models\Course_goal;
 
+use App\Models\Course_goal;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Models\CourseLecture;
 use App\Models\CourseSection;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Intervention\Image\ImageManager;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -27,7 +30,11 @@ class CartController extends Controller
     public function AddToCart(Request $request, $id){
         $course = Course::find($id);
 
-        //check course is already in cart or not 
+        if (Session::has('cupon')) {
+            Session::forget('cupon');
+        }
+
+        //check course is already in cart or not
         $cartItem = Cart::search(function ($cartItem, $rowId) use ($id){
             return $cartItem->id === $id;
         });
@@ -38,11 +45,11 @@ class CartController extends Controller
 
         if ($course->discount_price == Null) {
             Cart::add([
-                'id' => $id, 
-                'name' => $request->course_name, 
-                'qty' => 1, 
-                'price' => $course->selling_price, 
-                'weight' => 1, 
+                'id' => $id,
+                'name' => $request->course_name,
+                'qty' => 1,
+                'price' => $course->selling_price,
+                'weight' => 1,
                 'options' => [
                     'image' => $course->course_image,
                     'slug' => $request->course_name_slug,
@@ -51,11 +58,11 @@ class CartController extends Controller
             ]);
         }else{
              Cart::add([
-                'id' => $id, 
-                'name' => $request->course_name, 
-                'qty' => 1, 
-                'price' => $course->discount_price, 
-                'weight' => 1, 
+                'id' => $id,
+                'name' => $request->course_name,
+                'qty' => 1,
+                'price' => $course->discount_price,
+                'weight' => 1,
                 'options' => [
                     'image' => $course->course_image,
                     'slug' => $request->course_name_slug,
@@ -101,7 +108,7 @@ class CartController extends Controller
         return response()->json(['success' => 'Successfully Course remove from cart']);
     }//rnd method ======= mini cart page =================
 
-   
+
 
     public function MyCart(){
         return view('frontend.mycart.view_cart');
@@ -118,14 +125,78 @@ class CartController extends Controller
             'cartTotal'=>$cartTotal,
             'cartQty'=>$cartQty,
         ));
-    }//end method 
+    }//end method
 
 
     public function courseCartRemove($rowId){
+
         Cart::remove($rowId);
+
+        if (Session::has('cupon')) {
+            $cupon_name = Session::get('cupon')['cupon_name'];
+            $cupon = Cupon::where('cupon_name',$cupon_name )->first();
+
+            Session::put('cupon',[
+                'cupon_name' => $cupon->cupon_name,
+                'cupon_discount' => $cupon->cupon_discount,
+                'cupon_validity' => round(Cart::total()* $cupon->cupon_discount/100),
+                'total_amount' => round(Cart::total() - Cart::total() * $cupon->cupon_discount/100),
+            ]);
+        }
 
         return response()->json(['success' => 'Successfully Course remove from cart page']);
     }//rnd method ========== cart page =========
 
+
+
+
+
+
+    // apply cupon code
+    public function ApplyCupon(Request $request){
+        $cupon = Cupon::where('cupon_name',$request->cupon_name)->where('cupon_validity','>=', Carbon::now()->format('Y-m-d'))->first();
+
+        if ($cupon) {
+            Session::put('cupon',[
+                'cupon_name' => $cupon->cupon_name,
+                'cupon_discount' => $cupon->cupon_discount,
+                'cupon_validity' => round(Cart::total()* $cupon->cupon_discount/100),
+                'total_amount' => round(Cart::total() - Cart::total() * $cupon->cupon_discount/100),
+            ]);
+
+            return response()->json(array(
+                'validity' => true,
+                'success' => 'cupon apply successfully',
+            ));
+        }else{
+            return response()->json(['error' => 'cupon is invalid']);
+        }
+    }//end method
+
+    // CuponCalculation
+
+    public function CuponCalculation(){
+
+        if(Session::has('cupon')){
+            return response()->json(array(
+                'subtotal' => Cart::total(),
+                'cupon_name' => Session()->get('cupon')['cupon_name'],
+                'cupon_discount' => Session()->get('cupon')['cupon_discount'],
+                'cupon_validity' => Session()->get('cupon')['cupon_validity'],
+                'total_amount' => Session()->get('cupon')['total_amount'],
+            ));
+        }else{
+            return response()->json(array(
+               'total' => Cart::total(),
+            )); 
+        }
+    }//end function
+
+    //start CuponRemove
+
+    public function CuponRemove(){
+        Session::forget('cupon');
+        return response()->json(['success' => 'cupon remove successfully']);
+    }
 
 }
