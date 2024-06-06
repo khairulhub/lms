@@ -67,10 +67,10 @@
         </div>
         <div class="ml-auto col-lg-4">
             <div class="p-4 bg-gray rounded-rounded mt-40px" id="cuponCalField">
-                
+
 
             </div>
-            <a href="checkout.html" class="btn theme-btn w-100">Checkout <i class="ml-1 la la-arrow-right icon"></i></a>
+            <a href="{{route('checkout')}}" class="btn theme-btn w-100">Checkout <i class="ml-1 la la-arrow-right icon"></i></a>
         </div>
     </div><!-- end container -->
 </section>

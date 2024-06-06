@@ -12,9 +12,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\CuponController;
 use App\Http\Controllers\Frontend\WishListController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
 
 Route::get('/', [UserController::class, 'Index'])->name('index');
 
@@ -40,6 +38,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-wishlish-course','GetWishListCourse');
         Route::get('/remove-wishlist/{id}','RemoveWishList');
     });
+
+
+
+
 
 
 
@@ -193,6 +195,10 @@ Route::get('/mini-cart-remove/{rowId}', [CartController::class, 'RemoveMiniCart'
 Route::post('/apply-cupon', [CartController::class, 'ApplyCupon']);
 Route::get('/cupon-calculation', [CartController::class, 'CuponCalculation']);
 Route::get('/cupon-remove', [CartController::class, 'CuponRemove']);
+
+
+//checkout page  related route
+Route::get('/checkout', [CartController::class, 'CheckoutCreate'])->name('checkout');
 
 
 

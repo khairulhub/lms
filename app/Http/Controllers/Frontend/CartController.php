@@ -197,6 +197,33 @@ class CartController extends Controller
     public function CuponRemove(){
         Session::forget('cupon');
         return response()->json(['success' => 'cupon remove successfully']);
+    }// end section
+
+
+    public function CheckoutCreate(){
+        if(Auth::check()){
+            if(Cart::total() > 0){
+                $carts = Cart::content();
+                $cartTotal = Cart::total();
+                $cartQty = Cart::count();
+                return view('frontend.checkout.checkout_view', compact('carts','cartTotal','cartQty'));
+            }
+            else{
+                $notification = [
+                    'message' => 'You need to add at list one course in your cart',
+                    'alert-type' => 'error',
+                ];
+        
+                return redirect()->to('/')->with($notification);
+            }
+        }else{
+            $notification = [
+                'message' => 'You need to login first',
+                'alert-type' => 'error',
+            ];
+    
+            return redirect()->route('login')->with($notification);
+        }
     }
 
 }
