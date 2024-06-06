@@ -37,7 +37,8 @@
                     <div class="card-body">
                         <h3 class="pb-3 card-title fs-22">Billing Details</h3>
                         <div class="divider"><span></span></div>
-                        <form method="post" class="row">
+            <form method="post" action="{{ route('payment') }}" class="row" enctype="multipart/form-data">
+                @csrf
                             <div class="input-box col-lg-6">
                                 <label class="label-text">Name</label>
                                 <div class="form-group">
@@ -48,7 +49,7 @@
                             <div class="input-box col-lg-6">
                                 <label class="label-text">User Name</label>
                                 <div class="form-group">
-                                    <input class="form-control form--control" type="text" name="name" value="{{ Auth::user()->username }}">
+                                    <input class="form-control form--control" type="text" name="username" value="{{ Auth::user()->username }}">
                                     <span class="la la-user input-icon"></span>
                                 </div>
                             </div><!-- end input-box -->
@@ -63,7 +64,7 @@
                             <div class="input-box col-lg-12">
                                 <label class="label-text">Phone Number</label>
                                 <div class="form-group">
-                                    <input class="form-control form--control" type="email" name="email" value="{{ Auth::user()->phone }}">
+                                    <input class="form-control form--control" type="text" name="phone" value="{{ Auth::user()->phone }}">
                                     <span class="la la-phone input-icon"></span>
                                 </div>
                             </div><!-- end input-box -->
@@ -71,7 +72,7 @@
                             <div class="input-box col-lg-12">
                                 <label class="label-text">Address</label>
                                 <div class="form-group">
-                                    <input class="form-control form--control" type="text" name="text" value="{{ Auth::user()->address }}">
+                                    <input class="form-control form--control" type="text" name="address" value="{{ Auth::user()->address }}">
                                     <span class="la la-map-marker input-icon"></span>
                                 </div>
                             </div><!-- end input-box -->
@@ -87,7 +88,7 @@
                                 <p class="pb-1 text-black-50"><i class="mr-1 la la-lock fs-24"></i>Secure Connection</p>
                                 <p class="fs-14">Your information is safe with us!</p>
                             </div><!-- end btn-box -->
-                        </form>
+                   
                     </div><!-- end card-body -->
                 </div><!-- end card -->
                 <div class="card card-item">
@@ -97,7 +98,7 @@
                         <div class="payment-option-wrap">
                             <div class="payment-tab is-active">
                                 <div class="payment-tab-toggle">
-                                    <input checked="" id="bankTransfer" name="cash_delivary" type="radio" value="handcash">
+                                    <input checked="" id="bankTransfer" name="cash_delivery" type="radio" value="handcash">
                                     <label for="bankTransfer">Direct Payment</label>
                                 </div>
                                 {{-- <div class="payment-tab-content">
@@ -107,14 +108,14 @@
                         
                             <div class="payment-tab">
                                 <div class="payment-tab-toggle">
-                                    <input id="stripe" name="cash_delivary" type="radio" value="stripe">
+                                    <input id="stripe" name="cash_delivery" type="radio" value="stripe">
                                     <label for="stripe">Stripe</label>
                                 </div>
                             </div>
                         
                             {{-- <div class="payment-tab">
                                 <div class="payment-tab-toggle">
-                                    <input type="radio" name="cash_delivary" id="creditCart" value="creditCard">
+                                    <input type="radio" name="cash_delivery" id="creditCart" value="creditCard">
                                     <label for="creditCart">Credit / Debit Card</label>
                                     <img class="payment-logo" src="images/payment-img.png" alt="">
                                 </div>
@@ -165,6 +166,11 @@
                         <div class="divider"><span></span></div>
                         <div class="order-details-lists">
                             @foreach ($carts as $cart)
+                            <input type="hidden" name="slug[]" value="{{ $cart->options->slug }}">
+                            <input type="hidden" name="course_id[]" value="{{ $cart->id }}">
+                            <input type="hidden" name="course_title[]" value="{{ $cart->name }}">
+                            <input type="hidden" name="price[]" value="{{ $cart->price }}">
+                            <input type="hidden" name="instructor_id[]" value="{{ $cart->options->instructor_id }}">
                                 
                             <div class="pb-3 mb-3 media media-card border-bottom border-bottom-gray">
                                 <a href="{{url('course/details/'.$cart->id.'/'.$cart->options->slug)}}" class="media-img">
@@ -213,6 +219,7 @@
                                 <span>${{ session()->get('cupon')['total_amount'] }}</span>
                             </li>
                         </ul>
+                        <input type="hidden" name="total" value="{{ $cartTotal }}">
 
                         @else
                         
@@ -227,18 +234,23 @@
                                 <span>${{ $cartTotal }}</span>
                             </li>
                         </ul>
-
+                        <input type="hidden" name="total" value="{{ $cartTotal }}">
                         @endif
+
+
                         <div class="pt-3 btn-box border-top border-top-gray">
                             <p class="mb-2 fs-14 lh-22">Aduca is required by law to collect applicable transaction taxes for purchases made in certain tax jurisdictions.</p>
                             <p class="mb-3 fs-14 lh-22">By completing your purchase you agree to these <a href="#" class="text-color hover-underline">Terms of Service.</a></p>
-                            <a href="checkout.html" class="btn theme-btn w-100">Proceed <i class="ml-1 la la-arrow-right icon"></i></a>
+
+                            <button type="submit" class="btn theme-btn w-100">Proceed <i class="ml-1 la la-arrow-right icon"></i></button>
+                            
                         </div>
                     </div><!-- end card-body -->
                 </div><!-- end card -->
             </div><!-- end col-lg-5 -->
         </div><!-- end row -->
     </div><!-- end container -->
+</form>
 </section>
 <!-- ================================
        END CONTACT AREA

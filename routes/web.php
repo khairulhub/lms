@@ -199,6 +199,7 @@ Route::get('/cupon-remove', [CartController::class, 'CuponRemove']);
 
 //checkout page  related route
 Route::get('/checkout', [CartController::class, 'CheckoutCreate'])->name('checkout');
+Route::post('/payment', [CartController::class, 'Payment'])->name('payment');
 
 
 
