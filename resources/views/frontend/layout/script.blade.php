@@ -430,8 +430,8 @@ function applyCupon(){
                     <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                         <span class="text-black">Discount Price: </span>
                         <div class="d-flex align-items-center font-weight-semi-bold">
-                            <span class="m-1">$ </span>
                             <span >${data.cupon_discount}</span>
+                            <span class="m-1">% </span>
                         </div>
                     </li>
                     <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
