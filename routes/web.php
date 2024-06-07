@@ -1,16 +1,18 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\Backend\CuponController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\Backend\CuponController;
 use App\Http\Controllers\Frontend\WishListController;
+use App\Http\Controllers\Backend\SmtpSettingController;
 
 
 
@@ -106,6 +108,16 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/admin/edit/cupon/{id}','AdminEditCupon')->name('admin.edit.cupon');
         Route::post('/admin/update/cupon','AdminUpdateCupon')->name('admin.update.cupon');
         Route::get('/admin/delete/cupon/{id}','AdminDeleteCupon')->name('admin.delete.cupon');
+
+    });
+    // admin  all  Smtp route
+    Route::controller(SmtpSettingController::class)->group(function(){
+        Route::get('/admin/all/smtp','AllSmtp')->name('admin.all.smtp');
+        // Route::get('/admin/add/cupon','AdminAddCupon')->name('admin.add.cupon');
+        // Route::post('/admin/store/cupon','AdminStoreCupon')->name('admin.store.cupon');
+        // Route::get('/admin/edit/cupon/{id}','AdminEditCupon')->name('admin.edit.cupon');
+         Route::post('/admin/update/smtp','AdminUpdateSmtp')->name('update.smtpsetting');
+        // Route::get('/admin/delete/cupon/{id}','AdminDeleteCupon')->name('admin.delete.cupon');
 
     });
 
