@@ -23,7 +23,10 @@ use App\Models\CourseSection;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\ImageManager;
+
+use App\Mail\Orderconfirm;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Intervention\Image\Drivers\Gd\Driver;
 
@@ -280,7 +283,33 @@ class CartController extends Controller
             $order->save();
         }// end foreach
 
+
+
+
             $request->session()->forget('cart');
+
+            $paymentId = $data->id;
+
+            
+        // start email sending option 
+
+        $sendmail = Payment::find($paymentId);
+        $data = [
+            'invoice_no' => $sendmail->invoice_no,
+            'amount' => $total_amount,
+            'name' => $sendmail->name,
+            'email' => $sendmail->email,
+        ];
+        Mail::to($request->email)->send(new Orderconfirm($data));
+
+
+        //end email sending option
+
+
+
+
+
+
             // Cart::destroy();
             if ($request->cash_delivery == "stripe") {
                 echo "stripe payment";
