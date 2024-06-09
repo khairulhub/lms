@@ -245,77 +245,77 @@
 {{-- start my cart page course  --}}
 
 <script type="text/javascript">
-   function myCart(){
-    $.ajax({
-        type: "GET",
-        url: "/get-cart-course/",
-        dataType: "JSON",
-        success: function (response){
-            $('span[id="cartsubtotal"]').text(response.cartTotal);
-            $('span[id="total"]').text(response.cartTotal);
+    function myCart(){
+        $.ajax({
+            type: "GET",
+            url: "/get-cart-course/",
+            dataType: "JSON",
+            success: function (response){
+                $('span[id="cartsubtotal"]').text(response.cartTotal);
+                $('span[id="total"]').text(response.cartTotal);
 
-            var rows = "";
-            $.each(response.carts, function(key, value) {
-                rows += `<tr>
-                    <th scope="row">
-                        <div class="media media-card">
-                            <a href="/course/details/${value.id}/${value.options.slug}" class="mr-0 media-img">
-                                <img src="/${value.options.image}" alt="Cart image">
-                            </a>
-                        </div>
-                    </th>
-                    <td>
-                        <a href="/course/details/${value.id}/${value.options.slug}" class="text-black font-weight-semi-bold">${value.name}</a>
-                    </td>
-                    <td>
-                        <ul class="generic-list-item font-weight-semi-bold">
-                            <li class="text-black lh-18">$${value.price}</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <div class="quantity-item d-flex align-items-center">
-                            <input class="qtyInput" type="text" name="qty-input" value="1">
-                        </div>
-                    </td>
-                    <td>
-                        <button type="button" class="border-0 shadow-sm icon-element icon-element-xs" data-toggle="tooltip" data-placement="top" title="Remove" id="${value.rowId}" onclick="removecourse(this.id)">
-                            <i class="la la-times"></i>
-                        </button>
-                    </td>
-                </tr>`;
-            });
-            $('#cartpage').html(rows);
-        }
-    });
-}
+                var rows = "";
+                $.each(response.carts, function(key, value) {
+                    rows += `<tr>
+                        <th scope="row">
+                            <div class="media media-card">
+                                <a href="/course/details/${value.id}/${value.options.slug}" class="mr-0 media-img">
+                                    <img src="/${value.options.image}" alt="Cart image">
+                                </a>
+                            </div>
+                        </th>
+                        <td>
+                            <a href="/course/details/${value.id}/${value.options.slug}" class="text-black font-weight-semi-bold">${value.name}</a>
+                        </td>
+                        <td>
+                            <ul class="generic-list-item font-weight-semi-bold">
+                                <li class="text-black lh-18">$${value.price}</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <div class="quantity-item d-flex align-items-center">
+                                <input class="qtyInput" type="text" name="qty-input" value="1">
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="border-0 shadow-sm icon-element icon-element-xs" data-toggle="tooltip" data-placement="top" title="Remove" id="${value.rowId}" onclick="removecourse(this.id)">
+                                <i class="la la-times"></i>
+                            </button>
+                        </td>
+                    </tr>`;
+                });
+                $('#cartpage').html(rows);
+            }
+        });
+    }
 
-myCart();
+    myCart();
 
-// Remove Cart course
-function removecourse(rowId){
-    $.ajax({
-        type: 'GET',
-        dataType: 'json',
-        url: '/cart-course-remove/' + rowId,
-        success: function(response) {
-            cuponCalculation();
-            myCart();
-            addToMiniCart();
+    // Remove Cart course
+    function removecourse(rowId){
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '/cart-course-remove/' + rowId,
+            success: function(response) {
+                cuponCalculation();
+                myCart();
+                addToMiniCart();
 
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                icon: 'success',
-                showConfirmButton: false,
-                timer: 3000
-            });
-            Toast.fire({
-                icon: 'success',
-                title: response.success
-            });
-        }
-    });
-}
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                Toast.fire({
+                    icon: 'success',
+                    title: response.success
+                });
+            }
+        });
+    }
 
 
 </script>
@@ -330,128 +330,128 @@ function removecourse(rowId){
 
 <script type="text/javascript">
 
-function applyCupon(){
-        var cupon_name = $('#cupon_name').val();
-        $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                cupon_name: cupon_name
-            },
-            url: "/apply-cupon",
-            success: function(data) {
-                if (data.validity == true) {
-                    $('#cuponField').hide();
-                }
+    function applyCupon(){
+            var cupon_name = $('#cupon_name').val();
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    cupon_name: cupon_name
+                },
+                url: "/apply-cupon",
+                success: function(data) {
+                    if (data.validity == true) {
+                        $('#cuponField').hide();
+                    }
 
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-                if (data.success) {
-                    Toast.fire({
-                        icon: 'success',
-                        title: data.success
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
                     });
-                    cuponCalculation(); // Recalculate totals after applying the coupon
-                } else if (data.error) {
-                    Toast.fire({
-                        icon: 'error',
-                        title: data.error
-                    });
+                    if (data.success) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.success
+                        });
+                        cuponCalculation(); // Recalculate totals after applying the coupon
+                    } else if (data.error) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.error
+                        });
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
 
 
 
 
 
-    //start cupon calculation 
+        //start cupon calculation 
 
-    function cuponCalculation(){
-        $.ajax({
-            type: 'GET',
-            url: "/cupon-calculation",
-            dataType: 'json',
+        function cuponCalculation(){
+            $.ajax({
+                type: 'GET',
+                url: "/cupon-calculation",
+                dataType: 'json',
 
-            success:function(data){
-                // console.log(data);
+                success:function(data){
+                    // console.log(data);
 
-                if(data.total){
-                    $('#cuponCalField').html(`<h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>
-                    <div class="divider"><span></span></div>
-                    <ul class="pb-4 generic-list-item">
-                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                        <span class="text-black">Subtotal: </span>
-                        <div class="d-flex align-items-center font-weight-semi-bold">
-                            <span class="m-1">$ </span>
-                            <span >${data.total}</span>
-                        </div>
-                    </li>
-                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                        <span class="text-black">Total: </span>
-                        <div class="d-flex align-items-center font-weight-semi-bold">
-                            <span class="m-1">$ </span>
-                            <span >${data.total}</span>
-                        </div>
-                    </li>
-                    </ul>
+                    if(data.total){
+                        $('#cuponCalField').html(`<h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>
+                        <div class="divider"><span></span></div>
+                        <ul class="pb-4 generic-list-item">
+                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                            <span class="text-black">Subtotal: </span>
+                            <div class="d-flex align-items-center font-weight-semi-bold">
+                                <span class="m-1">$ </span>
+                                <span >${data.total}</span>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                            <span class="text-black">Total: </span>
+                            <div class="d-flex align-items-center font-weight-semi-bold">
+                                <span class="m-1">$ </span>
+                                <span >${data.total}</span>
+                            </div>
+                        </li>
+                        </ul>
 
-                    
-                
                         
-                        `
-                    )
-                } 
-                else{ 
-                    $('#cuponCalField').html(`<h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>
-                    <div class="divider"><span></span></div>
-                    <ul class="pb-4 generic-list-item">
-                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                        <span class="text-black">Subtotal: </span>
-                        <div class="d-flex align-items-center font-weight-semi-bold">
-                            <span class="m-1">$ </span>
-                            <span >${data.subtotal}</span>
-                        </div>
-                    </li>
-                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                        <span class="text-black">Coupon Name: </span>
-                        <div class="d-flex align-items-center font-weight-semi-bold">
-                            <span class="m-1"></span>
-                            <span >${data.cupon_name} <button type="button" class="border-0 shadow-sm icon-element icon-element-xs" data-toggle="tooltip"  onclick="removeCupon()">
-                            <i class="la la-times"></i>
-                        </button></span>
-                        </div>
-                    </li>
-                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                        <span class="text-black">Discount Price: </span>
-                        <div class="d-flex align-items-center font-weight-semi-bold">
-                            <span >${data.cupon_discount}</span>
-                            <span class="m-1">% </span>
-                        </div>
-                    </li>
-                    <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                        <span class="text-black">Grand Total: </span>
-                        <div class="d-flex align-items-center font-weight-semi-bold">
-                            <span class="m-1">$ </span>
-                            <span >${data.total_amount}</span>
-                        </div>
-                    </li>
-                    </ul> 
-
                     
-                
-                        `
-                    )
+                            
+                            `
+                        )
+                    } 
+                    else{ 
+                        $('#cuponCalField').html(`<h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>
+                        <div class="divider"><span></span></div>
+                        <ul class="pb-4 generic-list-item">
+                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                            <span class="text-black">Subtotal: </span>
+                            <div class="d-flex align-items-center font-weight-semi-bold">
+                                <span class="m-1">$ </span>
+                                <span >${data.subtotal}</span>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                            <span class="text-black">Coupon Name: </span>
+                            <div class="d-flex align-items-center font-weight-semi-bold">
+                                <span class="m-1"></span>
+                                <span >${data.cupon_name} <button type="button" class="border-0 shadow-sm icon-element icon-element-xs" data-toggle="tooltip"  onclick="removeCupon()">
+                                <i class="la la-times"></i>
+                            </button></span>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                            <span class="text-black">Discount Price: </span>
+                            <div class="d-flex align-items-center font-weight-semi-bold">
+                                <span >${data.cupon_discount}</span>
+                                <span class="m-1">% </span>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                            <span class="text-black">Grand Total: </span>
+                            <div class="d-flex align-items-center font-weight-semi-bold">
+                                <span class="m-1">$ </span>
+                                <span >${data.total_amount}</span>
+                            </div>
+                        </li>
+                        </ul> 
+
+                        
+                    
+                            `
+                        )
+                    }
                 }
-            }
-        })
-    }
-    cuponCalculation();
+            })
+        }
+        cuponCalculation();
 </script>
 
 {{-- end my cart page course  --}}
@@ -463,18 +463,60 @@ function applyCupon(){
 
 <script type="text/javascript">
 
-function removeCupon(){
-    $.ajax({
-        type: 'GET',
-        url: "/cupon-remove",
-        dataType: 'json',
+    function removeCupon(){
+        $.ajax({
+            type: 'GET',
+            url: "/cupon-remove",
+            dataType: 'json',
 
-        success:function(data){
-            cuponCalculation();
-            $('#cuponField').show();
-            $('#cupon_name').val('');
+            success:function(data){
+                cuponCalculation();
+                $('#cuponField').show();
+                $('#cupon_name').val('');
 
-            const Toast = Swal.mixin({
+                const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    if (data.success) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.success
+                        });
+                    } else if (data.error) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.error
+                        });
+                    }
+            }
+        });
+    }
+</script>
+
+
+
+
+{{-- start Buy this curse  --}}
+
+
+<script type="text/javascript">
+    function buyThisCourse(course_id, course_name, instructor_id, course_name_slug) {
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: {
+                _token: '{{csrf_token()}}',
+                course_name: course_name,
+                course_name_slug: course_name_slug,
+                instructor_id: instructor_id
+            },
+            url: "/buy/this/course/" + course_id,
+            success: function(data) {
+                addToMiniCart();
+                const Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
@@ -485,15 +527,17 @@ function removeCupon(){
                         icon: 'success',
                         title: data.success
                     });
+                    //redirect to the checkout page 
+                    window.location.href = '/checkout';
                 } else if (data.error) {
                     Toast.fire({
                         icon: 'error',
                         title: data.error
                     });
                 }
-        }
-    });
-}
+            }
+        });
+    }
 </script>
 
 

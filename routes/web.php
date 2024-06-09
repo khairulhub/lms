@@ -202,6 +202,10 @@ Route::post('/cart/data/store/{course_id}', [CartController::class, 'AddToCart']
 Route::get('/cart/data', [CartController::class, 'CartData']);
 Route::get('/course/mini/cart/', [CartController::class, 'AddMiniCart']);
 Route::get('/mini-cart-remove/{rowId}', [CartController::class, 'RemoveMiniCart']);
+//buy this curse from course details page directly buy option 
+Route::post('/buy/this/course/{course_id}', [CartController::class, 'BuyToCart']);
+
+
 
 // cupon code route
 Route::post('/apply-cupon', [CartController::class, 'ApplyCupon']);

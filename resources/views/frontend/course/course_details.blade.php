@@ -174,7 +174,7 @@
                                    </div><!-- end card-header -->
 
                                    
-                                   <div id="collapse{{ $section->id }}" class="collapse show" aria-labelledby="heading{{ $section->id }}" data-parent="#accordion">
+                                   <div id="collapse{{ $section->id }}" class="collapse " aria-labelledby="heading{{ $section->id }}" data-parent="#accordion">
                                        <div class="card-body">
                                            <ul class="generic-list-item">
 
@@ -524,7 +524,8 @@
  {{-- Buy this course code   --}}
 
 
-                                    <button type="button" class="mb-2 btn theme-btn w-100 theme-btn-white"><i class="mr-1 la la-shopping-bag"></i> Buy this course</button>
+                                    <button type="submit" class="mb-2 btn theme-btn w-100 theme-btn-white" onclick="buyThisCourse({{$course->id}},'{{$course->course_name}}','{{$course->instructor_id}}','{{$course->course_name_slug}}')"><i class="mr-1 la la-shopping-bag"></i> Buy this course</button>
+
                                 </div>
 
 
