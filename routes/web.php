@@ -9,6 +9,7 @@ use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\Backend\CuponController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Backend\CourseController;
+use App\Http\Controllers\Backend\OrdersController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Frontend\WishListController;
@@ -52,7 +53,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-//Admin part
+//========================================Admin part================================
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
@@ -110,15 +111,21 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/admin/delete/cupon/{id}','AdminDeleteCupon')->name('admin.delete.cupon');
 
     });
+    // admin  all course cupons route
+    Route::controller(OrdersController::class)->group(function(){
+        Route::get('/admin/pending/order','AdminPendingOrder')->name('admin.pending.order');
+        Route::get('admin/order/details/{payment_id}','AdminOrderDetails')->name('admin.order.details');
+        Route::get('/admin/pending/confirm/{id}','AdminPendingConfirm')->name('pending-confirm');
+        Route::get('/admin/confirm/order','AdminConfirmOrder')->name('admin.confirm.order');
+    });
+
+
+
+
     // admin  all  Smtp route
     Route::controller(SmtpSettingController::class)->group(function(){
         Route::get('/admin/all/smtp','AllSmtp')->name('admin.all.smtp');
-        // Route::get('/admin/add/cupon','AdminAddCupon')->name('admin.add.cupon');
-        // Route::post('/admin/store/cupon','AdminStoreCupon')->name('admin.store.cupon');
-        // Route::get('/admin/edit/cupon/{id}','AdminEditCupon')->name('admin.edit.cupon');
          Route::post('/admin/update/smtp','AdminUpdateSmtp')->name('update.smtpsetting');
-        // Route::get('/admin/delete/cupon/{id}','AdminDeleteCupon')->name('admin.delete.cupon');
-
     });
 
 

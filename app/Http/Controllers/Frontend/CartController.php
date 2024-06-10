@@ -249,7 +249,8 @@ class CartController extends Controller
         $data->phone = $request->phone;
         $data->address = $request->address;
         $data->cash_delivery = $request->cash_delivery;
-        $data->total_amount = $request->total_amount;
+        $data->total_amount = $total_amount;
+        // $data->total_amount = $request->price;
         $data->payment_type = 'Direct Payment';
         $data->invoice_no = 'EOS' . mt_rand(10000000, 99999999);
 
