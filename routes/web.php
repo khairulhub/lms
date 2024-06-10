@@ -111,7 +111,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/admin/delete/cupon/{id}','AdminDeleteCupon')->name('admin.delete.cupon');
 
     });
-    // admin  all course cupons route
+    // admin  all course order route
     Route::controller(OrdersController::class)->group(function(){
         Route::get('/admin/pending/order','AdminPendingOrder')->name('admin.pending.order');
         Route::get('admin/order/details/{payment_id}','AdminOrderDetails')->name('admin.order.details');
@@ -190,6 +190,13 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
         Route::post('/update/course/lecture','UpdateCourseLecture')->name('update.course.lecture');
         Route::post('/delete/section/{id}','DeleteSection')->name('delete.section');
     });
+
+       // admin  all course order route
+       Route::controller(OrdersController::class)->group(function(){
+        Route::get('/instructor/all/order','InstructorAllOrder')->name('instructor.all.order');
+        Route::get('/instructor/order/details/{id}','InstructorOrderDetails')->name('instructor.order.details');
+    });
+
 
 });
 

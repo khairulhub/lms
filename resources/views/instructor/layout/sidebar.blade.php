@@ -39,9 +39,17 @@
             <ul>
                 <li> <a href="{{ route('all.course') }}"><i class='bx bx-radio-circle'></i>All Course</a>
                 </li>
-                <li> <a href="app-chat-box.html"><i class='bx bx-radio-circle'></i>Chat Box</a>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-category"></i>
+                </div>
+                <div class="menu-title">Course order</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('instructor.all.order') }}"><i class='bx bx-radio-circle'></i>All order</a>
                 </li>
-
             </ul>
         </li>
         <li class="menu-label">UI Elements</li>
