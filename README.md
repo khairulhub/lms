@@ -143,6 +143,11 @@ by using toggle button take the value inactive and active
 
 
 
+ -- pdf generator command -- composer require barryvdh/laravel-dompdf
+
+
+
+
 
 
  Add to cart take form -- https://packagist.org/packages/anayarojo/shoppingcart

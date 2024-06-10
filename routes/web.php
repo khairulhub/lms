@@ -195,6 +195,7 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
        Route::controller(OrdersController::class)->group(function(){
         Route::get('/instructor/all/order','InstructorAllOrder')->name('instructor.all.order');
         Route::get('/instructor/order/details/{id}','InstructorOrderDetails')->name('instructor.order.details');
+        Route::get('/instructor/order/invoice/{id}','InstructorOrderInvoice')->name('instructor.order.invoice');
     });
 
 

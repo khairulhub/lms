@@ -7,6 +7,7 @@ use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrdersController extends Controller
 {
@@ -48,8 +49,12 @@ class OrdersController extends Controller
 
     public function InstructorAllOrder(){
         $id = Auth::user()->id;
+         $latestOrderItem = Order::where('instructor_id',$id)->select('payment_id',\DB::raw('MAX(id) as max_id'))->groupBy('payment_id');
+         $orderItem = Order::joinSub( $latestOrderItem,'latest_order', function($join){
+            $join->on('orders.id', '=', 'latest_order.max_id');
+         })->orderBy('latest_order.max_id', 'DESC')->get();
 
-        $orderItem = Order::where('instructor_id',$id)->orderBy('id','DESC')->get();
+
         return view('instructor.orders.all_order',compact('orderItem'));
     }
 
@@ -61,6 +66,19 @@ class OrdersController extends Controller
 
         return view('instructor.orders.order_details',compact('payment','orderItem'));
     }//end method
+
+
+    // ===================================invoice controller for make pdf =======
+    public function InstructorOrderInvoice($payment_id){
+        $payment = Payment::where('id',$payment_id)->first();
+        $orderItem = Order::where('payment_id',$payment_id)->orderBy('id','DESC')->get();
+
+        $pdf = Pdf::loadView('instructor.orders.order_pdf', compact('payment','orderItem'))->setPaper('a4')->setOption([
+            'tempDir' => public_path(),
+            'chroot' => public_path(),
+        ]);
+        return $pdf->download('invoice.pdf');
+    }
 
 
     

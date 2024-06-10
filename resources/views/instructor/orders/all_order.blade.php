@@ -55,7 +55,7 @@
                             <td>
                                 <div class="gap-2 btn-group">
                                     <a href="{{ route('instructor.order.details', $item->payment->id) }}" class="px-2 btn btn-success" title="Edit"><i class="lni lni-eye"></i></a>
-                                    <a href="{{ route('delete.course', $item->id) }}" class="px-2 btn btn-danger" id="delete" title="Delete"><i class="lni lni-download"></i></a>
+                                    <a href="{{ route('instructor.order.invoice', $item->payment->id) }}" class="px-2 btn btn-danger"  title="Delete"><i class="lni lni-download"></i></a>
 
                                 </div>
                             </td>
