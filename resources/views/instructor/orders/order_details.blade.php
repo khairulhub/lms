@@ -112,7 +112,7 @@
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                         @if($payment->status == 'Pending')
-                                            <a href="{{ route('pending-confirm', $payment->id) }}" class="btn btn-block btn-success" id="confirm">Pending</a>
+                                            <a href="" class="btn btn-block btn-success" >Pending</a>
                                         @elseif($payment->status == 'Confirm')
                                             <a href="" class="btn btn-block btn-success">Confirm</a>
                                         @endif
@@ -120,7 +120,7 @@
                                     </div>
 
                                 </div>
-
+{{-- {{ route('pending-confirm', $payment->id) }} id="confirm"  --}}
                         </div>
 
                     </div>

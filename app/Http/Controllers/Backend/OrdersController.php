@@ -26,7 +26,7 @@ class OrdersController extends Controller
 
 
 
-    // ordeer pending confirmation 
+    // ordeer pending confirmation
     public function AdminPendingConfirm($payment_id){
         Payment::find($payment_id)->update(['status' => 'Confirm']);
 
@@ -39,7 +39,7 @@ class OrdersController extends Controller
 
 
 
-    // admin confirm order list 
+    // admin confirm order list
 
     public function AdminConfirmOrder(){
         $payment = Payment::where('status','confirm')->orderBy('id','DESC')->get();
@@ -59,7 +59,7 @@ class OrdersController extends Controller
     }
 
 
-    
+
     public function InstructorOrderDetails($payment_id){
         $payment = Payment::where('id',$payment_id)->first();
         $orderItem = Order::where('payment_id',$payment_id)->orderBy('id','DESC')->get();
@@ -78,8 +78,24 @@ class OrdersController extends Controller
             'chroot' => public_path(),
         ]);
         return $pdf->download('invoice.pdf');
+    }//end method
+
+
+
+    public function MyCourses(){
+        $id = Auth::user()->id;
+         $latestOrder= Order::where('user_id',$id)->select('course_id',\DB::raw('MAX(id) as max_id'))->groupBy('course_id');
+         $myCourse = Order::joinSub( $latestOrder,'latest_order', function($join){
+            $join->on('orders.id', '=', 'latest_order.max_id');
+         })->orderBy('latest_order.max_id', 'DESC')->get();
+
+
+        return view('frontend.mycourse.my_all_order',compact('myCourse'));
     }
 
 
-    
+
+
+
+
 }

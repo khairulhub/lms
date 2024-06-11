@@ -41,6 +41,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-wishlish-course','GetWishListCourse');
         Route::get('/remove-wishlist/{id}','RemoveWishList');
     });
+    // //////////////// User course Controller all route parameters ////////////////
+
+    Route::controller(OrdersController::class)->group(function(){
+        Route::get('/user/courses','MyCourses')->name('my.course');
+        // Route::get('/get-wishlish-course','GetWishListCourse');
+        // Route::get('/remove-wishlist/{id}','RemoveWishList');
+    });
 
 
 
