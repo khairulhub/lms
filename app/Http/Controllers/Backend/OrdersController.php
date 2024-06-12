@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\CourseSection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -91,7 +92,16 @@ class OrdersController extends Controller
 
 
         return view('frontend.mycourse.my_all_order',compact('myCourse'));
-    }
+    }//end method
+
+
+    public function MyCoursesView($course_id){
+        $id = Auth::user()->id;
+        $course = Order::where('course_id',$course_id)->where('user_id',$id)->first();
+        $section = CourseSection::where('course_id',$course_id)->orderBy('id','asc')->get();
+
+        return view('frontend.mycourse.my_course_view',compact('course','section'));
+    }//end method
 
 
 
