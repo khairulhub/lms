@@ -20,4 +20,11 @@ class Course extends Model
     public function user(){
         return $this->belongsTo(User::class, 'instructor_id', 'id');
     }
+    public function instructor(){
+        return $this->belongsTo(User::class, 'instructor_id', 'id');
+    }
+    public function coursegoals(){
+        return $this->hasMany(Course_goal::class, 'course_id', 'id');
+    }
+   
 }

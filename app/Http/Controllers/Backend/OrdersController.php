@@ -97,9 +97,13 @@ class OrdersController extends Controller
 
     public function MyCoursesView($course_id){
         $id = Auth::user()->id;
-        $course = Order::where('course_id',$course_id)->where('user_id',$id)->first();
+        $course = Order::where('course_id', $course_id)
+                        ->where('user_id', $id)
+                        ->with('course.instructor', 'course.coursegoals')
+                        ->first();
         $section = CourseSection::where('course_id',$course_id)->orderBy('id','asc')->get();
-
+        
+        // dd($course->course->instructor);
         return view('frontend.mycourse.my_course_view',compact('course','section'));
     }//end method
 
