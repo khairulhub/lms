@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Order;
 use App\Models\Payment;
-use App\Models\CourseSection;
+use App\Models\Question;
 use Illuminate\Http\Request;
+use App\Models\CourseSection;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrdersController extends Controller
 {
@@ -102,9 +103,11 @@ class OrdersController extends Controller
                         ->with('course.instructor', 'course.coursegoals')
                         ->first();
         $section = CourseSection::where('course_id',$course_id)->orderBy('id','asc')->get();
+
+        $allQuestion = Question::latest()->get();
         
         // dd($course->course->instructor);
-        return view('frontend.mycourse.my_course_view',compact('course','section'));
+        return view('frontend.mycourse.my_course_view',compact('course','section','allQuestion'));
     }//end method
 
 

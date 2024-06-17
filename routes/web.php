@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\OrdersController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Frontend\WishListController;
 use App\Http\Controllers\Backend\SmtpSettingController;
 
@@ -46,6 +47,13 @@ Route::middleware('auth')->group(function () {
     Route::controller(OrdersController::class)->group(function(){
         Route::get('/user/courses','MyCourses')->name('my.course'); 
         Route::get('/course/view/{course_id}','MyCoursesView')->name('course.view'); 
+        
+    });
+    // //////////////// User course related question all route parameters ////////////////
+
+    Route::controller(QuestionController::class)->group(function(){
+        Route::post('/user/question','UserQuestion')->name('user.question'); 
+        // Route::get('/course/view/{course_id}','MyCoursesView')->name('course.view'); 
         
     });
 
@@ -203,6 +211,13 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
         Route::get('/instructor/all/order','InstructorAllOrder')->name('instructor.all.order');
         Route::get('/instructor/order/details/{id}','InstructorOrderDetails')->name('instructor.order.details');
         Route::get('/instructor/order/invoice/{id}','InstructorOrderInvoice')->name('instructor.order.invoice');
+    });
+
+       // admin  all course Questions route
+       Route::controller(QuestionController::class)->group(function(){
+        Route::get('/instructor/all/questions','InstructorAllQuestions')->name('instructor.all.questions');
+        Route::get('/instructor/question/details/{id}','InstructorQuestionDetails')->name('instructor.question.details');
+        Route::post('/instructor/replay','InstructorReply')->name('instructor.reply');
     });
 
 
