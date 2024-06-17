@@ -1,7 +1,88 @@
-@extends('frontend.master')
-@section('home')
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="author" content="TechyDevs">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>Digital Online
+        course
+    </title>
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Favicon -->
+
+    <link rel="icon" sizes="16x16" href="{{ asset('frontend/images/favicon.png') }}">
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{{ asset('frontend/css/line-awesome.css') }}">
+    
+    {{-- <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('frontend/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap-select.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/fancybox.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/tooltipster.bundle.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/plyr.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- end inject -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+
+<body>
+
+    <!-- start cssload-loader -->
+    <div class="preloader">
+        <div class="loader">
+            <svg class="spinner" viewBox="0 0 50 50">
+                <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+            </svg>
+        </div>
+    </div>
+    <!-- end cssload-loader -->
+
+    <!--======================================
+        START HEADER AREA
+    ======================================-->
+    @include('frontend.layout.header')
+    <!--======================================
+        END HEADER AREA
+======================================-->
 
 
+<style>
+ 
+    .StripeElement {
+      box-sizing: border-box;
+      height: 40px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background-color: white;
+      box-shadow: 0 1px 3px 0 #e6ebf1;
+      -webkit-transition: box-shadow 150ms ease;
+      transition: box-shadow 150ms ease;
+    }
+    .StripeElement--focus {
+      box-shadow: 0 1px 3px 0 #cfd7df;
+    }
+    .StripeElement--invalid {
+      border-color: #fa755a;
+    }
+    .StripeElement--webkit-autofill {
+      background-color: #fefde5 !important;}
+    </style>
+    <!-- /////////////////////////----------End CSS ------- ///////////////////////////// -->
 
 
 <!-- ================================
@@ -12,12 +93,12 @@
     <div class="container">
         <div class="flex-wrap breadcrumb-content d-flex align-items-center justify-content-between">
             <div class="section-heading">
-                <h2 class="text-white section__title">Checkout</h2>
+                <h2 class="text-white section__title">Stripe</h2>
             </div>
             <ul class="flex-wrap generic-list-item generic-list-item-white generic-list-item-arrow d-flex align-items-center">
                 <li><a href="index.html">Home</a></li>
             
-                <li>Checkout</li>
+                <li>Stripe</li>
             </ul>
         </div><!-- end breadcrumb-content -->
     </div><!-- end container -->
@@ -37,8 +118,7 @@
                     <div class="card-body">
                         <h3 class="pb-3 card-title fs-22">Billing Details</h3>
                         <div class="divider"><span></span></div>
-            <form method="post" action="{{ route('payment') }}" class="row" enctype="multipart/form-data">
-                @csrf
+          
                             <div class="input-box col-lg-6">
                                 <label class="label-text">Name</label>
                                 <div class="form-group">
@@ -77,7 +157,7 @@
                                 </div>
                             </div><!-- end input-box -->
                        
-                            <div class="btn-box col-lg-12">
+                            {{-- <div class="btn-box col-lg-12">
                                 <div class="mb-4 custom-control custom-checkbox fs-15">
                                     <input type="checkbox" class="custom-control-input" id="agreeCheckbox" required>
                                     <label class="custom-control-label custom--control-label" for="agreeCheckbox">I agree to the
@@ -87,80 +167,40 @@
                                 </div><!-- end custom-control -->
                                 <p class="pb-1 text-black-50"><i class="mr-1 la la-lock fs-24"></i>Secure Connection</p>
                                 <p class="fs-14">Your information is safe with us!</p>
-                            </div><!-- end btn-box -->
+                            </div><!-- end btn-box --> --}}
                    
                     </div><!-- end card-body -->
                 </div><!-- end card -->
                 <div class="card card-item">
-                    <div class="card-body">
+                    <div class=" card-body">
                         <h3 class="pb-3 card-title fs-22">Select Payment Method</h3>
                         <div class="divider"><span></span></div>
-                        <div class="payment-option-wrap">
-                            <div class="payment-tab is-active">
-                                <div class="payment-tab-toggle">
-                                    <input checked="" id="bankTransfer" name="cash_delivery" type="radio" value="handcash">
-                                    <label for="bankTransfer">Direct Payment</label>
+
+
+                       <div class="col-lg-12">
+                            <div class="p-40 border cart-totals">
+                                <div class="divider-2 mb-30 ">
+                                    <div class="table-responsive order-table checkout">
+                                        <form action="{{ route('stripe.order') }}" method="POST" id="payment-form">
+                                            @csrf
+                                            <input type="hidden" name="name" value="{{ $data['name'] }}">
+                                            <input type="hidden" name="email" value="{{ $data['email'] }}">
+                                            <input type="hidden" name="phone" value="{{ $data['phone'] }}">
+                                            <input type="hidden" name="address" value="{{ $data['address'] }}">
+                                            <div class="form-row">
+                                                <label for="card-element">Credit or Debit Cart</label>
+                                                <div id="card-element">
+                                                    {{-- //stripe element will be insert here --}}
+                                                </div>
+                                                <div id="card-errors" role="alert"></div>
+                                                <br>
+                                                <button  class="btn btn-primary">Submit Payment</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                                {{-- <div class="payment-tab-content">
-                                    <p class="fs-15 lh-24">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                </div> --}}
                             </div>
-                        
-                            <div class="payment-tab">
-                                <div class="payment-tab-toggle">
-                                    <input id="stripe" name="cash_delivery" type="radio" value="stripe">
-                                    <label for="stripe">Stripe</label>
-                                </div>
-                            </div>
-                            <div class="payment-tab">
-                                <div class="payment-tab-toggle">
-                                    <input id="ssl" name="cash_delivery" type="radio" value="ssl">
-                                    <label for="ssl">SSL Commarce</label>
-                                </div>
-                            </div>
-                        
-                            {{-- <div class="payment-tab">
-                                <div class="payment-tab-toggle">
-                                    <input type="radio" name="cash_delivery" id="creditCart" value="creditCard">
-                                    <label for="creditCart">Credit / Debit Card</label>
-                                    <img class="payment-logo" src="images/payment-img.png" alt="">
-                                </div>
-                                <div class="payment-tab-content">
-                                    <form action="#" class="row">
-                                        <div class="input-box col-lg-6">
-                                            <label class="label-text">Name on Card</label>
-                                            <div class="form-group">
-                                                <input class="pl-3 form-control form--control" type="text" name="cardName" placeholder="Card Name">
-                                            </div>
-                                        </div>
-                                        <div class="input-box col-lg-6">
-                                            <label class="label-text">Card Number</label>
-                                            <div class="form-group">
-                                                <input class="pl-3 form-control form--control" type="text" name="cardNumber" placeholder="1234  5678  9876  5432">
-                                            </div>
-                                        </div>
-                                        <div class="input-box col-lg-4">
-                                            <label class="label-text">Expiry Month</label>
-                                            <div class="form-group">
-                                                <input class="pl-3 form-control form--control" type="text" name="expiryMonth" placeholder="MM">
-                                            </div>
-                                        </div>
-                                        <div class="input-box col-lg-4">
-                                            <label class="label-text">Expiry Year</label>
-                                            <div class="form-group">
-                                                <input class="pl-3 form-control form--control" type="text" name="expiryYear" placeholder="YY">
-                                            </div>
-                                        </div>
-                                        <div class="input-box col-lg-4">
-                                            <label class="label-text">CVV</label>
-                                            <div class="form-group">
-                                                <input class="pl-3 form-control form--control" type="text" name="cvv" placeholder="cvv">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div> --}}
-                        </div>
+                       </div>
                         
                     </div><!-- end card-body -->
                 </div><!-- end card -->
@@ -244,19 +284,13 @@
                         @endif
 
 
-                        <div class="pt-3 btn-box border-top border-top-gray">
-                            <p class="mb-2 fs-14 lh-22">Aduca is required by law to collect applicable transaction taxes for purchases made in certain tax jurisdictions.</p>
-                            <p class="mb-3 fs-14 lh-22">By completing your purchase you agree to these <a href="#" class="text-color hover-underline">Terms of Service.</a></p>
-
-                            <button type="submit" class="btn theme-btn w-100">Proceed <i class="ml-1 la la-arrow-right icon"></i></button>
-                            
-                        </div>
+                       
                     </div><!-- end card-body -->
                 </div><!-- end card -->
             </div><!-- end col-lg-5 -->
         </div><!-- end row -->
     </div><!-- end container -->
-</form>
+
 </section>
 <!-- ================================
        END CONTACT AREA
@@ -264,5 +298,136 @@
 
 
 
+<!-- /////////////////////////----------Start JavaScript  ------- ///////////////////////////// -->
+<script type="text/javascript">
+    // Create a Stripe client.
+var stripe = Stripe('pk_test_51PShl909xhMv6pOrDy3phk9K18gxkG58hvllLvWEMg2ExGNKUP3M4L3EUDe4Is2sdCofwZKut5BBHCcWLh2vNufz00G0ApZBzQ');
+// Create an instance of Elements.
+var elements = stripe.elements();
+// Custom styling can be passed to options when creating an Element.
+// (Note that this demo uses a wider set of styles than the guide below.)
+var style = {
+  base: {
+    color: '#32325d',
+    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+    fontSmoothing: 'antialiased',
+    fontSize: '16px',
+    '::placeholder': {
+      color: '#aab7c4'
+    }
+  },
+  invalid: {
+    color: '#fa755a',
+    iconColor: '#fa755a'
+  }
+};
+// Create an instance of the card Element.
+var card = elements.create('card', {style: style});
+// Add an instance of the card Element into the `card-element` <div>.
+card.mount('#card-element');
+// Handle real-time validation errors from the card Element.
+card.on('change', function(event) {
+  var displayError = document.getElementById('card-errors');
+  if (event.error) {
+    displayError.textContent = event.error.message;
+  } else {
+    displayError.textContent = '';
+  }
+});
+// Handle form submission.
+var form = document.getElementById('payment-form');
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+  stripe.createToken(card).then(function(result) {
+    if (result.error) {
+      // Inform the user if there was an error.
+      var errorElement = document.getElementById('card-errors');
+      errorElement.textContent = result.error.message;
+    } else {
+      // Send the token to your server.
+      stripeTokenHandler(result.token);
+    }
+  });
+});
+// Submit the form with the token ID.
+function stripeTokenHandler(token) {
+  // Insert the token ID into the form so it gets submitted to the server
+  var form = document.getElementById('payment-form');
+  var hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'hidden');
+  hiddenInput.setAttribute('name', 'stripeToken');
+  hiddenInput.setAttribute('value', token.id);
+  form.appendChild(hiddenInput);
+  // Submit the form
+  form.submit();
+}
+</script>
 
-@endsection
+<script src="https://js.stripe.com/v3/"></script>
+
+
+    <!-- ================================
+         END FOOTER AREA
+================================= -->
+@include('frontend.layout.footer')
+<!-- ================================
+      END FOOTER AREA
+================================= -->
+
+<!-- start scroll top -->
+<div id="scroll-top">
+    <i class="la la-arrow-up" title="Go top"></i>
+</div>
+<!-- end scroll top -->
+
+
+
+
+<!-- template js files -->
+<script src="{{ asset('frontend/js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ asset('frontend/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('frontend/js/bootstrap-select.min.js') }}"></script>
+<script src="{{ asset('frontend/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('frontend/js/isotope.js') }}"></script>
+<script src="{{ asset('frontend/js/waypoint.min.js') }}"></script>
+<script src="{{ asset('frontend/js/jquery.counterup.min.js') }}"></script>
+<script src="{{ asset('frontend/js/fancybox.js') }}"></script>
+<script src="{{ asset('frontend/js/datedropper.min.js') }}"></script>
+<script src="{{ asset('frontend/js/emojionearea.min.js') }}"></script>
+<script src="{{ asset('frontend/js/tooltipster.bundle.min.js') }}"></script>
+<script src="{{ asset('frontend/js/jquery.lazy.min.js') }}"></script>
+<script src="{{ asset('frontend/js/plyr.js') }}"></script>
+<script src="{{ asset('frontend/js/main.js') }}"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+<script>
+    var player = new Plyr('#player');
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    @if(Session::has('message'))
+    var type = "{{ Session::get('alert-type', 'info') }}";
+    switch (type) {
+        case 'info':
+            toastr.info("{{ Session::get('message') }}");
+            break;
+        case 'warning':
+            toastr.warning("{{ Session::get('message') }}");
+            break;
+        case 'success':
+            toastr.success("{{ Session::get('message') }}");
+            break;
+        case 'error':
+            toastr.error("{{ Session::get('message') }}");
+            break;
+    }
+    @endif
+});
+</script>
+
+
+
+{{-- xmpm-hitk-xked-mpuu-oecl --}}

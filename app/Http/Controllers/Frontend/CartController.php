@@ -30,6 +30,8 @@ use App\Mail\Orderconfirm;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Intervention\Image\Drivers\Gd\Driver;
 
+use Stripe;
+
 class CartController extends Controller
 {
     public function AddToCart(Request $request, $id){
@@ -193,7 +195,7 @@ class CartController extends Controller
         }else{
             return response()->json(array(
                'total' => Cart::total(),
-            )); 
+            ));
         }
     }//end function
 
@@ -218,7 +220,7 @@ class CartController extends Controller
                     'message' => 'You need to add at list one course in your cart',
                     'alert-type' => 'error',
                 ];
-        
+
                 return redirect()->to('/')->with($notification);
             }
         }else{
@@ -226,14 +228,14 @@ class CartController extends Controller
                 'message' => 'You need to login first',
                 'alert-type' => 'error',
             ];
-    
+
             return redirect()->route('login')->with($notification);
         }
     }//end menthod
 
 
     public function Payment(Request $request){
-        if (Session::has('cupon')) 
+        if (Session::has('cupon'))
         {
             $total_amount = Session::get('cupon')['total_amount'];
         }
@@ -241,7 +243,27 @@ class CartController extends Controller
             $total_amount = round(Cart::total());
         }
 
-        //create a new payment record 
+
+        $data = array();
+            $data['name'] = $request->name;
+            $data['email'] = $request->email;
+            $data['phone'] = $request->phone;
+            $data['address'] = $request->address;
+            $data['course_title'] = $request->course_title;
+            $cartTotal = Cart::total();
+            $carts = Cart::content();
+           
+            
+        
+        if($request->cash_delivery == "stripe"){
+            return view('frontend.payment.stripe',compact('data','carts','cartTotal'));
+        }
+        elseif($request->cash_delivery == "ssl"){
+            return view('frontend.payment.sslCommarce',compact('data','carts','cartTotal'));
+        }
+        elseif($request->cash_delivery == "handcash"){
+
+        //create a new payment record
 
         $data = new Payment();
         $data->name = $request->name;
@@ -271,7 +293,7 @@ class CartController extends Controller
                 ];
                 return redirect()->back()->with($notification);
 
-            }//end if 
+            }//end if
             $order = new Order();
             $order->payment_id = $data->id;
             $order->user_id = Auth::user()->id;
@@ -291,8 +313,8 @@ class CartController extends Controller
 
             $paymentId = $data->id;
 
-            
-        // start email sending option 
+
+        // start email sending option
 
         $sendmail = Payment::find($paymentId);
         $data = [
@@ -305,32 +327,89 @@ class CartController extends Controller
 
 
         //end email sending option
+        $notification = [
+            'message' => 'Your order has been placed successfully',
+            'alert-type' => 'success',
+        ];
 
+        return redirect()->route('index')->with($notification);
 
-
-
-
-
-            // Cart::destroy();
-            if ($request->cash_delivery == "stripe") {
-                echo "stripe payment";
-            }else{
-                $notification = [
-                    'message' => 'Your order has been placed successfully',
-                    'alert-type' => 'success',
-                ];
-                // Cart::destroy();
-                return redirect()->route('index')->with($notification);
-            }
     }
 
+    }//end method
+
+    public function StripeOrder(Request $request){
+        if (Session::has('cupon'))
+        {
+            $total_amount = Session::get('cupon')['total_amount'];
+        }
+        else{
+            $total_amount = round(Cart::total());
+        }
+
+        \Stripe\Stripe::setApiKey('sk_test_51PShl909xhMv6pOrGrZen6iPyTjbaAJtyvIlGuMVRDht84bGYaqLpwQ49oQRSAiRrEVP4DWA9zo4YiNX4Rmrm96f0040FXNBle');
+
+        $token = $_POST['stripeToken'];
+        $charge = \Stripe\Charge::create([
+            'amount' => $total_amount * 100,
+            'currency' => 'usd',
+            'description' => 'Lms',
+           'source' => $token,
+           'metadata' => ['order_id' => '343434'],
+        ]);
+
+
+        $order_id = Payment::insertGetId([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            
+            'total_amount' => $total_amount,
+            'payment_type' => 'Stripe',
+            'invoice_no' => 'EOS' . mt_rand(10000000, 99999999),
+            'order_date' => Carbon::now()->format('d-F-Y'),
+            'order_month' => Carbon::now()->format('F'),
+            'order_year' => Carbon::now()->format('Y'),
+           'status' => 'Pending',
+            'created_at' => Carbon::now(),
+        ]);
+
+        $carts = Cart::content();
+
+        foreach($carts as $cart){
+            Order::insert([
+                'payment_id'=> $order_id,
+                'user_id' => Auth::user()->id,
+                'course_id' => $cart->id,
+                'instructor_id' => $cart->options->instructor_id,
+                'course_title' => $cart->name,
+                'price' => $cart->price,
+
+            ]);
+
+        }
+
+
+        if(Session::has('cupon')){
+            Session::forget('cupon');
+        }
+        Cart::destroy();
+
+        $notification = [
+            'message' => 'Stripe Payment done successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('index')->with($notification);
+    }//end method 
 
 
 
     public function BuyToCart(Request $request, $id){
         $course = Course::find($id);
 
-       
+
 
         //check course is already in cart or not
         $cartItem = Cart::search(function ($cartItem, $rowId) use ($id){
@@ -371,5 +450,7 @@ class CartController extends Controller
 
         return response()->json(['success'=> 'The course successfully added to your cart']);
     }//end method AddToCart
+
+    
 
 }
