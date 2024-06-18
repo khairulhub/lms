@@ -180,6 +180,32 @@ class CartController extends Controller
         }
     }//end method
 
+    // public function InstructorApplyCupon(Request $request){
+    //     $cupon = Cupon::where('cupon_name', $request->cupon_name)
+    //                   ->where('cupon_validity', '>=', Carbon::now()->format('Y-m-d'))
+    //                   ->first();
+    
+    //     if ($cupon) {
+    //         if ($cupon->course_id == $request->course_id && $cupon->instructor_id == $request->instructor_id) {
+    //             Session::put('cupon', [
+    //                 'cupon_name' => $cupon->cupon_name,
+    //                 'cupon_discount' => $cupon->cupon_discount,
+    //                 'discount_amount' => round(Cart::total() * $cupon->cupon_discount / 100),
+    //                 'total_amount' => round(Cart::total() - Cart::total() * $cupon->cupon_discount / 100),
+    //             ]);
+    
+    //             return response()->json([
+    //                 'validity' => true,
+    //                 'success' => 'Cupon applied successfully',
+    //             ]);
+    //         } else {
+    //             return response()->json(['error' => 'Cupon criteria not met for this course & instructor']);
+    //         }
+    //     } else {
+    //         return response()->json(['error' => 'Invalid Cupon!']);
+    //     }
+    // }
+
     // CuponCalculation
 
     public function CuponCalculation(){

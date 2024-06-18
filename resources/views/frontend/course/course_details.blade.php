@@ -526,6 +526,17 @@
 
                                     <button type="submit" class="mb-2 btn theme-btn w-100 theme-btn-white" onclick="buyThisCourse({{$course->id}},'{{$course->course_name}}','{{$course->instructor_id}}','{{$course->course_name_slug}}')"><i class="mr-1 la la-shopping-bag"></i> Buy this course</button>
 
+
+
+                                    {{-- <div class="mb-2 input-group" id="cuponField">
+                                        <input class="pl-3 form-control form--control" type="text" placeholder="Coupon code" id="cupon_name">
+                                        <div class="input-group-append">
+                                            <input type="hidden" id="course_id" name="course_id" value="{{ $course->id }}">
+                                            <input type="hidden" id="instructor_id" name="instructor_id" value="{{ $course->instructor_id }}">
+                                            <a class="btn theme-btn" type="submit" onclick="applyInsCupon()">Apply Code</a>
+                                        </div>
+                                    </div> --}}
+
                                 </div>
 
 

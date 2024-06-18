@@ -65,7 +65,7 @@ class CuponController extends Controller
 
         ]);
         $notification= array(
-            'message' => 'SubCategory Updated  Successfully',
+            'message' => 'Cupon Updated  Successfully',
             'alert-type' =>'success'
         );
         return redirect()->route('admin.all.cupon')->with($notification);
@@ -80,4 +80,73 @@ class CuponController extends Controller
         );
         return redirect()->route('admin.all.cupon')->with($notification);
     }//end method
+
+
+
+    //======================================instructor all coupon routes methods
+
+    public function InstructorAllCupon(){
+        $id = Auth::user()->id;
+        $cupons = Cupon::where('instructor_id', $id)->latest()->get();
+        return view('instructor.cupon.all_cupon', compact('cupons'));
+    }
+
+    public function InstructorAddCupon(){
+        $id = Auth::user()->id;
+        $courses = Course::where('instructor_id', $id)->get();
+        return view('instructor.cupon.instructor_add_cupon', compact('courses'));
+    }//end methodInstructorAddCupon
+
+    public function InstructorStoreCupon(Request $request){
+        Cupon::insert([
+            'cupon_name' => strtoupper($request->cupon_name),
+            'cupon_discount' => $request->cupon_discount,
+            'instructor_id' => Auth::user()->id,
+            'course_id' => $request->course_id,
+            'cupon_validity' => $request->cupon_validity,
+            'created_at'=> Carbon::now(),
+
+        ]);
+        $notification= array(
+            'message' => 'Cupon Inserted Successfully',
+            'alert-type' =>'success'
+        );
+        return redirect()->route('instructor.all.cupon')->with($notification);
+    }//end method
+
+    public function InstructorEditCupon($id){
+        $cupon = Cupon::find($id);
+        $instructor_id = Auth::user()->id;
+        $courses = Course::where('instructor_id', $instructor_id)->get();
+        return view('instructor.cupon.instructor_edit_cupon',compact('cupon','courses'));
+    }
+
+    public function InstructorUpdateCupon(Request $request){
+        $cupon_id = $request->cupon_id;
+
+        Cupon::find($cupon_id)->update([
+            'cupon_name' => $request->cupon_name,
+            'cupon_discount' => $request->cupon_discount,
+            'cupon_validity' => $request->cupon_validity,
+            'instructor_id' => Auth::user()->id,
+            'course_id' => $request->course_id,
+
+
+        ]);
+        $notification= array(
+            'message' => 'Cupon Updated  Successfully',
+            'alert-type' =>'success'
+        );
+        return redirect()->route('instructor.all.cupon')->with($notification);
+
+    }//end method 
+
+    public function InstructorDeleteCupon($id){
+        Cupon::find($id)->delete();
+        $notification= array(
+            'message' => 'Cupon Deleted Successfully',
+            'alert-type' =>'success'
+        );
+        return redirect()->route('instructor.all.cupon')->with($notification);
+    }
 }

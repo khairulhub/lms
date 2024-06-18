@@ -231,6 +231,19 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
         Route::post('/instructor/replay','InstructorReply')->name('instructor.reply');
     });
 
+    // instructor  all course cupons route
+    Route::controller(CuponController::class)->group(function(){
+        Route::get('/instructor/all/cupon','InstructorAllCupon')->name('instructor.all.cupon');
+        Route::get('/instructor/add/cupon','InstructorAddCupon')->name('instructor.add.cupon');
+        Route::post('/instructor/store/cupon','InstructorStoreCupon')->name('instructor.store.cupon');
+        Route::get('/instructor/edit/cupon/{id}','InstructorEditCupon')->name('instructor.edit.cupon');
+        Route::post('/instructor/update/cupon','InstructorUpdateCupon')->name('instructor.update.cupon');
+        Route::get('/instructor/delete/cupon/{id}','InstructorDeleteCupon')->name('instructor.delete.cupon');
+
+    });
+
+
+
 
 });
 
@@ -257,6 +270,7 @@ Route::post('/buy/this/course/{course_id}', [CartController::class, 'BuyToCart']
 
 // cupon code route
 Route::post('/apply-cupon', [CartController::class, 'ApplyCupon']);
+// Route::post('/instructor-apply-cupon', [CartController::class, 'InstructorApplyCupon']);
 Route::get('/cupon-calculation', [CartController::class, 'CuponCalculation']);
 Route::get('/cupon-remove', [CartController::class, 'CuponRemove']);
 

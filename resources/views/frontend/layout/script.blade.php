@@ -323,7 +323,55 @@
 {{--  <button class="qtyBtn qtyInc"><i class="la la-plus"></i></button> --}}
 
 
+{{-- start instructor cupon cart page course  --}}
+{{-- 
+<script type="text/javascript">
+    function applyInsCupon(){
+           var cupon_name = $('#cupon_name').val();
+           var course_id = $('#course_id').val();
+           var instructor_id = $('#instructor_id').val();
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               data: {
+                   cupon_name: cupon_name,
+                   course_id:course_id,
+                   instructor_id:instructor_id,
+               },
+               url: "/instructor-apply-cupon",
+               success: function(data) {
+                   cuponCalculation(); // Recalculate totals after applying the coupon
+                   addToMiniCart();
+                   myCart();
+                   if (data.validity == true) {
+                       $('#cuponField').hide();
+                   }
 
+                   const Toast = Swal.mixin({
+                       toast: true,
+                       position: 'top-end',
+                       showConfirmButton: false,
+                       timer: 3000
+                   });
+                   if (data.success) {
+                       Toast.fire({
+                           icon: 'success',
+                           title: data.success
+                       });
+                       
+                   } else if (data.error) {
+                       Toast.fire({
+                           icon: 'error',
+                           title: data.error
+                       });
+                   }
+               }
+           })
+       }
+
+       
+
+</script> --}}
 
 
 {{-- start apply cupon front  page course  --}}
@@ -446,8 +494,9 @@
                         
                     
                             `
-                        )
+                        );
                     }
+                    
                 }
             })
         }
@@ -455,6 +504,13 @@
 </script>
 
 {{-- end my cart page course  --}}
+
+
+
+
+
+
+
 
 
 

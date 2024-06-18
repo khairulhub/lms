@@ -52,6 +52,10 @@
 
 
             <div class="flex-wrap pt-4 d-flex align-items-center justify-content-between">
+
+                @if (Session::has('cupon'))
+
+                @else 
                 <form action="#">
                     <div class="mb-2 input-group" id="cuponField">
                         <input class="pl-3 form-control form--control" type="text" placeholder="Coupon code" id="cupon_name">
@@ -60,6 +64,8 @@
                         </div>
                     </div>
                 </form>
+                @endif
+               
             </div>
 
 
