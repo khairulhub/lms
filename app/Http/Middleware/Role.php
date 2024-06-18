@@ -17,8 +17,20 @@ class Role
      */
     public function handle(Request $request, Closure $next, string $role)
     {
-        if ($request->user()->role !== $role) {
+        $userRole = $request->user()->role;
+        if ($userRole === 'user' && $userRole !== 'user') {
             return redirect('/dashboard');
+        }elseif($userRole === 'admin' && $userRole === 'user'){
+            return redirect('/admin/dashboard');
+        }
+        elseif($userRole === 'instructor' && $userRole === 'user'){
+            return redirect('/instructor/dashboard');
+        }
+        elseif($userRole === 'admin' && $userRole === 'instructor'){
+            return redirect('/admin/dashboard');
+        }
+        elseif($userRole === 'instructor' && $userRole === 'admin'){
+            return redirect('/instructor/dashboard');
         }
         return $next($request);
     }
