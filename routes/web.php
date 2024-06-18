@@ -6,16 +6,17 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\Backend\CuponController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\OrdersController;
+use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Frontend\WishListController;
 use App\Http\Controllers\Backend\SmtpSettingController;
-use App\Http\Middleware\RedirectIfAuthenticated;
 
 
 
@@ -136,6 +137,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 
 
+
+
+    // admin  all  Report route
+    Route::controller(ReportController::class)->group(function(){
+        Route::get('/admin/all/report/view','AllReportView')->name('admin.all.report.view');
+         Route::post('/admin/search/by/date','AdminSearchByDate')->name('admin.search.by.date');
+         Route::post('/admin/search/by/month','AdminSearchByMonth')->name('admin.search.by.month');
+         Route::post('/admin/search/by/year','AdminSearchByYear')->name('admin.search.by.year');
+    });
 
 
     // admin  all  Smtp route
