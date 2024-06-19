@@ -102,7 +102,22 @@
             <ul>
                 <li> <a href="{{ route('admin.all.report.view') }}"><i class='bx bx-radio-circle'></i>Report View</a>
                 </li>
-                
+
+
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-category"></i>
+                </div>
+                <div class="menu-title">Manage Review</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('admin.pending.review') }}"><i class='bx bx-radio-circle'></i>Pending Review </a>
+                </li>
+                <li> <a href="{{ route('admin.active.review') }}"><i class='bx bx-radio-circle'></i>Active Review </a>
+                </li>
+
 
             </ul>
         </li>
@@ -113,7 +128,7 @@
                 <div class="menu-title">Manage Settings</div>
             </a>
             <ul>
-                
+
                 <li> <a href="{{ route('admin.all.smtp') }}"><i class='bx bx-radio-circle'></i>All Smtp</a>
                 </li>
 
@@ -126,7 +141,7 @@
 
 
 
-        
+
         <li class="menu-label">UI Elements</li>
 
         <li>

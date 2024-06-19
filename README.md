@@ -123,7 +123,7 @@ by using toggle button take the value inactive and active
         form.querySelector('input[name="is_checked"]').value = checkbox.checked ? 1 : 0;
         form.submit();
     }
-    </script>
+</script>
 
 
     ====================================> finish the update 

@@ -628,11 +628,11 @@
                                         <li><i class="mr-2 la la-certificate text-color"></i>Certificate of Completion</li>
                                     </ul>
                                     <div class="section-block"></div>
-                                    <div class="pt-4 buy-for-team-container">
+                                    {{-- <div class="pt-4 buy-for-team-container">
                                         <h3 class="pb-2 fs-18 font-weight-semi-bold">Training 5 or more people?</h3>
                                         <p class="pb-3 lh-24">Get your team access to 3,000+ top Aduca courses anytime, anywhere.</p>
                                         <a href="for-business.html" class="btn theme-btn theme-btn-sm theme-btn-transparent lh-30 w-100">Try Aduca for Business</a>
-                                    </div>
+                                    </div> --}}
                                 </div><!-- end preview-course-incentives -->
                             </div><!-- end preview-course-content -->
                         </div>

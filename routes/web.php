@@ -48,16 +48,16 @@ Route::middleware('auth')->group(function () {
     // //////////////// User course Controller all route parameters ////////////////
 
     Route::controller(OrdersController::class)->group(function(){
-        Route::get('/user/courses','MyCourses')->name('my.course'); 
-        Route::get('/course/view/{course_id}','MyCoursesView')->name('course.view'); 
-        
+        Route::get('/user/courses','MyCourses')->name('my.course');
+        Route::get('/course/view/{course_id}','MyCoursesView')->name('course.view');
+
     });
     // //////////////// User course related question all route parameters ////////////////
 
     Route::controller(QuestionController::class)->group(function(){
-        Route::post('/user/question','UserQuestion')->name('user.question'); 
-        // Route::get('/course/view/{course_id}','MyCoursesView')->name('course.view'); 
-        
+        Route::post('/user/question','UserQuestion')->name('user.question');
+        // Route::get('/course/view/{course_id}','MyCoursesView')->name('course.view');
+
     });
 
 
@@ -112,6 +112,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 
 
+    // all instructor route
+    Route::controller(ReviewController::class)->group(function(){
+        Route::get('/admin/pending/review','AdminPendingReview')->name('admin.pending.review');
+        Route::post('/update/review/status','UpdateReviewStatus')->name('update.review.status');
+        Route::get('/admin/active/review','AdminActiveReview')->name('admin.active.review');
+    });
+
+
     // admin  all courses route
     Route::controller(AdminController::class)->group(function(){
         Route::get('/admin/all/courses','AllCourse')->name('admin.all.courses');
@@ -136,6 +144,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/admin/pending/confirm/{id}','AdminPendingConfirm')->name('pending-confirm');
         Route::get('/admin/confirm/order','AdminConfirmOrder')->name('admin.confirm.order');
     });
+
+
+    // // admin  all course order route
+    // Route::controller(ReviewController::class)->group(function(){
+    //     Route::get('/admin/pending/review','AdminPendingReview')->name('admin.pending.review');
+    //     // Route::get('admin/order/details/{payment_id}','AdminOrderDetails')->name('admin.order.details');
+    //     // Route::get('/admin/pending/confirm/{id}','AdminPendingConfirm')->name('pending-confirm');
+    //     // Route::get('/admin/confirm/order','AdminConfirmOrder')->name('admin.confirm.order');
+    // });
 
 
 
@@ -264,7 +281,7 @@ Route::post('/cart/data/store/{course_id}', [CartController::class, 'AddToCart']
 Route::get('/cart/data', [CartController::class, 'CartData']);
 Route::get('/course/mini/cart/', [CartController::class, 'AddMiniCart']);
 Route::get('/mini-cart-remove/{rowId}', [CartController::class, 'RemoveMiniCart']);
-//buy this curse from course details page directly buy option 
+//buy this curse from course details page directly buy option
 Route::post('/buy/this/course/{course_id}', [CartController::class, 'BuyToCart']);
 
 

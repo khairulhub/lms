@@ -137,7 +137,14 @@
         form.querySelector('input[name="is_checked"]').value = checkbox.checked ? 1 : 0;
         form.submit();
     }
-    </script>
+</script>
+<script>
+    function updatePendingStatus(review_id, checkbox) {
+        let form = document.getElementById('statusForm' + review_id);
+        form.querySelector('input[name="is_checked"]').value = checkbox.checked ? 1 : 0;
+        form.submit();
+    }
+</script>
 
 </body>
 
