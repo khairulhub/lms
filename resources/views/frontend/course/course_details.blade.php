@@ -10,8 +10,8 @@
             <div class="breadcrumb-content">
                 <ul class="flex-wrap generic-list-item generic-list-item-arrow d-flex align-items-center">
                     <li><a href="{{ url('/') }}">Home</a></li>
-                    <li><a href="#">{{ $course['category']['category_name'] }}</a></li>
-                    <li><a href="#">{{ $course['subcategory']['subcategory_name'] }}</a></li>
+                    <li><a href="">{{ $course['category']['category_name'] }}</a></li>
+                    <li><a href="">{{ $course['subcategory']['subcategory_name'] }}</a></li>
                 </ul>
                 <div class="section-heading">
                     <h2 class="section__title">{{ $course->course_name }}</h2>
@@ -22,18 +22,63 @@
                     <h6 class="mr-2 text-white ribbon ribbon-lg bg-3">Bestseller</h6>
                         @else
                     @endif
-                    
+
+                    @php
+                        $reviewCount = App\Models\Review::where('course_id', $course->id)->where('status', 1)->latest()->get();
+                        $avarage = App\Models\Review::where('course_id', $course->id)->where('status', 1)->avg('rating');
+                    @endphp
+
                     <div class="flex-wrap rating-wrap d-flex align-items-center">
+
+
                         <div class="review-stars">
-                            <span class="rating-number">4.4</span>
+                            <span class="rating-number">{{ round($avarage,1) }}</span>
+                            @if ($avarage == 0)
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            @elseif ($avarage == 1 || $avarage < 2)
+                            <span class="la la-star"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            @elseif ($avarage == 2 || $avarage < 3)
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            @elseif ($avarage == 3 || $avarage < 4)
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            @elseif ($avarage == 4 || $avarage < 5)
                             <span class="la la-star"></span>
                             <span class="la la-star"></span>
                             <span class="la la-star"></span>
                             <span class="la la-star"></span>
                             <span class="la la-star-o"></span>
+                            @elseif ($avarage == 5 || $avarage < 5)
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            @endif
+
                         </div>
-                        <span class="pl-1 rating-total">(20,230 ratings)</span>
-                        <span class="pl-2 student-total">540,815 students</span>
+
+
+                        <span class="pl-1 rating-total">({{ count( $reviewCount) }} ratings)</span>
+                        @php
+                            $enrollmentCount = App\Models\Order::where('course_id', $course->id)->count();
+                        @endphp
+                        <span class="pl-2 student-total">{{  number_format($enrollmentCount) }} students</span>
                     </div>
                 </div><!-- end d-flex -->
 
@@ -55,7 +100,7 @@
                 <div class="pt-3 bread-btn-box">
                     <button class="mb-2 mr-2 btn theme-btn theme-btn-sm theme-btn-transparent lh-28">
                         <i class="mr-1 la la-heart-o"></i>
-                        <span class="swapping-btn" data-text-swap="Wishlisted" data-text-original="Wishlist">Wishlist</span>
+                        <span class="swapping-btn" data-text-swap="Wishlisted" data-text-original="Wishlist" id="{{$course->id}}" onclick="addToWishList(this.id)">Wishlist</span>
                     </button>
                     <button class="mb-2 mr-2 btn theme-btn theme-btn-sm theme-btn-transparent lh-28" data-toggle="modal" data-target="#shareModal">
                         <i class="mr-1 la la-share"></i>Share
@@ -84,9 +129,9 @@
                        <h3 class="pb-3 fs-24 font-weight-semi-bold">What you'll learn?</h3>
                        <ul class="generic-list-item overview-list-item">
                         @foreach ($goals as $goal)
-                        <li><i class="mr-1 text-black la la-check"></i>{{ $goal->goal_name }}</li>  
+                        <li><i class="mr-1 text-black la la-check"></i>{{ $goal->goal_name }}</li>
                         @endforeach
-                           
+
                        </ul>
                    </div><!-- end course-overview-card -->
                    <div class="p-4 rounded course-overview-card bg-gray">
@@ -96,7 +141,7 @@
                        <h3 class="pb-3 fs-24 font-weight-semi-bold">Requirements</h3>
                        <ul class="generic-list-item generic-list-item-bullet fs-15">
                            <li>{{ $course->prerequisites }}</li>
-                     
+
                        </ul>
                    </div><!-- end course-overview-card -->
                     <div class="p-4 border rounded course-overview-card border-gray">
@@ -114,8 +159,8 @@
                        <h3 class="pb-3 fs-24 font-weight-semi-bold">Description</h3>
                        {{-- <p class="pb-2 fs-15">{{ !!$course->description!! }}</p> --}}
                        <p class="pb-2 fs-15">{{ $course->description }}</p>
-                      
-                      
+
+
                        {{-- <div class="collapse" id="collapseMore">
                            <p class="pb-2 fs-15">The core java material you need to learn java development is covered in the first seven sections (around 14 hours in total).  The Java Basics are covered in those sections. The rest of the course covers intermediate, advanced, and optional material you do not technically need to go through.</p>
                            <h4 class="py-2 fs-20 font-weight-semi-bold">Who this course is for:</h4>
@@ -173,31 +218,31 @@
                                        </button>
                                    </div><!-- end card-header -->
 
-                                   
+
                                    <div id="collapse{{ $section->id }}" class="collapse " aria-labelledby="heading{{ $section->id }}" data-parent="#accordion">
                                        <div class="card-body">
                                            <ul class="generic-list-item">
 
                                             @foreach ($lectures as $lecture)
-                                                
+
                                             <li>
                                                 <a href="#" class="d-flex align-items-center justify-content-between text-color" data-toggle="modal" data-target="#previewModal">
                                                     <span>
                                                         <i class="mr-1 la la-play-circle"></i>
                                                         {{ $lecture->lecture_title }}
-                                                        
+
                                                     </span>
                                                     <span>02:27</span>
                                                 </a>
                                             </li>
                                             @endforeach
-                                          
-                                               
+
+
                                            </ul>
                                        </div><!-- end card-body -->
                                    </div><!-- end collapse -->
                                </div><!-- end card -->
-                             @endforeach  
+                             @endforeach
                            </div><!-- end generic-accordion -->
                        </div><!-- end curriculum-content -->
                    </div><!-- end course-overview-card -->
@@ -241,76 +286,100 @@
                        <div class="feedback-wrap">
                            <div class="media media-card align-items-center">
                                <div class="review-rating-summary">
-                                    <span class="stats-average__count">4.6</span>
+
+                                    <span class="stats-average__count">{{ round($avarage,1) }}</span>
                                    <div class="pt-1 rating-wrap">
                                        <div class="review-stars">
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star-half-alt"></span>
+                                         @if ($avarage == 0)
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            @elseif ($avarage == 1 || $avarage < 2)
+                            <span class="la la-star"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            @elseif ($avarage == 2 || $avarage < 3)
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            @elseif ($avarage == 3 || $avarage < 4)
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star-o"></span>
+                            <span class="la la-star-o"></span>
+                            @elseif ($avarage == 4 || $avarage < 5)
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star-o"></span>
+                            @elseif ($avarage == 5 || $avarage < 5)
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            <span class="la la-star"></span>
+                            @endif
+
                                        </div>
-                                       <span class="rating-total d-block">(2,533)</span>
+                                       <span class="rating-total d-block">({{ count($reviewCount) }})</span>
                                        <span>Course Rating</span>
                                    </div><!-- end rating-wrap -->
                                </div><!-- end review-rating-summary -->
-                               <div class="media-body">
-                                   <div class="mb-2 review-bars d-flex align-items-center">
-                                       <div class="review-bars__text">5 stars</div>
-                                       <div class="review-bars__fill">
-                                           <div class="skillbar-box">
-                                               <div class="skillbar" data-percent="77%">
-                                                   <div class="skillbar-bar bg-3"></div>
-                                               </div> <!-- End Skill Bar -->
-                                           </div>
-                                       </div><!-- end review-bars__fill -->
-                                       <div class="review-bars__percent">77%</div>
-                                   </div><!-- end review-bars -->
-                                   <div class="mb-2 review-bars d-flex align-items-center">
-                                       <div class="review-bars__text">4 stars</div>
-                                       <div class="review-bars__fill">
-                                           <div class="skillbar-box">
-                                               <div class="skillbar" data-percent="54%">
-                                                   <div class="skillbar-bar bg-3"></div>
-                                               </div> <!-- End Skill Bar -->
-                                           </div>
-                                       </div><!-- end review-bars__fill -->
-                                       <div class="review-bars__percent">54%</div>
-                                   </div><!-- end review-bars -->
-                                   <div class="mb-2 review-bars d-flex align-items-center">
-                                       <div class="review-bars__text">3 stars</div>
-                                       <div class="review-bars__fill">
-                                           <div class="skillbar-box">
-                                               <div class="skillbar" data-percent="14%">
-                                                   <div class="skillbar-bar bg-3"></div>
-                                               </div> <!-- End Skill Bar -->
-                                           </div>
-                                       </div><!-- end review-bars__fill -->
-                                       <div class="review-bars__percent">14%</div>
-                                   </div><!-- end review-bars -->
-                                   <div class="mb-2 review-bars d-flex align-items-center">
-                                       <div class="review-bars__text">2 stars</div>
-                                       <div class="review-bars__fill">
-                                           <div class="skillbar-box">
-                                               <div class="skillbar" data-percent="5%">
-                                                   <div class="skillbar-bar bg-3"></div>
-                                               </div> <!-- End Skill Bar -->
-                                           </div>
-                                       </div><!-- end review-bars__fill -->
-                                       <div class="review-bars__percent">5%</div>
-                                   </div><!-- end review-bars -->
-                                   <div class="mb-2 review-bars d-flex align-items-center">
-                                       <div class="review-bars__text">1 stars</div>
-                                       <div class="review-bars__fill">
-                                           <div class="skillbar-box">
-                                               <div class="skillbar" data-percent="2%">
-                                                   <div class="skillbar-bar bg-3"></div>
-                                               </div> <!-- End Skill Bar -->
-                                           </div>
-                                       </div><!-- end review-bars__fill -->
-                                       <div class="review-bars__percent">2%</div>
-                                   </div><!-- end review-bars -->
-                               </div><!-- end media-body -->
+
+
+
+                    <div class="media-body">
+                        @php
+                            $reviewCount = App\Models\Review::where('course_id', $course->id)->where('status',1)->select('rating', DB::raw('count(*) as count'))->groupBy('rating')->orderBy('rating', 'desc')->get();
+
+                            $totalReviews = $reviewCount->sum('count');
+
+                            $percentage = [];
+
+                            for ($i=5; $i >=1 ; $i--) {
+                                $ratingCount = $reviewCount->where('rating',$i)->first();
+                                $count = $ratingCount ? $ratingCount->count : 0;
+                                $percent = $totalReviews > 0 ? ( $count / $totalReviews ) * 100 : 0;
+
+
+                                $percentage[] = [
+                                    'rating' => $i,
+                                    'percent' => $percent,
+                                    'count' => $count,
+
+                            ];
+                            }
+                        @endphp
+
+
+                        @if (count($percentage) > 0)
+                            @foreach ($percentage as $ratingInfo)
+                                <div class="mb-2 review-bars d-flex align-items-center">
+                                    <div class="review-bars__text">{{ $ratingInfo['rating'] }} stars</div>
+                                    <div class="review-bars__fill">
+                                        <div class="skillbar-box">
+                                            <div class="skillbar" data-percent="{{ $ratingInfo['percent'] }}%">
+                                                <div class="skillbar-bar bg-3" style="width: {{ $ratingInfo['percent'] }}%;"></div>
+                                            </div> <!-- End Skill Bar -->
+                                        </div>
+                                    </div><!-- end review-bars__fill -->
+                                    <div class="review-bars__percent">{{ number_Format($ratingInfo['percent'],2) }}%</div>
+                                </div><!-- end review-bars -->
+                            @endforeach
+                            @else
+                            <p>No Rating Available</p>
+                        @endif
+
+
+                    </div><!-- end media-body -->
                            </div>
                        </div><!-- end feedback-wrap -->
                    </div><!-- end course-overview-card -->
@@ -335,23 +404,67 @@
                                    </select>
                                </div>
                            </div>
+
+                           @php
+                               $reviews = App\Models\Review::where('course_id', $course->id)->where('status', 1)->latest()->limit(5)->get();
+                           @endphp
+                        @foreach ($reviews as $item)
+
+
                            <div class="pb-4 mb-4 media media-card border-bottom border-bottom-gray">
                                <div class="mr-4 rounded-full media-img">
-                                   <img class="rounded-full lazy" src="images/img-loading.png" data-src="images/small-avatar-1.jpg" alt="User image">
+                                   <img class="rounded-full lazy" src="{{ !empty($item->user->photo) ? url('upload/user_image/' . $item->user->photo) : url('upload/noimage.jpg') }}" data-src="images/small-avatar-1.jpg" alt="User image">
                                </div>
+
+
                                <div class="media-body">
+
+
                                    <div class="flex-wrap pb-1 d-flex align-items-center justify-content-between">
-                                       <h5>Kavi arasan</h5>
+                                       <h5>{{ $item->user->name }}</h5>
                                        <div class="review-stars">
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
+                                        @if ($item->rating == null)
+                                        <span class="la la-star-o"></span>
+                                        <span class="la la-star-o"></span>
+                                        <span class="la la-star-o"></span>
+                                        <span class="la la-star-o"></span>
+                                        <span class="la la-star-o"></span>
+                                        @elseif ($item->rating == 1)
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star-o"></span>
+                                        <span class="la la-star-o"></span>
+                                        <span class="la la-star-o"></span>
+                                        <span class="la la-star-o"></span>
+                                        @elseif ($item->rating == 2)
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star-o"></span>
+                                        <span class="la la-star-o"></span>
+                                        <span class="la la-star-o"></span>
+                                        @elseif ($item->rating == 3)
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star-o"></span>
+                                        <span class="la la-star-o"></span>
+                                        @elseif ($item->rating == 4)
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star-o"></span>
+                                        @elseif ($item->rating == 5)
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star"></span>
+                                        <span class="la la-star"></span>
+                                        @endif
+
                                        </div>
                                    </div>
-                                   <span class="pb-2 d-block lh-18">a month ago</span>
-                                   <p class="pb-2">This is one of the best courses I have taken in Udemy. It is very complete, and it has made continue learning about Java and SQL databases as well.</p>
+                                   <span class="pb-2 d-block lh-18">{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</span>
+                                   <p class="pb-2">{{ $item->comment }}</p>
                                    <div class="helpful-action">
                                        <span class="d-block fs-13">Was this review helpful?</span>
                                        <button class="btn">Yes</button>
@@ -360,109 +473,65 @@
                                    </div>
                                </div>
                            </div><!-- end media -->
-                           <div class="pb-4 mb-4 media media-card border-bottom border-bottom-gray">
-                               <div class="mr-4 rounded-full media-img">
-                                   <img class="rounded-full lazy" src="images/img-loading.png" data-src="images/small-avatar-2.jpg" alt="User image">
-                               </div>
-                               <div class="media-body">
-                                   <div class="flex-wrap pb-1 d-flex align-items-center justify-content-between">
-                                       <h5>Jitesh Shaw</h5>
-                                       <div class="review-stars">
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                       </div>
-                                   </div>
-                                   <span class="pb-2 d-block lh-18">1 months ago</span>
-                                   <p class="pb-2">This is one of the best courses I have taken in Udemy. It is very complete, and it has made continue learning about Java and SQL databases as well.</p>
-                                   <div class="helpful-action">
-                                       <span class="d-block fs-13">Was this review helpful?</span>
-                                       <button class="btn">Yes</button>
-                                       <button class="btn">No</button>
-                                       <span class="pl-1 cursor-pointer btn-text fs-14" data-toggle="modal" data-target="#reportModal">Report</span>
-                                   </div>
-                               </div>
-                           </div><!-- end media -->
-                           <div class="pb-4 mb-4 media media-card border-bottom border-bottom-gray">
-                               <div class="mr-4 rounded-full media-img">
-                                   <img class="rounded-full lazy" src="images/img-loading.png" data-src="images/small-avatar-3.jpg" alt="User image">
-                               </div>
-                               <div class="media-body">
-                                   <div class="flex-wrap pb-1 d-flex align-items-center justify-content-between">
-                                       <h5>Miguel Sanches</h5>
-                                       <div class="review-stars">
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                           <span class="la la-star"></span>
-                                       </div>
-                                   </div>
-                                   <span class="pb-2 d-block lh-18">2 month ago</span>
-                                   <p class="pb-2">This is one of the best courses I have taken in Udemy. It is very complete, and it has made continue learning about Java and SQL databases as well.</p>
-                                   <div class="helpful-action">
-                                       <span class="d-block fs-13">Was this review helpful?</span>
-                                       <button class="btn">Yes</button>
-                                       <button class="btn">No</button>
-                                       <span class="pl-1 cursor-pointer btn-text fs-14" data-toggle="modal" data-target="#reportModal">Report</span>
-                                   </div>
-                               </div>
-                           </div><!-- end media -->
+                           @endforeach
+
                        </div><!-- end review-wrap -->
                        <div class="text-center see-more-review-btn">
                            <button type="button" class="btn theme-btn theme-btn-transparent">Load more reviews</button>
                        </div>
                    </div><!-- end course-overview-card -->
-                   <div class="pt-4 course-overview-card">
+
+
+{{-- ========================add review part only authenticate user can submit the review =============== --}}
+
+                @guest
+                    <div class="px-2 py-4 text-center" style="background:#e6e6e6;">
+                        <h2>Do you want to give the course review...</h2>
+                        <p><b> <br> You need to login first. <a href="{{route('login')}}">Click Here</a>
+                        </b></p>
+                    </div>
+                @else
+                     <div class="pt-4 course-overview-card">
                        <h3 class="pb-4 fs-24 font-weight-semi-bold">Add a Review</h3>
-                       <div class="pb-4 leave-rating-wrap">
-                           <div class="leave-rating leave--rating">
-                               <input type="radio" name='rate' id="star5"/>
-                               <label for="star5"></label>
-                               <input type="radio" name='rate' id="star4"/>
-                               <label for="star4"></label>
-                               <input type="radio" name='rate' id="star3"/>
-                               <label for="star3"></label>
-                               <input type="radio" name='rate' id="star2"/>
-                               <label for="star2"></label>
-                               <input type="radio" name='rate' id="star1"/>
-                               <label for="star1"></label>
-                           </div><!-- end leave-rating -->
-                       </div>
-                       <form method="post" class="row">
-                           <div class="input-box col-lg-6">
-                               <label class="label-text">Name</label>
-                               <div class="form-group">
-                                   <input class="form-control form--control" type="text" name="name" placeholder="Your Name">
-                                   <span class="la la-user input-icon"></span>
-                               </div>
-                           </div><!-- end input-box -->
-                           <div class="input-box col-lg-6">
-                               <label class="label-text">Email</label>
-                               <div class="form-group">
-                                   <input class="form-control form--control" type="email" name="email" placeholder="Email Address">
-                                   <span class="la la-envelope input-icon"></span>
-                               </div>
-                           </div><!-- end input-box -->
+                       <form method="POST" action="{{route('store.review')}}" class="row">
+                        @csrf
+                            <div class="pb-4 leave-rating-wrap">
+                                <div class="leave-rating leave--rating">
+                                    <input type="radio" name='rate' id="star5" value="5" />
+                                    <label for="star5"></label>
+                                    <input type="radio" name='rate' id="star4" value="4" />
+                                    <label for="star4"></label>
+                                    <input type="radio" name='rate' id="star3" value="3" />
+                                    <label for="star3"></label>
+                                    <input type="radio" name='rate' id="star2" value="2" />
+                                    <label for="star2"></label>
+                                    <input type="radio" name='rate' id="star1" value="1" />
+                                    <label for="star1"></label>
+                                </div><!-- end leave-rating -->
+                            </div>
+
+                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                            <input type="hidden" name="instructor_id" value="{{ $course->instructor_id }}">
+
+
                            <div class="input-box col-lg-12">
                                <label class="label-text">Message</label>
                                <div class="form-group">
-                                   <textarea class="pl-3 form-control form--control" name="message" placeholder="Write Message" rows="5"></textarea>
+                                   <textarea class="pl-3 form-control form--control" name="comment" placeholder="Write Message" rows="5"></textarea>
                                </div>
                            </div><!-- end input-box -->
                            <div class="btn-box col-lg-12">
-                               <div class="mb-3 custom-control custom-checkbox fs-15">
-                                   <input type="checkbox" class="custom-control-input" id="saveCheckbox" required>
-                                   <label class="custom-control-label custom--control-label" for="saveCheckbox">
-                                       Save my name, and email in this browser for the next time I comment.
-                                   </label>
-                               </div><!-- end custom-control -->
+
                                <button class="btn theme-btn" type="submit">Submit Review</button>
                            </div><!-- end btn-box -->
                        </form>
                    </div><!-- end course-overview-card -->
+                @endguest
+
+
+
+
+
                </div><!-- end course-details-content-wrap -->
            </div><!-- end col-lg-8 -->
             <div class="col-lg-4">
@@ -505,15 +574,15 @@
                                     <span class="mx-1 before-price">${{ $course->selling_price }}</span>
                                     @endif
 
-        
-                                    
+
+
                                     @if ($course->discount_price == NULL)
                                     <div class="course-badge blue">New</div>
                                     @else
-                                    
+
                                     <span class="price-discount">{{ $discount_per }}% off</span>
                                     @endif
-                                   
+
                                 </p>
                                 <p class="preview-price-discount-text pb-35px">
                                     <span class="text-color-3">4 days</span> left at this price!
@@ -527,8 +596,8 @@
                                     <button type="submit" class="mb-2 btn theme-btn w-100 theme-btn-white" onclick="buyThisCourse({{$course->id}},'{{$course->course_name}}','{{$course->instructor_id}}','{{$course->course_name_slug}}')"><i class="mr-1 la la-shopping-bag"></i> Buy this course</button>
 
 
-
-                                    {{-- <div class="mb-2 input-group" id="cuponField">
+{{--
+                                    <div class="mb-2 input-group" id="cuponField">
                                         <input class="pl-3 form-control form--control" type="text" placeholder="Coupon code" id="cupon_name">
                                         <div class="input-group-append">
                                             <input type="hidden" id="course_id" name="course_id" value="{{ $course->id }}">
@@ -545,7 +614,7 @@
 
 
 
-                                
+
                                 <p class="pb-4 text-center fs-14">30-Day Money-Back Guarantee</p>
                                 <div class="preview-course-incentives">
                                     <h3 class="pb-2 card-title fs-18">This course includes</h3>
@@ -592,9 +661,9 @@
                             <ul class="generic-list-item">
                                 @foreach ($categories as $category)
                                 <li><a href="{{ url('category/'.$category->id.'/'.$category->category_slug) }}">{{ $category->category_name }}</a></li>
-                                    
+
                                 @endforeach
-                               
+
                             </ul>
                         </div>
                     </div><!-- end card -->
@@ -603,7 +672,7 @@
                             <h3 class="pb-2 card-title fs-18">Related Courses</h3>
                             <div class="divider"><span></span></div>
                             @foreach ($relatedCourses as $course)
-                                
+
                             @endforeach
                             <div class="pb-4 mb-4 media media-card border-bottom border-bottom-gray">
                                 <a href="{{url('course/details/'.$course->id.'/'.$course->course_name_slug)}}" class="media-img">
@@ -620,13 +689,13 @@
                                     @endif
                                 </div>
                             </div><!-- end media -->
-                           
+
                             <div class="view-all-course-btn-box">
                                 <a href="course-grid.html" class="btn theme-btn w-100">View All Courses <i class="ml-1 la la-arrow-right icon"></i></a>
                             </div>
                         </div>
                     </div><!-- end card -->
-                    <div class="card card-item">
+                    {{-- <div class="card card-item">
                         <div class="card-body">
                             <h3 class="pb-2 card-title fs-18">Course Tags</h3>
                             <div class="divider"><span></span></div>
@@ -642,7 +711,7 @@
                                 <li class="mr-2"><a href="#">Technology</a></li>
                             </ul>
                         </div>
-                    </div><!-- end card -->
+                    </div><!-- end card --> --}}
                 </div><!-- end sidebar -->
             </div><!-- end col-lg-4 -->
         </div><!-- end row -->
@@ -658,7 +727,7 @@
 <section class="related-course-area bg-gray pt-60px pb-60px">
     <div class="container">
         <div class="related-course-wrap">
-            <h3 class="fs-28 font-weight-semi-bold pb-35px">More Courses by <a href="teacher-detail.html" class="text-color hover-underline">{{ $course['user']['name'] }}</a></h3>
+            <h3 class="fs-28 font-weight-semi-bold pb-35px">More Courses by <a href="{{ route('instructor.details',$course->instructor_id) }}" class="text-color hover-underline">{{ $course['user']['name'] }}</a></h3>
             <div class="view-more-carousel-2 owl-action-styled">
                 @foreach ($instructorAllCourses as $course)
                 <div class="card card-item">
@@ -692,15 +761,55 @@
                         <h5 class="card-title"><a href="{{url('course/details/'.$course->id.'/'.$course->course_name_slug)}}">{{ $course->course_name }}</a></h5>
                         <p class="card-text"><a href="teacher-detail.html">{{ $course['user']['name'] }}</a></p>
                         <div class="py-2 rating-wrap d-flex align-items-center">
+
+                                    @php
+                                        $reviewCount = App\Models\Review::where('course_id', $course->id)->where('status', 1)->latest()->get();
+                                        $avarage = App\Models\Review::where('course_id', $course->id)->where('status', 1)->avg('rating');
+                                    @endphp
+
                             <div class="review-stars">
-                                <span class="rating-number">4.4</span>
-                                <span class="la la-star"></span>
-                                <span class="la la-star"></span>
-                                <span class="la la-star"></span>
-                                <span class="la la-star"></span>
-                                <span class="la la-star-o"></span>
+                                <span class="rating-number">{{ round($avarage,1) }}</span>
+                                @if ($avarage == 0)
+                                            <span class="la la-star-o"></span>
+                                            <span class="la la-star-o"></span>
+                                            <span class="la la-star-o"></span>
+                                            <span class="la la-star-o"></span>
+                                            <span class="la la-star-o"></span>
+                                            @elseif ($avarage == 1 || $avarage < 2)
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star-o"></span>
+                                            <span class="la la-star-o"></span>
+                                            <span class="la la-star-o"></span>
+                                            <span class="la la-star-o"></span>
+                                            @elseif ($avarage == 2 || $avarage < 3)
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star-o"></span>
+                                            <span class="la la-star-o"></span>
+                                            <span class="la la-star-o"></span>
+                                            @elseif ($avarage == 3 || $avarage < 4)
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star-o"></span>
+                                            <span class="la la-star-o"></span>
+                                            @elseif ($avarage == 4 || $avarage < 5)
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star-o"></span>
+                                            @elseif ($avarage == 5 || $avarage < 5)
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star"></span>
+                                            <span class="la la-star"></span>
+                                            @endif
                             </div>
-                            <span class="pl-1 rating-total">(20,230)</span>
+
+
+                            <span class="pl-1 rating-total">({{ count( $reviewCount) }} ratings)</span>
                         </div><!-- end rating-wrap -->
                         <div class="d-flex justify-content-between align-items-center">
                             @if ($course->discount_price == NULL)
@@ -713,9 +822,9 @@
                         </div>
                     </div><!-- end card-body -->
                 </div><!-- end card -->
-                    
+
                 @endforeach
-                
+
             </div><!-- end view-more-carousel -->
         </div><!-- end related-course-wrap -->
     </div><!-- end container -->
@@ -747,7 +856,7 @@
             </div><!-- end col-lg-9 -->
             <div class="col-lg-3">
                 <div class="text-right cta-btn-box">
-                    <a href="become-a-teacher.html" class="btn theme-btn">Tech on Aduca <i class="ml-1 la la-arrow-right icon"></i> </a>
+                    <a href="{{ route('become.instructor') }}" class="btn theme-btn">Apply To Become a Teacher <i class="ml-1 la la-arrow-right icon"></i> </a>
                 </div>
             </div><!-- end col-lg-3 -->
         </div><!-- end row -->
@@ -812,7 +921,7 @@
                 <video controls crossorigin playsinline poster="{{ asset($course->course_image) }}" id="player">
                     <!-- Video files -->
                     <source src="{{ asset($course->video) }}" type="video/mp4"/>
-                   
+
                 </video>
             </div><!-- end modal-body -->
         </div><!-- end modal-content -->

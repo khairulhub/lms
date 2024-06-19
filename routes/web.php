@@ -12,6 +12,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\OrdersController;
 use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\Backend\ReviewController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\QuestionController;
@@ -279,6 +280,12 @@ Route::get('/cupon-remove', [CartController::class, 'CuponRemove']);
 Route::get('/checkout', [CartController::class, 'CheckoutCreate'])->name('checkout');
 Route::post('/payment', [CartController::class, 'Payment'])->name('payment');
 Route::post('/stripe/order', [CartController::class, 'StripeOrder'])->name('stripe.order');
+
+
+
+Route::post('/store/review', [ReviewController::class, 'StoreReview'])->name('store.review');
+
+
 
 
 

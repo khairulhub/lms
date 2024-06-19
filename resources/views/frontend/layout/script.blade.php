@@ -324,7 +324,7 @@
 
 
 {{-- start instructor cupon cart page course  --}}
-{{-- 
+
 <script type="text/javascript">
     function applyInsCupon(){
            var cupon_name = $('#cupon_name').val();
@@ -371,7 +371,7 @@
 
        
 
-</script> --}}
+</script>
 
 
 {{-- start apply cupon front  page course  --}}
@@ -502,6 +502,148 @@
         }
         cuponCalculation();
 </script>
+{{-- start apply cupon front  page course  --}}
+{{-- 
+<script type="text/javascript">
+
+    function applyInsCupon(){
+        var cupon_name = $('#cupon_name').val();
+           var course_id = $('#course_id').val();
+           var instructor_id = $('#instructor_id').val();
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               data: {
+                   cupon_name: cupon_name,
+                   course_id:course_id,
+                   instructor_id:instructor_id,
+               },
+               url: "/instructor-apply-cupon",
+               success: function(data) {
+                   cuponCalculation(); // Recalculate totals after applying the coupon
+                   addToMiniCart();
+                   myCart();
+                   if (data.validity == true) {
+                       $('#cuponField').hide();
+                   }
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    if (data.success) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.success
+                        });
+                        cuponCalculation(); // Recalculate totals after applying the coupon
+                    } else if (data.error) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.error
+                        });
+                    }
+                }
+            });
+        }
+
+
+
+
+
+        //start cupon calculation 
+
+        function cuponCalculation(){
+            $.ajax({
+                type: 'GET',
+                url: "/cupon-calculation",
+                dataType: 'json',
+
+                success:function(data){
+                    // console.log(data);
+
+                    if(data.total){
+                        $('#cuponCalField').html(`<h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>
+                        <div class="divider"><span></span></div>
+                        <ul class="pb-4 generic-list-item">
+                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                            <span class="text-black">Subtotal: </span>
+                            <div class="d-flex align-items-center font-weight-semi-bold">
+                                <span class="m-1">$ </span>
+                                <span >${data.total}</span>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                            <span class="text-black">Total: </span>
+                            <div class="d-flex align-items-center font-weight-semi-bold">
+                                <span class="m-1">$ </span>
+                                <span >${data.total}</span>
+                            </div>
+                        </li>
+                        </ul>
+
+                        
+                    
+                            
+                            `
+                        )
+                    } 
+                    else{ 
+                        $('#cuponCalField').html(`<h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>
+                        <div class="divider"><span></span></div>
+                        <ul class="pb-4 generic-list-item">
+                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                            <span class="text-black">Subtotal: </span>
+                            <div class="d-flex align-items-center font-weight-semi-bold">
+                                <span class="m-1">$ </span>
+                                <span >${data.subtotal}</span>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                            <span class="text-black">Coupon Name: </span>
+                            <div class="d-flex align-items-center font-weight-semi-bold">
+                                <span class="m-1"></span>
+                                <span >${data.cupon_name} <button type="button" class="border-0 shadow-sm icon-element icon-element-xs" data-toggle="tooltip"  onclick="removeCupon()">
+                                <i class="la la-times"></i>
+                            </button></span>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                            <span class="text-black">Discount Price: </span>
+                            <div class="d-flex align-items-center font-weight-semi-bold">
+                                <span >${data.cupon_discount}</span>
+                                <span class="m-1">% </span>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                            <span class="text-black">Grand Total: </span>
+                            <div class="d-flex align-items-center font-weight-semi-bold">
+                                <span class="m-1">$ </span>
+                                <span >${data.total_amount}</span>
+                            </div>
+                        </li>
+                        </ul> 
+
+                        
+                    
+                            `
+                        );
+                    }
+                    
+                }
+            })
+        }
+        cuponCalculation();
+</script> --}}
+
+
+
+
+
+
+
 
 {{-- end my cart page course  --}}
 

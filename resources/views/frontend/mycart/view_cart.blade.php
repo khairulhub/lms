@@ -60,7 +60,8 @@
                     <div class="mb-2 input-group" id="cuponField">
                         <input class="pl-3 form-control form--control" type="text" placeholder="Coupon code" id="cupon_name">
                         <div class="input-group-append">
-                            <a class="btn theme-btn" type="submit" onclick="applyCupon()">Apply Code</a>
+                            
+                            <a class="btn theme-btn" type="submit" onclick="applyCupon() ">Apply Code</a>
                         </div>
                     </div>
                 </form>
