@@ -9,6 +9,7 @@ use App\Http\Controllers\InstructorController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\Backend\CuponController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Backend\ActiveController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\OrdersController;
 use App\Http\Controllers\Backend\ReportController;
@@ -112,7 +113,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 
 
-    // all instructor route
+    // all review route
     Route::controller(ReviewController::class)->group(function(){
         Route::get('/admin/pending/review','AdminPendingReview')->name('admin.pending.review');
         Route::post('/update/review/status','UpdateReviewStatus')->name('update.review.status');
@@ -146,23 +147,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 
 
-    // // admin  all course order route
-    // Route::controller(ReviewController::class)->group(function(){
-    //     Route::get('/admin/pending/review','AdminPendingReview')->name('admin.pending.review');
-    //     // Route::get('admin/order/details/{payment_id}','AdminOrderDetails')->name('admin.order.details');
-    //     // Route::get('/admin/pending/confirm/{id}','AdminPendingConfirm')->name('pending-confirm');
-    //     // Route::get('/admin/confirm/order','AdminConfirmOrder')->name('admin.confirm.order');
-    // });
-
-
-
-
     // admin  all  Report route
     Route::controller(ReportController::class)->group(function(){
         Route::get('/admin/all/report/view','AllReportView')->name('admin.all.report.view');
          Route::post('/admin/search/by/date','AdminSearchByDate')->name('admin.search.by.date');
          Route::post('/admin/search/by/month','AdminSearchByMonth')->name('admin.search.by.month');
          Route::post('/admin/search/by/year','AdminSearchByYear')->name('admin.search.by.year');
+    });
+
+    // admin  all  user and instructor route
+    Route::controller(ActiveController::class)->group(function(){
+        Route::get('/admin/all/users','AllUsers')->name('admin.all.users');
+        Route::get('/admin/all/instructor','AllInstructor')->name('admin.all.instructor');
     });
 
 
@@ -259,6 +255,14 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
         Route::get('/instructor/delete/cupon/{id}','InstructorDeleteCupon')->name('instructor.delete.cupon');
 
     });
+
+
+     // all review route
+     Route::controller(ReviewController::class)->group(function(){
+        Route::get('/instructor/all/review','InstructorAllReview')->name('instructor.all.review');
+
+    });
+
 
 
 

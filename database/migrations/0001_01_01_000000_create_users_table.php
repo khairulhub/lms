@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('youtube')->nullable();
             $table->enum('role', ['admin', 'instructor', 'user'])->default('user');
             $table->enum('status', ['1', '0'])->default('1')->comment('1 for active and 0 for inactive');
+            $table->string('last_seen')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
