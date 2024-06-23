@@ -140,7 +140,7 @@ $categories = App\Models\Category::orderBy('category_name', 'ASC')->get();
                                     </li>
 
                                     <li>
-                                        <a href="#">blog </a>
+                                        <a href="{{ url('view/all/posts') }}">blog </a>
 
                                     </li>
                                 </ul><!-- end ul -->

@@ -139,6 +139,7 @@ by using toggle button take the value inactive and active
   -- teacher details page route -- {{ route('instructor.details',$course->instructor_id) }}
   -- course details url -- {{url('course/details/'.$course->id.'/'.$course->course_name_slug)}}
  -- wishlist  --   id="{{$course->id}}" onclick="addToWishList(this.id)"
+ -- blog post details url -- {{url('blog/details/'.$item->post_slug)}}
 
 
 

@@ -18,6 +18,7 @@ use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Frontend\WishListController;
+use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\SmtpSettingController;
 
 
@@ -159,6 +160,24 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(ActiveController::class)->group(function(){
         Route::get('/admin/all/users','AllUsers')->name('admin.all.users');
         Route::get('/admin/all/instructor','AllInstructor')->name('admin.all.instructor');
+    });
+
+    // admin manage  all  blog related category  route
+    Route::controller(BlogController::class)->group(function(){
+        Route::get('/blog/category','AllBlogCategory')->name('blog.category');
+        Route::post('/blog/category/store','BlogCategoryStore')->name('blog.category.store');
+        Route::get('/edit/blog/category/{id}','EditBlogCategory');
+        Route::post('/blog/category/update','BlogCategoryUpdate')->name('blog.category.update');
+        Route::get('/blog/category/delete/{id}','DeleteCategoryUpdate')->name('delete.blog.category');
+    });
+    // admin manage  all  blog post  related   route
+    Route::controller(BlogController::class)->group(function(){
+        Route::get('/blog/posts','AllBlogPost')->name('blog.posts');
+        Route::get('/add/blog/post','AddBlogPost')->name('add.blog.post');
+        Route::post('/store/blog/post','StoreBlogPost')->name('store.blog.post');
+        Route::get('/edit/blog/post/{id}','EditBlogPost')->name('edit.blog.post');
+        Route::post('/update/blog/post','UpdateBlogPost')->name('update.blog.post');
+        Route::get('/delete/blog/post/{id}','DeleteBlogPost')->name('delete.blog.post');
     });
 
 
@@ -305,6 +324,13 @@ Route::post('/stripe/order', [CartController::class, 'StripeOrder'])->name('stri
 
 
 Route::post('/store/review', [ReviewController::class, 'StoreReview'])->name('store.review');
+
+
+
+
+Route::get('/blog/details/{slug}', [BlogController::class, 'BlogDetailsPage']);
+Route::get('/blog/category/list/{id}', [BlogController::class, 'BlogCategoryList']);
+Route::get('/view/all/posts', [BlogController::class, 'ViewAllPosts']);
 
 
 

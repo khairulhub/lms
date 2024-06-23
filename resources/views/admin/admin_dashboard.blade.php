@@ -25,6 +25,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link href="{{ asset('/backend/assets/css/app.css') }} " rel="stylesheet">
     <link href="{{ asset('/backend/assets/css/icons.css') }} " rel="stylesheet">
+
+    <link href="{{ asset('/backend/assets/plugins/input-tags/css/tagsinput.css') }}" rel="stylesheet" />
     <!-- Theme Style CSS -->
     <link rel="stylesheet" href="{{ asset('/backend/assets/css/dark-theme.css') }} " />
     <link rel="stylesheet" href="{{ asset('/backend/assets/css/semi-dark.css') }} " />
@@ -33,7 +35,18 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 
 
-
+<!-- include summernote css/js -->
+{{-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> --}}
+<!-- include summernote css/js-->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<style>
+    .panel-heading{
+        height: 50px !important;
+    }
+    .note-toolbar{
+        height: 50px !important;
+    }
+</style>
 
 
     <title>Admin Dashboard</title>
@@ -79,6 +92,7 @@
     <script src="{{ asset('backend/assets/plugins/chartjs/js/chart.js') }} "></script>
     <script src="{{ asset('backend/assets/js/index.js') }} "></script>
     <script src="{{ asset('backend/assets/js/validate.min.js') }} "></script>
+    <script src="{{ asset('backend/assets/plugins/input-tags/js/tagsinput.js') }}"></script>
     <!--app JS-->
     <script src="{{ asset('backend/assets/js/app.js') }} "></script>
     <script>
@@ -146,6 +160,17 @@
     }
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('#summernote').summernote({
+        placeholder: 'Write Message',
+        tabsize: 1,
+        height: 250
+
+    });
+  });
+</script>
 </body>
 
 </html>
