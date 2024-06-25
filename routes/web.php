@@ -320,6 +320,8 @@ Route::get('/cupon-remove', [CartController::class, 'CuponRemove']);
 Route::get('/checkout', [CartController::class, 'CheckoutCreate'])->name('checkout');
 Route::post('/payment', [CartController::class, 'Payment'])->name('payment');
 Route::post('/stripe/order', [CartController::class, 'StripeOrder'])->name('stripe.order');
+Route::post('/mark-notification-as-read/{id}', [CartController::class, 'MarkRead']);
+Route::post('/mark-notification-as-read/admin/{id}', [CartController::class, 'MarkReadAdmin']);
 
 
 
@@ -330,7 +332,7 @@ Route::post('/store/review', [ReviewController::class, 'StoreReview'])->name('st
 
 Route::get('/blog/details/{slug}', [BlogController::class, 'BlogDetailsPage']);
 Route::get('/blog/category/list/{id}', [BlogController::class, 'BlogCategoryList']);
-Route::get('/view/all/posts', [BlogController::class, 'ViewAllPosts']);
+Route::post('/view/all/posts', [BlogController::class, 'ViewAllPosts']);
 
 
 

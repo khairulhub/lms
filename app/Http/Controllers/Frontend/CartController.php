@@ -8,6 +8,9 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Cupon;
 
+use App\Notifications\OrderComplete;
+use Illuminate\Support\Facades\Notification;
+
 use App\Models\Course;
 use App\Models\Category;
 use App\Models\WishList;
@@ -261,6 +264,7 @@ class CartController extends Controller
 
 
     public function Payment(Request $request){
+        $user = User::where('role','instructor')->get();
         if (Session::has('cupon'))
         {
             $total_amount = Session::get('cupon')['total_amount'];
@@ -349,7 +353,14 @@ class CartController extends Controller
             'name' => $sendmail->name,
             'email' => $sendmail->email,
         ];
+
+
+
         Mail::to($request->email)->send(new Orderconfirm($data));
+
+
+        //send notification 
+        Notification::send($user, new OrderComplete($request->name));
 
 
         //end email sending option
@@ -476,6 +487,31 @@ class CartController extends Controller
 
         return response()->json(['success'=> 'The course successfully added to your cart']);
     }//end method AddToCart
+
+
+    public function MarkRead(Request $request, $id) {
+        $user = Auth::user();
+        $notification = $user->notifications()->where('id', $id)->first();
+    
+        if ($notification) {
+            $notification->markAsRead();
+        }
+        
+        return response()->json(['count' => $user->unreadNotifications->count()]);
+    }
+    
+
+
+    public function MarkReadAdmin(Request $request, $id){
+        $user = Auth::user();
+        $notification = $user->notifications()->where('id', $id)->first();
+    
+        if ($notification) {
+            $notification->markAsRead();
+        }
+        
+        return response()->json(['count' => $user->unreadNotifications->count()]);
+    }//end method
 
     
 

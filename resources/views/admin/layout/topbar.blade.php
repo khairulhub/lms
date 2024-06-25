@@ -67,27 +67,26 @@
 
                     <li class="nav-item dropdown dropdown-large">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#"
-                            data-bs-toggle="dropdown"><span class="alert-count">7</span>
+                            data-bs-toggle="dropdown"><span class="alert-count" id="notification-count">{{$ncount}}</span>
                             <i class='bx bx-bell'></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <a href="javascript:;">
                                 <div class="msg-header">
                                     <p class="msg-header-title">Notifications</p>
-                                    <p class="msg-header-badge">8 New</p>
+                                    
                                 </div>
                             </a>
                             <div class="header-notifications-list">
-                                <a class="dropdown-item" href="javascript:;">
+                                <a class="dropdown-item" href="javascript:;" onclick="markNotificationReadAdmin('{{ $notification->id }}')">
                                     <div class="d-flex align-items-center">
                                         <div class="user-online">
                                             <img src="assets/images/avatars/avatar-1.png" class="msg-avatar"
                                                 alt="user avatar">
                                         </div>
                                         <div class="flex-grow-1">
-                                            <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec
-                                                    ago</span></h6>
-                                            <p class="msg-info">The standard chunk of lorem</p>
+                                            <h6 class="msg-name">New Notification<span class="msg-time float-end">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</span></h6>
+                                            <p class="msg-info">{{$notification->data['message']}}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -442,3 +441,29 @@
         </nav>
     </div>
 </header>
+<script>
+    function markNotificationReadAdmin(id) {
+        fetch('/mark-notification-as-read/' + id, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => response.text())  // Change to text to log the response
+        .then(data => {
+            console.log(data);  // Log the response
+            try {
+                const jsonData = JSON.parse(data);
+                document.getElementById('notification-count').textContent = jsonData.count;
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+</script>
+
