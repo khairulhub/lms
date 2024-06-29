@@ -18,7 +18,7 @@
                 <div class="menu-title">Dashboard</div>
             </a>
         </li>
-
+{{-- ================================= Manage Category ================================--}}
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
@@ -38,7 +38,7 @@
 
             </ul>
         </li>
-
+{{-- ================================= Manage INstructor ================================--}}
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
@@ -51,7 +51,7 @@
 
             </ul>
         </li>
-
+{{-- ================================= Manage Course ================================--}}
 
         <li>
             <a href="javascript:;" class="has-arrow">
@@ -65,7 +65,7 @@
 
             </ul>
         </li>
-
+{{-- ================================= Manage Cupon ================================--}}
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
@@ -78,7 +78,7 @@
 
             </ul>
         </li>
-
+{{-- ================================= Manage Order ================================--}}
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
@@ -93,6 +93,7 @@
 
             </ul>
         </li>
+        {{-- ================================= Manage Report ================================--}}
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
@@ -106,6 +107,7 @@
 
             </ul>
         </li>
+        {{-- ================================= Manage Review ================================--}}
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
@@ -121,6 +123,7 @@
 
             </ul>
         </li>
+        {{-- ================================= Manage User ================================--}}
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
@@ -136,6 +139,7 @@
 
             </ul>
         </li>
+        {{-- ================================= Manage Blogs ================================--}}
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
@@ -151,6 +155,7 @@
 
             </ul>
         </li>
+        {{-- ================================= Manage Settings ================================--}}
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
@@ -159,7 +164,30 @@
             </a>
             <ul>
 
+                <li> <a href="{{ route('admin.frontend.sitesettings') }}"><i class='bx bx-radio-circle'></i>Site Settings</a>
+                </li>
+
                 <li> <a href="{{ route('admin.all.smtp') }}"><i class='bx bx-radio-circle'></i>All Smtp</a>
+                </li>
+
+            </ul>
+        </li>
+        {{-- ================================= Manage Role & permission ================================--}}
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-category"></i>
+                </div>
+                <div class="menu-title">Manage Role & Permission</div>
+            </a>
+            <ul>
+
+                <li> <a href="{{ route('admin.all.permission') }}"><i class='bx bx-radio-circle'></i>All Permissions</a>
+                </li>
+
+                <li> <a href="{{ route('admin.all.role') }}"><i class='bx bx-radio-circle'></i>All Role</a>
+                </li>
+
+                <li> <a href="{{ route('admin.role.permission') }}"><i class='bx bx-radio-circle'></i>Role In Permission</a>
                 </li>
 
             </ul>

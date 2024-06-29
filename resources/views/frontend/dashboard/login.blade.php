@@ -1,5 +1,8 @@
 @extends('frontend.master')
 @section('home')
+@section('title')
+Login | Code Tree
+@endsection
     <!-- ================================
                         START BREADCRUMB AREA
                     ================================= -->

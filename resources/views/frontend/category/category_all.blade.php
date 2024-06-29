@@ -1,6 +1,8 @@
 @extends('frontend.master')
 @section('home')
-
+@section('title')
+{{ $category->category_name }} | Code Tree
+@endsection
 <!-- ================================
     START BREADCRUMB AREA
 ================================= -->
@@ -14,7 +16,7 @@
             <ul class="flex-wrap generic-list-item generic-list-item-white generic-list-item-arrow d-flex align-items-center">
                 <li><a href="{{ url('/') }}">Home</a></li>
                 <li>{{ $category->category_name }}</li>
-                
+
             </ul>
         </div><!-- end breadcrumb-content -->
     </div><!-- end container -->
@@ -73,9 +75,9 @@
                             <ul class="generic-list-item">
                                 @foreach ($categories as $category)
                                 <li><a href="{{ url('category/'.$category->id.'/'.$category->category_slug) }}">{{ $category->category_name }}</a></li>
-                                    
+
                                 @endforeach
-                               
+
                             </ul>
                         </div>
                     </div><!-- end card -->
@@ -227,7 +229,7 @@
                             </a>
                         </div>
                     </div><!-- end card -->
-                    
+
                     <div class="card card-item">
                         <div class="card-body">
                             <h3 class="pb-2 card-title fs-18">Level</h3>
@@ -258,7 +260,7 @@
                             </div><!-- end custom-control -->
                         </div>
                     </div><!-- end card -->
-                  
+
                     <div class="card card-item">
                         <div class="card-body">
                             <h3 class="pb-2 card-title fs-18">By Cost</h3>
@@ -283,15 +285,15 @@
                             </div><!-- end custom-control -->
                         </div>
                     </div><!-- end card -->
-                   
-                    
+
+
                 </div><!-- end sidebar -->
             </div><!-- end col-lg-4 -->
             <div class="col-lg-8">
                 <div class="row">
 
                     @foreach ($courses as $course)
-                  
+
                     <div class="col-lg-6 responsive-column-half">
                         <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_1">
                             <div class="card-image">
@@ -311,7 +313,7 @@
                                         <div class="course-badge">Featured</div>
                                         @else
                                         @endif
-                                    
+
                                         @php
                                         $discount = $course->selling_price - $course->discount_price;
                                         $discount_per = round($discount / $course->selling_price * 100);
@@ -347,7 +349,7 @@
                                     <p class="text-black card-price font-weight-bold">${{ $course->discount_price }} <span
                                      class="before-price font-weight-medium">${{ $course->selling_price }}</span></p>
                                     @endif
-                                    
+
                                     <div class="shadow-sm cursor-pointer icon-element icon-element-sm" title="Add to Wishlist" id="{{$course->id}}" onclick="addToWishList(this.id)"><i class="la la-heart-o"></i></div>
                                 </div>
                             </div><!-- end card-body -->

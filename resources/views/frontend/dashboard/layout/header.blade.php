@@ -1,3 +1,4 @@
+
 <header class="header-menu-area">
     <div class="bg-white shadow-sm header-menu-content dashboard-menu-content pr-30px pl-30px">
         <div class="container-fluid">
@@ -27,8 +28,8 @@
                             </form>
                             <div class="nav-right-button d-flex align-items-center">
                                 <div class="user-action-wrap d-flex align-items-center">
-                                   
-                            
+
+
                                     <div class="pr-3 mr-3 shop-cart wishlist-cart border-right border-right-gray">
                                         <ul>
                                             <li>
@@ -169,9 +170,9 @@
                                                     </li>
                                                     <li>
                                                         <ul class="generic-list-item">
-                                                            
-                                                            
-                                                           
+
+
+
                                                             <li><div class="section-block"></div></li>
                                                             <li>
                                                                 <a href="dashboard-settings.html">

@@ -1,6 +1,8 @@
 @extends('frontend.master')
 @section('home')
-
+@section('title')
+{{ $post->post_title }} | Code Tree
+@endsection
 
 <!-- ================================
     START BREADCRUMB AREA
@@ -39,17 +41,17 @@
                 <div class="card card-item">
                     <div class="card-body">
                         <p class="card-text pb-3">{!! $post->long_description !!}</p>
-                        
-                        
+
+
                         <div class="section-block"></div>
                         <h3 class="fs-18 font-weight-semi-bold pt-3">Tags</h3>
                         <div class="d-flex flex-wrap justify-content-between align-items-center pt-3">
                             <ul class="generic-list-item generic-list-item-boxed d-flex flex-wrap fs-15">
                                 @foreach ($tag as $item)
-                                    
+
                                 <li class="mr-2"><a href="#">{{ ucwords($item) }}</a></li>
                                 @endforeach
-                                
+
                             </ul>
                             <div class="share-wrap">
                                 <ul class="social-icons social-icons-styled">
@@ -198,7 +200,7 @@
                         </div>
                     </div><!-- end card -->
 
-        
+
 
 
 
@@ -208,10 +210,10 @@
                             <div class="divider"><span></span></div>
                             <ul class="generic-list-item">
                                 @foreach ($blogCategory as $item)
-                                    
+
                                 <li><a href="{{ url('blog/category/list/'.$item->id) }}">{{ $item->category_name }}</a></li>
                                 @endforeach
-                                
+
                             </ul>
                         </div>
                     </div><!-- end card -->
@@ -221,8 +223,8 @@
                             <div class="divider"><span></span></div>
 
                             @foreach ($postblog as $detailsPost)
-                                
-                           
+
+
                             <div class="media media-card border-bottom border-bottom-gray pb-4 mb-4">
                                 <a href="{{url('blog/details/'.$detailsPost->post_slug)}}" class="media-img">
                                     <img class="mr-3" src="{{ asset($detailsPost->post_image) }}" alt="Related course image">
@@ -230,7 +232,7 @@
                                 <div class="media-body">
                                     <h5 class="fs-15"><a href="{{url('blog/details/'.$detailsPost->post_slug)}}">{{ $detailsPost->post_title }}</a></h5>
                                     <span class="d-block lh-18 py-1 fs-14">Admin</span>
-                                    
+
                                 </div>
                             </div><!-- end media -->
                             @endforeach
@@ -261,7 +263,7 @@
                             </form>
                         </div>
                     </div><!-- end card -->
-                 
+
                     <div class="card card-item">
                         <div class="card-body">
                             <h3 class="card-title fs-18 pb-2">Connect & Follow</h3>

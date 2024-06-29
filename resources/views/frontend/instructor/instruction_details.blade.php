@@ -1,5 +1,8 @@
 @extends('frontend.master')
 @section('home')
+@section('title')
+{{ $instructor->name }}Details | Code Tree
+@endsection
 
 
 <!-- ================================
@@ -294,7 +297,7 @@
         <div class="row pt-30px">
 
 @foreach ($courses as $course)
-    
+
 
             <div class="col-lg-4 responsive-column-half">
                 <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_1{{$course->id}}">
@@ -394,7 +397,7 @@
 
 
 @foreach ($courses as $course)
-    
+
 
 <div class="tooltip_templates">
     <div id="tooltip_content_1{{ $course->id }}">

@@ -1,6 +1,15 @@
+@php
+    $setting = App\Models\SiteSetting::find(1);
+    $currencySymbol = $setting->currency; // Replace 'currency_symbol' with the actual field name in your database
+@endphp
+
+
+
 {{--  wishlist work start  --}}
 
 <script type="text/javascript">
+var currencySymbol = "{{ $currencySymbol }}"; // Pass the PHP variable to JavaScript
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -62,6 +71,7 @@
 
 
 <script type="text/javascript">
+
    function wishlist(){
     $.ajax({
         type: 'GET',
@@ -89,7 +99,7 @@
                     <div class="d-flex justify-content-between align-items-center">
 
 
-                        ${value.course.discount_price == null ? `<p class="text-black card-price font-weight-bold">$${value.course.discount_price}</p>` : `<p class="text-black card-price font-weight-bold">$${value.course.discount_price} <span class="before-price font-weight-medium">$${value.course.selling_price}</span></p>` }
+                        ${value.course.discount_price == null ? `<p class="text-black card-price font-weight-bold">${currencySymbol}${value.course.discount_price}</p>` : `<p class="text-black card-price font-weight-bold">${currencySymbol}${value.course.discount_price} <span class="before-price font-weight-medium">${currencySymbol}${value.course.selling_price}</span></p>` }
                         <div class="shadow-sm cursor-pointer icon-element icon-element-sm" data-toggle="tooltip" data-placement="top" title="Remove from Wishlist" id="${value.id}" onclick="removeWishList(this.id)"><i class="la la-heart"></i></div>
                     </div>
                 </div>
@@ -198,7 +208,7 @@
                             <div class="media-body">
                                 <h5><a href="/course/details/${value.id}/${value.options.slug}">${value.name}</a></h5>
                                 <div class="d-flex justify-content-between">
-                                    <span class="d-block fs-14">$${value.price}</span>
+                                    <span class="d-block fs-14">${currencySymbol}${value.price}</span>
                                 <a type="submit" id="${ value.rowId }" onclick="miniCartRemove(this.id)"><i class="la la-times"></i></a>
                                 </div>
                             </div>
@@ -269,7 +279,7 @@
                         </td>
                         <td>
                             <ul class="generic-list-item font-weight-semi-bold">
-                                <li class="text-black lh-18">$${value.price}</li>
+                                <li class="text-black lh-18">${currencySymbol}${value.price}</li>
                             </ul>
                         </td>
                         <td>
@@ -358,7 +368,7 @@
                            icon: 'success',
                            title: data.success
                        });
-                       
+
                    } else if (data.error) {
                        Toast.fire({
                            icon: 'error',
@@ -369,7 +379,7 @@
            })
        }
 
-       
+
 
 </script>
 
@@ -418,7 +428,7 @@
 
 
 
-        //start cupon calculation 
+        //start cupon calculation
 
         function cuponCalculation(){
             $.ajax({
@@ -436,33 +446,33 @@
                         <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                             <span class="text-black">Subtotal: </span>
                             <div class="d-flex align-items-center font-weight-semi-bold">
-                                <span class="m-1">$ </span>
+                                <span class="m-1">${currencySymbol} </span>
                                 <span >${data.total}</span>
                             </div>
                         </li>
                         <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                             <span class="text-black">Total: </span>
                             <div class="d-flex align-items-center font-weight-semi-bold">
-                                <span class="m-1">$ </span>
+                                <span class="m-1">${currencySymbol} </span>
                                 <span >${data.total}</span>
                             </div>
                         </li>
                         </ul>
 
-                        
-                    
-                            
+
+
+
                             `
                         )
-                    } 
-                    else{ 
+                    }
+                    else{
                         $('#cuponCalField').html(`<h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>
                         <div class="divider"><span></span></div>
                         <ul class="pb-4 generic-list-item">
                         <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                             <span class="text-black">Subtotal: </span>
                             <div class="d-flex align-items-center font-weight-semi-bold">
-                                <span class="m-1">$ </span>
+                                <span class="m-1">${currencySymbol} </span>
                                 <span >${data.subtotal}</span>
                             </div>
                         </li>
@@ -485,25 +495,25 @@
                         <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                             <span class="text-black">Grand Total: </span>
                             <div class="d-flex align-items-center font-weight-semi-bold">
-                                <span class="m-1">$ </span>
+                                <span class="m-1">${currencySymbol} </span>
                                 <span >${data.total_amount}</span>
                             </div>
                         </li>
-                        </ul> 
+                        </ul>
 
-                        
-                    
+
+
                             `
                         );
                     }
-                    
+
                 }
             })
         }
         cuponCalculation();
 </script>
 {{-- start apply cupon front  page course  --}}
-{{-- 
+{{--
 <script type="text/javascript">
 
     function applyInsCupon(){
@@ -553,7 +563,7 @@
 
 
 
-        //start cupon calculation 
+        //start cupon calculation
 
         function cuponCalculation(){
             $.ajax({
@@ -584,13 +594,13 @@
                         </li>
                         </ul>
 
-                        
-                    
-                            
+
+
+
                             `
                         )
-                    } 
-                    else{ 
+                    }
+                    else{
                         $('#cuponCalField').html(`<h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>
                         <div class="divider"><span></span></div>
                         <ul class="pb-4 generic-list-item">
@@ -624,14 +634,14 @@
                                 <span >${data.total_amount}</span>
                             </div>
                         </li>
-                        </ul> 
+                        </ul>
 
-                        
-                    
+
+
                             `
                         );
                     }
-                    
+
                 }
             })
         }
@@ -725,7 +735,7 @@
                         icon: 'success',
                         title: data.success
                     });
-                    //redirect to the checkout page 
+                    //redirect to the checkout page
                     window.location.href = '/checkout';
                 } else if (data.error) {
                     Toast.fire({

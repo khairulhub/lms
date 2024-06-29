@@ -43,22 +43,23 @@
 
 </head>
 <body>
+    @php
+    $setting = App\Models\SiteSetting::find(1);
+    @endphp
 
   <table width="100%" style="background: #F7F7F7; padding:0 20px 0 20px;">
     <tr>
         <td valign="top">
-          <!-- {{-- <img src="" alt="" width="150"/> --}} -->
-          <h2 style="color: green; font-size: 26px;"><strong>Code Tree</strong></h2>
+         <img src="{{ $setting->logo }}" alt="" width="150"/>
+          {{-- <h2 style="color: green; font-size: 26px;"><strong>Code Tree</strong></h2> --}}
         </td>
         <td align="right">
-            <pre class="font" >
-               Code Tree 
-               Email:support@codetreelearningbd.com <br>
-               Mob: +8801788468527 <br>
-               House: 77, Level: 10, Road: 13, Uttara 10, <br>
-               Dhaka-1230, Bangladesh
-              
-            </pre>
+            <div class="font" >
+               <p>Email:{{ $setting->email }} </p>
+               <p>Mob: +88{{ $setting->phone }}  </p>
+               <p>House: {{ $setting->address }}</p>
+
+            </div>
         </td>
     </tr>
 
@@ -74,9 +75,9 @@
            <strong>Name:</strong> {{ $payment->name }} <br>
            <strong>Email:</strong> {{ $payment->email }} <br>
            <strong>Phone:</strong> {{ $payment->phone }} <br>
-            
+
            <strong>Address:</strong> {{ $payment->address }} <br>
-           
+
          </p>
         </td>
         <td>
@@ -101,14 +102,14 @@
         <th>Category Name</th>
         <th>Instructor Name</th>
         <th>Course Price </th>
-        
+
       </tr>
     </thead>
     <tbody>
 
      @foreach ($orderItem as $item)
-         
-     
+
+
       <tr class="font">
         <td align="center">
             <img src="{{ public_path($item->course->course_image) }}" height="60px;" width="60px;" alt="">
@@ -117,10 +118,10 @@
         <td align="center">{{ $item->course->category->category_name }}</td>
         <td align="center">{{ $item->instructor->name }}</td>
         <td align="center">${{ $item->price }}</td>
-        
+
       </tr>
       @endforeach
-      
+
     </tbody>
   </table>
   <br>
@@ -129,14 +130,14 @@
         <td align="right" >
             <h2><span style="color: green;">Subtotal:</span> {{ $payment->total_amount }}</h2>
             <h2><span style="color: green;">Total:</span> {{ $payment->total_amount }}</h2>
-           
+
         </td>
     </tr>
   </table>
-  <div class="thanks mt-3">
+  <div class="mt-3 thanks">
     <p>Thanks For Buying Course..!!</p>
   </div>
-  <div class="authority float-right mt-5">
+  <div class="float-right mt-5 authority">
       <p>-----------------------------------</p>
       <h5>Authority Signature:</h5>
     </div>

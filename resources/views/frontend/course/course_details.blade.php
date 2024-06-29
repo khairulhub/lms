@@ -1,6 +1,15 @@
 @extends('frontend.master')
 @section('home')
 
+@section('title')
+{{ $course->course_name }} | Code Tree
+@endsection
+
+{{-- php blog for change the currency symbol.... --}}
+@php
+    $setting = App\Models\SiteSetting::find(1);
+@endphp
+
 <!-- ================================
     START BREADCRUMB AREA
 ================================= -->
@@ -567,11 +576,11 @@
                             <div class="preview-course-feature-content pt-40px">
                                 <p class="pb-2 d-flex align-items-center">
                                     @if ($course->discount_price == NULL)
-                                    <p class="text-black card-price font-weight-bold">${{ $course->selling_price }}</p>
-                                    <span class="mx-1 before-price">${{ $course->selling_price }}</span>
+                                    <p class="text-black card-price font-weight-bold">{{ $setting->currency }}{{ $course->selling_price }}</p>
+                                    <span class="mx-1 before-price">{{ $setting->currency }}{{ $course->selling_price }}</span>
                                     @else
-                                    <span class="text-black fs-35 font-weight-semi-bold">${{ $course->discount_price }}</span>
-                                    <span class="mx-1 before-price">${{ $course->selling_price }}</span>
+                                    <span class="text-black fs-35 font-weight-semi-bold">{{ $setting->currency }}{{ $course->discount_price }}</span>
+                                    <span class="mx-1 before-price">{{ $setting->currency }}{{ $course->selling_price }}</span>
                                     @endif
 
 
@@ -682,10 +691,10 @@
                                     <h5 class="fs-15"><a href="{{url('course/details/'.$course->id.'/'.$course->course_name_slug)}}">{{ $course->course_name }}</a></h5>
                                     <span class="py-1 d-block lh-18 fs-14">{{ $course['user']['name'] }}</span>
                                     @if ($course->discount_price == NULL)
-                                    <p class="text-black card-price font-weight-bold">${{ $course->selling_price }}</p>
+                                    <p class="text-black card-price font-weight-bold">{{ $setting->currency }}{{ $course->selling_price }}</p>
                                     @else
-                                    <p class="text-black card-price font-weight-bold">${{ $course->discount_price }} <span
-                                     class="before-price font-weight-medium">${{ $course->selling_price }}</span></p>
+                                    <p class="text-black card-price font-weight-bold">{{ $setting->currency }}{{ $course->discount_price }} <span
+                                     class="before-price font-weight-medium">{{ $setting->currency }}{{ $course->selling_price }}</span></p>
                                     @endif
                                 </div>
                             </div><!-- end media -->
@@ -813,10 +822,10 @@
                         </div><!-- end rating-wrap -->
                         <div class="d-flex justify-content-between align-items-center">
                             @if ($course->discount_price == NULL)
-                            <p class="text-black card-price font-weight-bold">${{ $course->selling_price }}</p>
+                            <p class="text-black card-price font-weight-bold">{{ $setting->currency }}{{ $course->selling_price }}</p>
                             @else
-                            <p class="text-black card-price font-weight-bold">${{ $course->discount_price }} <span
-                             class="before-price font-weight-medium">${{ $course->selling_price }}</span></p>
+                            <p class="text-black card-price font-weight-bold">{{ $setting->currency }}{{ $course->discount_price }} <span
+                             class="before-price font-weight-medium">{{ $setting->currency }}{{ $course->selling_price }}</span></p>
                             @endif
                             <div class="shadow-sm cursor-pointer icon-element icon-element-sm" title="Add to Wishlist"><i class="la la-heart-o"></i></div>
                         </div>

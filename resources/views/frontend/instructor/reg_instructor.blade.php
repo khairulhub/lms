@@ -1,7 +1,9 @@
 @extends('frontend.master')
 @section('home')
 
-
+@section('title')
+Become a Instructor| Code Tree
+@endsection
 
 
 <!-- ================================
@@ -342,7 +344,7 @@
                                 @enderror
                                 </div>
                             </div><!-- end input-box -->
-                     
+
                             <div class="input-box col-lg-6">
                                 <label class="label-text">Email Address</label>
                                 <div class="form-group">
@@ -353,7 +355,7 @@
                                 @enderror
                                 </div>
                             </div><!-- end input-box -->
-                              
+
                             <div class="input-box col-lg-6">
                                 <label class="label-text">Phone Number</label>
                                 <div class="form-group">
@@ -374,8 +376,8 @@
                                 @enderror
                                 </div>
                             </div><!-- end input-box -->
-                      
-                       
+
+
 
                             <div class="input-box col-lg-12">
                                 <label class="label-text">password</label>
@@ -387,8 +389,8 @@
                                 @enderror
                                 </div>
                             </div><!-- end input-box -->
-                            
-                        
+
+
                             <div class="btn-box col-lg-12">
                                 <div class="mb-4 custom-control custom-checkbox fs-15">
                                     <input type="checkbox" class="custom-control-input" id="agreeCheckbox" required>

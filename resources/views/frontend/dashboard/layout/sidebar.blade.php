@@ -1,8 +1,13 @@
+@php
+$setting = App\Models\SiteSetting::find(1);
+@endphp
+
+
 <div class="shadow-sm off-canvas-menu-close dashboard-menu-close icon-element icon-element-sm" data-toggle="tooltip" data-placement="left" title="Close menu">
     <i class="la la-times"></i>
 </div><!-- end off-canvas-menu-close -->
 <div class="px-4 logo-box">
-    <a href="{{ route('index') }}" class="logo"><img src="{{ asset('frontend/images/logo.png') }}" alt="logo"></a>
+    <a href="{{ route('index') }}" class="logo"><img src="{{ asset($setting->logo) }}" alt="logo"></a>
 </div>
 <ul class="generic-list-item off-canvas-menu-list off--canvas-menu-list pt-35px">
     <li class="@if (Route::currentRouteNamed('dashboard')) page-active @endif">

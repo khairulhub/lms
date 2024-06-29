@@ -1,6 +1,8 @@
 @extends('frontend.master')
 @section('home')
-
+@section('title')
+All Blogs | Code Tree
+@endsection
 
 <section class="breadcrumb-area section-padding img-bg-2">
     <div class="overlay"></div>
@@ -30,8 +32,8 @@
             <div class="col-lg-8 mb-5">
                 <div class="row">
                     @foreach ($blog as $item)
-                        
-               
+
+
                     <div class="col-lg-6">
                         <div class="card card-item">
                             <div class="card-image">
@@ -66,14 +68,14 @@
                     @endforeach
 
 
-                  
+
                 </div><!-- end row -->
                 <div class="text-center pt-3">
                     <nav aria-label="Page navigation example" class="pagination-box">
                         {{ $blog->links('vendor.pagination.custom') }}
-                        
+
                     </nav>
-                    
+
                 </div>
             </div><!-- end col-lg-8 -->
             <div class="col-lg-4">
@@ -90,17 +92,17 @@
                             </form>
                         </div>
                     </div><!-- end card -->
-                 
+
                     <div class="card card-item">
                         <div class="card-body">
                             <h3 class="card-title fs-18 pb-2">Blog Category</h3>
                             <div class="divider"><span></span></div>
                             <ul class="generic-list-item">
                                 @foreach ($blogCategory as $item)
-                                    
+
                                 <li><a href="{{ url('blog/category/list/'.$item->id) }}">{{ $item->category_name }}</a></li>
                                 @endforeach
-                                
+
                             </ul>
                         </div>
                     </div><!-- end card -->
@@ -112,8 +114,8 @@
                             <div class="divider"><span></span></div>
 
                             @foreach ($postblog as $detailsPost)
-                                
-                           
+
+
                             <div class="media media-card border-bottom border-bottom-gray pb-4 mb-4">
                                 <a href="{{url('blog/details/'.$detailsPost->post_slug)}}" class="media-img">
                                     <img class="mr-3" src="{{ asset($detailsPost->post_image) }}" alt="Related course image">
@@ -121,7 +123,7 @@
                                 <div class="media-body">
                                     <h5 class="fs-15"><a href="{{url('blog/details/'.$detailsPost->post_slug)}}">{{ $detailsPost->post_title }}</a></h5>
                                     <span class="d-block lh-18 py-1 fs-14">Admin</span>
-                                    
+
                                 </div>
                             </div><!-- end media -->
                             @endforeach
@@ -154,7 +156,7 @@
                             </form>
                         </div>
                     </div><!-- end card -->
-                   
+
                     <div class="card card-item">
                         <div class="card-body">
                             <h3 class="card-title fs-18 pb-2">Connect & Follow</h3>

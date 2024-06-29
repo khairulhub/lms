@@ -6,6 +6,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\Backend\BlogController;
+use App\Http\Controllers\Backend\RoleController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\Backend\CuponController;
 use App\Http\Controllers\Frontend\CartController;
@@ -18,7 +20,6 @@ use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Frontend\WishListController;
-use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\SmtpSettingController;
 
 
@@ -186,6 +187,56 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/admin/all/smtp','AllSmtp')->name('admin.all.smtp');
          Route::post('/admin/update/smtp','AdminUpdateSmtp')->name('update.smtpsetting');
     });
+
+    // admin  all  Smtp route
+    Route::controller(SmtpSettingController::class)->group(function(){
+        Route::get('/admin/front-page/settings','FrontPageSettings')->name('admin.frontend.sitesettings');
+         Route::post('/admin/update/sitesettings','AdminUpdateSiteSettings')->name('update.siteSettings');
+    });
+
+    
+
+    // admin  all  Permission route
+    Route::controller(RoleController::class)->group(function(){
+        Route::get('/admin/all/permission','AdminAllPermission')->name('admin.all.permission');
+        Route::get('/admin/add/permission','AdminAddPermission')->name('add.permission');
+        Route::post('/store/permission','AdminStorePermission')->name('store.permission');
+        Route::get('/edit/permission/{id}','AdminEditPermission')->name('edit.permission');
+        Route::post('/update/permission','AdminUpdatePermission')->name('update.permission');
+        Route::get('/delete/permission/{id}','AdminDeletePermission')->name('delete.permission');
+
+// permission import and export in exsl file .
+        Route::get('/admin/import/permission','AdminImportPermission')->name('import.permission');
+        Route::get('/admin/export/permission','AdminExportPermission')->name('expoert.permission');
+        Route::post('/import/permission','ImportPermission')->name('import');
+    });
+    // admin  all  Role route
+    Route::controller(RoleController::class)->group(function(){
+        Route::get('/admin/all/role','AdminAllRole')->name('admin.all.role');
+        Route::get('/admin/add/role','AdminAddRole')->name('add.roles');
+        Route::post('/store/role','AdminStoreRole')->name('store.role');
+        Route::get('/edit/role/{id}','AdminEditRole')->name('edit.role');
+        Route::post('/update/role','AdminUpdateRole')->name('update.role');
+        Route::get('/delete/role/{id}','AdminDeleteRole')->name('delete.role');
+//========================admin role in permission list =========================
+        Route::get('/admin/role/permission','AdminRolePermission')->name('admin.role.permission');
+        Route::get('/admin/add/role','AdminAddRole')->name('add.roles');
+        Route::post('/store/role','AdminStoreRole')->name('store.role');
+        Route::get('/edit/role/{id}','AdminEditRole')->name('edit.role');
+        Route::post('/update/role','AdminUpdateRole')->name('update.role');
+        Route::get('/delete/role/{id}','AdminDeleteRole')->name('delete.role');
+
+
+
+
+
+// permission import and export in exsl file .
+        Route::get('/admin/import/permission','AdminImportPermission')->name('import.permission');
+        Route::get('/admin/export/permission','AdminExportPermission')->name('expoert.permission');
+        Route::post('/import/permission','ImportPermission')->name('import');
+    });
+
+
 
 
 

@@ -1,3 +1,7 @@
+@php
+    $setting = App\Models\SiteSetting::find(1);
+@endphp
+
 <header class="bg-white header-menu-area">
     <div class="py-1 header-top pr-150px pl-150px border-bottom border-bottom-gray">
         <div class="container-fluid">
@@ -6,10 +10,10 @@
                     <div class="header-widget">
                         <ul class="flex-wrap generic-list-item d-flex align-items-center fs-14">
                             <li class="pr-3 mr-3 d-flex align-items-center border-right border-right-gray"><i
-                                    class="mr-1 la la-phone"></i><a href="tel:00123456789"> (00) 123 456 789</a>
+                                    class="mr-1 la la-phone"></i><a href="tel:{{ $setting->phone }}"> (+88) {{ $setting->phone }}</a>
                             </li>
                             <li class="d-flex align-items-center"><i class="mr-1 la la-envelope-o"></i><a
-                                    href="mailto:contact@aduca.com"> contact@aduca.com</a></li>
+                                    href="mailto:{{ $setting->email }}"> {{ $setting->email }}</a></li>
                         </ul>
                     </div><!-- end header-widget -->
                 </div><!-- end col-lg-6 -->
@@ -66,7 +70,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-2">
                         <div class="logo-box">
-                            <a href="{{ route('index') }}" class="logo"><img src="{{ asset('frontend/images/logo.png') }}"
+                            <a href="{{ route('index') }}" class="logo"><img src="{{ asset($setting->logo) }}"
                                     alt="logo"></a>
                             <div class="user-btn-action">
                                 <div class="mr-2 shadow-sm search-menu-toggle icon-element icon-element-sm"
@@ -113,7 +117,7 @@ $categories = App\Models\Category::orderBy('category_name', 'ASC')->get();
                                                 </ul>
                                             </li>
                                             @endforeach
-                                           
+
                                         </ul>
                                     </li>
                                 </ul>
@@ -177,10 +181,10 @@ $categories = App\Models\Category::orderBy('category_name', 'ASC')->get();
 
 
 
-                                         
+
                                             <li class="media media-card">
                                                 <div class="media-body fs-16">
-                                                    <p class="text-black font-weight-semi-bold lh-18" >Total: $<span
+                                                    <p class="text-black font-weight-semi-bold lh-18" >Total: {{ $setting->currency }}<span
                                                             class="cart-total" id="cartsubtotal"></span> </p>
                                                 </div>
                                             </li>

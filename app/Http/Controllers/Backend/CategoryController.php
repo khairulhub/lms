@@ -66,36 +66,36 @@ class CategoryController extends Controller
     // update category
     public function UpdateCategory(Request $request){
         $cat_id = $request->id;
-    
+
         // Find the category by ID
         $category = Category::find($cat_id);
-    
+
         if($request->file('photo')){
             // If a new image is uploaded, delete the old image
             if (file_exists($category->photo)) {
                 unlink($category->photo);
             }
-    
+
             $manager = new ImageManager(new Driver());
             $name_gen = hexdec(uniqid()).'.'.$request->file('photo')->getClientOriginalExtension();
             $img = $manager->read($request->file('photo'));
             $img->resize(370, 246);
-    
+
             $save_url = 'upload/category/' . $name_gen;
             $img->save(public_path($save_url));
-    
+
             // Update the category with the new image URL
             $category->update([
                 'category_name' => $request->category_name,
                 'category_slug' => strtolower(str_replace(' ', '-', $request->category_name)),
                 'photo' => $save_url,
             ]);
-    
+
             $notification= array(
                 'message' => 'Category Updated with image Successfully',
                 'alert-type' =>'success'
             );
-    
+
             return redirect()->route('all.category')->with($notification);
         } else {
             // If no new image is uploaded, update the category without changing the image
@@ -103,12 +103,12 @@ class CategoryController extends Controller
                 'category_name' => $request->category_name,
                 'category_slug' => strtolower(str_replace(' ', '-', $request->category_name)),
             ]);
-    
+
             $notification= array(
                 'message' => 'Category updated without image Successfully',
                 'alert-type' =>'success'
             );
-    
+
             return redirect()->route('all.category')->with($notification);
         }
     }
@@ -128,7 +128,7 @@ class CategoryController extends Controller
         );
         return redirect()->back()->with($notification);
     }
-    
+
 
 
 
@@ -146,12 +146,12 @@ class CategoryController extends Controller
 
     // Store SubCategory
       public function StoreSubCategory(Request $request){
-     
+
         SubCategory::insert([
             'category_id' => $request->category_id,
             'subcategory_name' => $request->subcategory_name,
             'subcategory_slug' => strtolower(str_replace(' ', '-', $request->subcategory_name)),
-            
+
         ]);
         $notification= array(
             'message' => 'SubCategory Added Successfully',
@@ -181,7 +181,7 @@ class CategoryController extends Controller
             'category_id' => $request->category_id,
             'subcategory_name' => $request->subcategory_name,
             'subcategory_slug' => strtolower(str_replace(' ', '-', $request->subcategory_name)),
-            
+
         ]);
         $notification= array(
             'message' => 'SubCategory Updated  Successfully',

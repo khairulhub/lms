@@ -1,9 +1,15 @@
 @extends('frontend.master')
 @section('home')
+@section('title')
+Shoping Cart | Code Tree
+@endsection
 
-<!-- ================================
-    START BREADCRUMB AREA
-================================= -->
+{{-- change the currency  --}}
+@php
+    $setting = App\Models\SiteSetting::find(1);
+@endphp
+
+
 <section class="breadcrumb-area section-padding img-bg-2">
     <div class="overlay"></div>
     <div class="container">
@@ -19,13 +25,7 @@
         </div><!-- end breadcrumb-content -->
     </div><!-- end container -->
 </section><!-- end breadcrumb-area -->
-<!-- ================================
-    END BREADCRUMB AREA
-================================= -->
 
-<!-- ================================
-       START CONTACT AREA
-================================= -->
 <section class="cart-area section-padding">
     <div class="container">
         <div class="table-responsive">
@@ -40,36 +40,25 @@
                 </tr>
                 </thead>
                 <tbody id="cartpage">
-
-
                 </tbody>
             </table>
-
-
-
-
-
-
-
             <div class="flex-wrap pt-4 d-flex align-items-center justify-content-between">
 
                 @if (Session::has('cupon'))
 
-                @else 
+                @else
                 <form action="#">
                     <div class="mb-2 input-group" id="cuponField">
                         <input class="pl-3 form-control form--control" type="text" placeholder="Coupon code" id="cupon_name">
                         <div class="input-group-append">
-                            
+
                             <a class="btn theme-btn" type="submit" onclick="applyCupon() ">Apply Code</a>
                         </div>
                     </div>
                 </form>
                 @endif
-               
+
             </div>
-
-
 
         </div>
         <div class="ml-auto col-lg-4">
@@ -81,9 +70,7 @@
         </div>
     </div><!-- end container -->
 </section>
-<!-- ================================
-       END CONTACT AREA
-================================= -->
+
 
 
 @endsection

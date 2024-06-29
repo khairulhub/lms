@@ -2,8 +2,12 @@
 @php
     $courses = App\Models\Course::where('status',1)->orderBy('id','ASC')->limit(6)->get();
     $categories = App\Models\Category::orderBy('category_name','ASC')->get();
+    $setting = App\Models\SiteSetting::find(1);
 @endphp
 
+{{-- @php
+    $setting = App\Models\SiteSetting::find(1);
+@endphp --}}
 
 
 <section class="course-area pb-120px">
@@ -131,10 +135,10 @@
                                     </div><!-- end rating-wrap -->
                                     <div class="d-flex justify-content-between align-items-center">
                                        @if ($course->discount_price == NULL)
-                                       <p class="text-black card-price font-weight-bold">${{ $course->selling_price }}</p>
+                                       <p class="text-black card-price font-weight-bold">{{ $setting->currency }}{{ $course->selling_price }}</p>
                                        @else
-                                       <p class="text-black card-price font-weight-bold">${{ $course->discount_price }} <span
-                                        class="before-price font-weight-medium">${{ $course->selling_price }}</span></p>
+                                       <p class="text-black card-price font-weight-bold">{{ $setting->currency }}{{ $course->discount_price }} <span
+                                        class="before-price font-weight-medium">{{ $setting->currency }}{{ $course->selling_price }}</span></p>
                                        @endif
 
 
@@ -200,10 +204,10 @@
 
                                     <div class="d-flex justify-content-between align-items-center">
                                         @if ($course->discount_price == NULL)
-                                        <p class="text-black card-price font-weight-bold">${{ $course->selling_price }}</p>
+                                        <p class="text-black card-price font-weight-bold">{{ $setting->currency }}{{ $course->selling_price }}</p>
                                         @else
-                                        <p class="text-black card-price font-weight-bold">${{ $course->discount_price }} <span
-                                         class="before-price font-weight-medium">${{ $course->selling_price }}</span></p>
+                                        <p class="text-black card-price font-weight-bold">{{ $setting->currency }}{{ $course->discount_price }} <span
+                                         class="before-price font-weight-medium">{{ $setting->currency }}{{ $course->selling_price }}</span></p>
                                         @endif
 
                                         <div class="shadow-sm cursor-pointer icon-element icon-element-sm"

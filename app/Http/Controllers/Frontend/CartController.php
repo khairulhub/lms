@@ -265,6 +265,7 @@ class CartController extends Controller
 
     public function Payment(Request $request){
         $user = User::where('role','instructor')->get();
+        $user2 = User::where('role','admin')->get();
         if (Session::has('cupon'))
         {
             $total_amount = Session::get('cupon')['total_amount'];
@@ -361,6 +362,7 @@ class CartController extends Controller
 
         //send notification 
         Notification::send($user, new OrderComplete($request->name));
+        Notification::send($user2, new OrderComplete($request->name));
 
 
         //end email sending option

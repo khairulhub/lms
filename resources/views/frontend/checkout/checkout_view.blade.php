@@ -1,8 +1,14 @@
 @extends('frontend.master')
 @section('home')
 
+@section('title')
+Checkout | Code Tree
+@endsection
 
 
+@php
+    $setting = App\Models\SiteSetting::find(1);
+@endphp
 
 <!-- ================================
     START BREADCRUMB AREA
@@ -16,7 +22,7 @@
             </div>
             <ul class="flex-wrap generic-list-item generic-list-item-white generic-list-item-arrow d-flex align-items-center">
                 <li><a href="index.html">Home</a></li>
-            
+
                 <li>Checkout</li>
             </ul>
         </div><!-- end breadcrumb-content -->
@@ -53,7 +59,7 @@
                                     <span class="la la-user input-icon"></span>
                                 </div>
                             </div><!-- end input-box -->
-                         
+
                             <div class="input-box col-lg-12">
                                 <label class="label-text">Email Address</label>
                                 <div class="form-group">
@@ -68,7 +74,7 @@
                                     <span class="la la-phone input-icon"></span>
                                 </div>
                             </div><!-- end input-box -->
-                          
+
                             <div class="input-box col-lg-12">
                                 <label class="label-text">Address</label>
                                 <div class="form-group">
@@ -76,7 +82,7 @@
                                     <span class="la la-map-marker input-icon"></span>
                                 </div>
                             </div><!-- end input-box -->
-                       
+
                             <div class="btn-box col-lg-12">
                                 <div class="mb-4 custom-control custom-checkbox fs-15">
                                     <input type="checkbox" class="custom-control-input" id="agreeCheckbox" required>
@@ -88,7 +94,7 @@
                                 <p class="pb-1 text-black-50"><i class="mr-1 la la-lock fs-24"></i>Secure Connection</p>
                                 <p class="fs-14">Your information is safe with us!</p>
                             </div><!-- end btn-box -->
-                   
+
                     </div><!-- end card-body -->
                 </div><!-- end card -->
                 <div class="card card-item">
@@ -105,7 +111,7 @@
                                     <p class="fs-15 lh-24">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
                                 </div> --}}
                             </div>
-                        
+
                             <div class="payment-tab">
                                 <div class="payment-tab-toggle">
                                     <input id="stripe" name="cash_delivery" type="radio" value="stripe">
@@ -118,7 +124,7 @@
                                     <label for="ssl">SSL Commarce</label>
                                 </div>
                             </div>
-                        
+
                             {{-- <div class="payment-tab">
                                 <div class="payment-tab-toggle">
                                     <input type="radio" name="cash_delivery" id="creditCart" value="creditCard">
@@ -161,7 +167,7 @@
                                 </div>
                             </div> --}}
                         </div>
-                        
+
                     </div><!-- end card-body -->
                 </div><!-- end card -->
             </div><!-- end col-lg-7 -->
@@ -177,7 +183,7 @@
                             <input type="hidden" name="course_title[]" value="{{ $cart->name }}">
                             <input type="hidden" name="price[]" value="{{ $cart->price }}">
                             <input type="hidden" name="instructor_id[]" value="{{ $cart->options->instructor_id }}">
-                                
+
                             <div class="pb-3 mb-3 media media-card border-bottom border-bottom-gray">
                                 <a href="{{url('course/details/'.$cart->id.'/'.$cart->options->slug)}}" class="media-img">
                                     <img src="{{ asset($cart->options->image) }}" alt="Cart image">
@@ -190,7 +196,7 @@
                             @endforeach
 
 
-                          
+
                         </div><!-- end order-details-lists -->
                         <a href="{{ route('mycart') }}" class="btn-text"><i class="mr-1 la la-edit"></i>Edit</a>
                     </div><!-- end card-body -->
@@ -205,7 +211,7 @@
 
 
                         @if (Session::has('cupon'))
-                            
+
                         <ul class="generic-list-item generic-list-item-flash fs-15">
                             <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                                 <span class="text-black">Sub Total :</span>
@@ -215,7 +221,7 @@
                                 <span class="text-black">Coupon Name:</span>
                                 <span>{{ session()->get('cupon')['cupon_name'] }} ({{ session()->get('cupon')['cupon_discount'] }}%)</span>
                             </li>
-                          
+
                             <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                                 <span class="text-black">Coupon discounts:</span>
                                 <span>-$ {{ session()->get('cupon')['cupon_validity'] }}</span>
@@ -228,16 +234,16 @@
                         <input type="hidden" name="total" value="{{ $cartTotal }}">
 
                         @else
-                        
+
                         <ul class="generic-list-item generic-list-item-flash fs-15">
                             <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                                 <span class="text-black">Grand price:</span>
-                                <span>${{ $cartTotal }}</span>
+                                <span>{{ $setting->currency }} {{ $cartTotal }}</span>
                             </li>
-                          
+
                             <li class="d-flex align-items-center justify-content-between font-weight-bold">
                                 <span class="text-black">Total:</span>
-                                <span>${{ $cartTotal }}</span>
+                                <span>{{ $setting->currency }} {{ $cartTotal }}</span>
                             </li>
                         </ul>
                         <input type="hidden" name="total" value="{{ $cartTotal }}">
@@ -249,7 +255,7 @@
                             <p class="mb-3 fs-14 lh-22">By completing your purchase you agree to these <a href="#" class="text-color hover-underline">Terms of Service.</a></p>
 
                             <button type="submit" class="btn theme-btn w-100">Proceed <i class="ml-1 la la-arrow-right icon"></i></button>
-                            
+
                         </div>
                     </div><!-- end card-body -->
                 </div><!-- end card -->

@@ -1,5 +1,8 @@
 @extends('frontend.master')
 @section('home')
+@section('title')
+Register | Code Tree
+@endsection
 
 <!-- ================================
     START BREADCRUMB AREA
@@ -96,7 +99,7 @@
                                 <div class="mb-3 input-group">
                                     <span class="la la-lock input-icon"></span>
                                     <input class="form-control form--control password-field" type="password" name="password_confirmation" id="password_confirmation" placeholder="Password">
-                                    
+
                                 </div>
                             </div><!-- end input-box -->
                             <div class="btn-box">

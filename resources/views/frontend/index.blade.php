@@ -1,12 +1,17 @@
 @extends('frontend.master')
 @section('home')
+    @section('title')
+        Code Tree | Home
+     @endsection
+
+
     <!--======================================
-                                                                                                    START HERO AREA
-                                                                                                ======================================-->
+    START HERO AREA
+    ===============-->
     @include('frontend.home.hero-area')
     <!--================================
-                                                                                                    END HERO AREA
-                                                                                                =================================-->
+    END HERO AREA
+    =================================-->
 
     <!--======================================
                                                                                                     START FEATURE AREA
