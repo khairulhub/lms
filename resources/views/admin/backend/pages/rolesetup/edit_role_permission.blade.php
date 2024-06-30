@@ -9,38 +9,43 @@
 <div class="page-content">
     <!--breadcrumb-->
     <div class="mb-3 page-breadcrumb d-none d-sm-flex align-items-center">
-   
+
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="p-0 mb-0 breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add Role In Permission</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Role In Permission</li>
                 </ol>
             </nav>
         </div>
     </div>
     <!--end breadcrumb-->
-    
+
 
     <div class="row">
         <div class="mx-auto col-xl-10">
-            
+
             <div class="card">
                 <div class="p-4 card-body">
-                    <h5 class="mb-4">Add 
+                    <h5 class="mb-4">Edit
                         Role In Permission
                     </h5>
-                    <form id="myForm" action="{{ route('store.role.in.permission') }}" method="POST" class="row g-3" enctype="multipart/form-data">
+                    <form id="myForm" action="{{ route('update.role.in.permission', $roles->id) }}" method="POST" class="row g-3" enctype="multipart/form-data">
                         @csrf
+                        {{-- <input type="hidden" name="id" value="{{ $roles->id }}"> --}}
                         <div class="form-group col-md-6">
                             <label for="input1" class="form-label">Roles Name</label>
-                            <select class="mb-3 form-select col-md-6" aria-label="Default select example" name="role_id">
+                            {{-- <select class="mb-3 form-select col-md-6" aria-label="Default select example" name="role_id">
                                 <option selected="" disabled>Open Roles from select menu</option>
-                              @foreach ($roles as $item)  
+                              @foreach ($roles as $item)
                               <option value="{{ $item->id }}">{{ $item->name }}</option>
                               @endforeach
-                            </select>
+                            </select> --}}
+
+                            <h4>{{ $roles->name }}</h4>
+
+
                         </div>
 
                         <div class="form-check">
@@ -48,58 +53,55 @@
                             <label class="form-check-label" for="flexCheckMain">Select All Permission</label>
                         </div>
                         <hr>
-
                         @foreach ($permission_group as $group)
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="checkGroup{{ $group->group_name }}" name="permission_all" value="1">
-                <label class="form-check-label" for="checkGroup{{ $group->group_name }}">{{ $group->group_name }}</label>
-            </div>
-        </div>
-        <div class="col-md-9">
-            @php
-                $permissions = App\Models\User::getpermissionByGroupName($group->group_name);
-            @endphp
-            @foreach ($permissions as $permission)
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="checkDefault{{ $permission->id }}" name="permission[]" value="{{ $permission->id }}">
-                    <label class="form-check-label" for="checkDefault{{ $permission->id }}">{{ $permission->name }}</label>
-                </div>
-            @endforeach
-            <br>
-           
-        </div>
-        <hr>
-    </div>
-@endforeach
-                       
-                     
-                      
+                        <div class="row">
+                            <div class="col-md-3">
+                                @php
+                                $permissions = App\Models\User::getpermissionByGroupName($group->group_name);
+                                @endphp
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="checkGroup{{ $group->group_name }}" name="permission_all" value="" {{ App\Models\User::roleHasPermissions($permissions, $roles) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="checkGroup{{ $group->group_name }}">{{ $group->group_name }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                @foreach ($permissions as $permission)
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="checkDefault{{ $permission->id }}" name="permission[]" value="{{ $permission->id }}" {{ $roles->hasPermissionTo($permission->name) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="checkDefault{{ $permission->id }}">{{ $permission->name }}</label>
+                                    </div>
+                                @endforeach
+                                <br>
+                            </div>
+                            <hr>
+                        </div>
+                    @endforeach
+
+
                         <div class="col-md-12">
                             <div class="gap-3 d-md-flex d-grid align-items-center">
                                 <button type="submit" class="px-4 btn btn-primary">Submit</button>
-                                
+
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
 
-      
+
 
 
         </div>
     </div>
 
 
-   
+
 </div>
 
 
 
 
-{{-- 
+{{--
 <script type="text/javascript">
     $(document).ready(function() {
         $('#image').change(function(e) {
@@ -120,23 +122,23 @@
             rules: {
                 category_id: {
                     required : true,
-                }, 
+                },
                 subcategory_name: {
                     required : true,
-                }, 
-                
+                },
+
             },
             messages :{
                 category_id: {
                     required : 'Please select Category Name',
-                }, 
+                },
                 subcategory_name: {
                     required : 'Please Select sub category name',
-                }, 
-                 
+                },
+
 
             },
-            errorElement : 'span', 
+            errorElement : 'span',
             errorPlacement: function (error,element) {
                 error.addClass('invalid-feedback');
                 element.closest('.form-group').append(error);
@@ -149,7 +151,7 @@
             },
         });
     });
-    
+
 </script>
 
 <script>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Imports\PermissionImport; //imports
@@ -135,5 +136,61 @@ class RoleController extends Controller
         $permissions = Permission::all();
         $permission_group = User::getpermissionGroup();
         return view('admin.backend.pages.rolesetup.role_permission_setup',compact('roles','permission_group','permissions'));
+    }//end metod
+
+    public function AdminStoreRoleInPermission(Request $request){
+      $data = array();
+      $permissions = $request->permission;
+      foreach($permissions as $key => $item){
+        $data['role_id'] = $request->role_id;
+        $data['permission_id'] = $item;
+        DB::table('role_has_permissions')->insert($data);
+      }
+
+      $notification= array(
+        'message' => 'Role Permission added Successfully',
+        'alert-type' =>'success'
+    );
+    return redirect()->route('admin.all.role.permission')->with($notification);
+    }//end method
+
+    public function AdminAllRoleInPermission(){
+        $roles = Role::all();
+        return view('admin.backend.pages.rolesetup.all_role_permission',compact('roles'));
     }
+
+    public function AdminEditRoleInPermission($id){
+        $roles = Role::find($id);
+        $permissions = Permission::all();
+        $permission_group = User::getpermissionGroup();
+        return view('admin.backend.pages.rolesetup.edit_role_permission',compact('roles','permission_group','permissions'));
+    }//end method
+
+    public function AdminUpdateRoleInPermission(Request $request, $id){
+        $role = Role::find($id);
+        $permissions = $request->permission;
+        if(!empty($permissions)){
+            $permissionNames = Permission::whereIn('id', $permissions)->pluck('name')->toArray();
+            $role->syncPermissions($permissionNames);
+
+        }
+        $notification= array(
+            'message' => 'Role Permission Updated Successfully',
+            'alert-type' =>'success'
+        );
+        return redirect()->route('admin.all.role.permission')->with($notification);
+
+    }//end method
+
+    public function AdminDeleteRoleInPermission($id){
+        $role = Role::find($id);
+        if (!is_null($role)) {
+            $role->delete();
+        }
+        $notification= array(
+            'message' => 'Role Permission Deleted Successfully',
+            'alert-type' =>'success'
+        );
+        return redirect()->route('admin.all.role.permission')->with($notification);
+    }//end method
 }

@@ -194,7 +194,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
          Route::post('/admin/update/sitesettings','AdminUpdateSiteSettings')->name('update.siteSettings');
     });
 
-    
+
 
     // admin  all  Permission route
     Route::controller(RoleController::class)->group(function(){
@@ -218,22 +218,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/edit/role/{id}','AdminEditRole')->name('edit.role');
         Route::post('/update/role','AdminUpdateRole')->name('update.role');
         Route::get('/delete/role/{id}','AdminDeleteRole')->name('delete.role');
-//========================admin role in permission list =========================
+
+
+        //========================admin role in permission list =========================
+        
         Route::get('/admin/role/permission','AdminRolePermission')->name('admin.role.permission');
-        Route::get('/admin/add/role','AdminAddRole')->name('add.roles');
-        Route::post('/store/role','AdminStoreRole')->name('store.role');
-        Route::get('/edit/role/{id}','AdminEditRole')->name('edit.role');
-        Route::post('/update/role','AdminUpdateRole')->name('update.role');
-        Route::get('/delete/role/{id}','AdminDeleteRole')->name('delete.role');
+        Route::get('/admin/all/role/in/permission','AdminAllRoleInPermission')->name('admin.all.role.permission');
+        Route::post('/store/role/in/permission','AdminStoreRoleInPermission')->name('store.role.in.permission');
+        Route::get('/edit/role/in/permission/{id}','AdminEditRoleInPermission')->name('edit.role.in.permission');
+        Route::post('/update/role/in/permission/{id}','AdminUpdateRoleInPermission')->name('update.role.in.permission');
+        Route::get('/delete/role/in/permission/{id}','AdminDeleteRoleInPermission')->name('delete.role.in.permission');
 
 
-
-
-
-// permission import and export in exsl file .
-        Route::get('/admin/import/permission','AdminImportPermission')->name('import.permission');
-        Route::get('/admin/export/permission','AdminExportPermission')->name('expoert.permission');
-        Route::post('/import/permission','ImportPermission')->name('import');
     });
 
 
