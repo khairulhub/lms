@@ -33,10 +33,9 @@
                     @endif
 
                     @php
-                        $reviewCount = App\Models\Review::where('course_id', $course->id)->where('status', 1)->latest()->get();
-                        $avarage = App\Models\Review::where('course_id', $course->id)->where('status', 1)->avg('rating');
-                    @endphp
-
+                                        $reviewCount = App\Models\Review::where('course_id', $course->id)->where('status', 1)->latest()->get();
+                                        $avarage = App\Models\Review::where('course_id', $course->id)->where('status', 1)->avg('rating');
+                                    @endphp
                     <div class="flex-wrap rating-wrap d-flex align-items-center">
 
 

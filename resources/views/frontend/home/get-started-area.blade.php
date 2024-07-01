@@ -10,13 +10,13 @@
             <div class="col-lg-4 responsive-column-half">
                 <div class="text-center card card-item hover-s">
                     <div class="card-body">
-                        <img src="images/img-loading.png" data-src="images/small-img-2.jpg" alt="card image"
+                        <img src="{{ asset('frontend/images/small-img-2.jpg') }}" data-src="images/small-img-2.jpg" alt="card image"
                             class="rounded-full img-fluid lazy">
                         <h5 class="pt-4 pb-2 card-title">Become an Instructor</h5>
                         <p class="card-text">Teach what you love. Aduca gives you the tools to create a course.
                         </p>
                         <div class="btn-box mt-20px">
-                            <a href="become-a-teacher.html" class="btn theme-btn theme-btn-sm theme-btn-white lh-30"><i
+                            <a href="{{ route('become.instructor') }}" class="btn theme-btn theme-btn-sm theme-btn-white lh-30"><i
                                     class="mr-1 la la-user"></i>Start Teaching</a>
                         </div><!-- end btn-box -->
                     </div><!-- end card-body -->
@@ -25,7 +25,7 @@
             <div class="col-lg-4 responsive-column-half">
                 <div class="text-center card card-item hover-s">
                     <div class="card-body">
-                        <img src="images/img-loading.png" data-src="images/small-img-3.jpg" alt="card image"
+                        <img src="{{ asset('frontend/images/small-img-3.jpg') }}" data-src="images/small-img-3.jpg" alt="card image"
                             class="rounded-full img-fluid lazy">
                         <h5 class="pt-4 pb-2 card-title">Become a Learner</h5>
                         <p class="card-text">Learn what you love! transform your life through education</p>
@@ -39,7 +39,7 @@
             <div class="col-lg-4 responsive-column-half">
                 <div class="text-center card card-item hover-s">
                     <div class="card-body">
-                        <img src="images/img-loading.png" data-src="images/small-img-4.jpg" alt="card image"
+                        <img src="{{ asset('frontend/images/small-img-4.jpg') }}" data-src="images/small-img-4.jpg" alt="card image"
                             class="rounded-full img-fluid lazy">
                         <h5 class="pt-4 pb-2 card-title">Aduca for Business</h5>
                         <p class="card-text">Get unlimited access to 5,000+ of Aduca's top courses for your team

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -166,16 +167,16 @@ class AdminController extends Controller
         $userId = $request->input('user_id');
         $isChecked = $request->input('is_checked', 0); // Default to 0 if not provided
         $user = User::find($userId);
-    
+
         if ($user) {
             $user->status = $isChecked;
             $user->save();
             return redirect()->route('all.instructor');
-        } 
+        }
     }
 
 
-   
+
     //==========================admin can see all users in the admin panel =================
 
     public function AllCourse(){
@@ -197,14 +198,96 @@ class AdminController extends Controller
         $courseId = $request->input('course_id');
         $isChecked = $request->input('is_checked', 0); // Default to 0 if not provided
         $course = Course::find($courseId);
-    
+
         if ($course) {
             $course->status = $isChecked;
             $course->save();
             return redirect()->route('admin.all.courses');
-        } 
+        }
     }
-    
+
+////////////////====================== Manage all admin super admin Manager ================
+    public function AdminManageAllAdmin(){
+        $alladmin = User::where('role', 'admin')->get();
+        return view('admin.backend.pages.admin.all_admin',compact('alladmin'));
+    }//end method
+
+    public function AdminAddAdmin(){
+        $roles = Role::all();
+        return view('admin.backend.pages.admin.add_admin', compact('roles'));
+    }//end method
+
+    public function AdminStoreAdminData(Request $request){
+        $user = new User();
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->password =  Hash::make($request->password);
+        $user->role = 'admin';
+        $user->status = '1';
+        $user->save();
+
+        if ($request->role) {
+            $role = Role::findById($request->role);
+            if ($role) {
+                $user->assignRole($role->name);
+            }
+        }
+        $notification = [
+            'message' => 'New Admin Inserted Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('manage.all.admin')->with($notification);
+    }//end method
+
+    public function EditAdmin($id){
+        $user = User::find($id);
+        $roles = Role::all();
+        return view('admin.backend.pages.admin.edit_admin',compact('user','roles'));
+
+    }//end method
+
+    public function AdminUpdateData(Request $request,$id){
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->role = 'admin';
+        $user->status = '1';
+        $user->save();
+        $user->roles()->detach();
+        if ($request->role) {
+            $role = Role::findById($request->role);
+            if ($role) {
+                $user->assignRole($role->name);
+            }
+        }
+        $notification = [
+            'message' => 'New Admin Updated Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('manage.all.admin')->with($notification);
+    }//end method
+
+    public function DeleteAdmin($id){
+        $user = User::find($id);
+        if (!is_null($user)) {
+            $user->delete();
+        }
+        $notification = [
+            'message' => 'Admin Deleted Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('manage.all.admin')->with($notification);
+    }
+
 
 
 

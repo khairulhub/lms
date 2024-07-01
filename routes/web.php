@@ -88,7 +88,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // //////////////// Category Controller all route parameters ////////////////
 
     Route::controller(CategoryController::class)->group(function(){
-        Route::get('/all/category','AllCategory')->name('all.category');
+        Route::get('/all/category','AllCategory')->name('all.category')->middleware('permission:all.category');
         Route::get('/add/category','AddCategory')->name('add.category');
         Route::post('/store/category','StoreCategory')->name('store.category');
         Route::get('/edit/category/{id}','EditCategory')->name('edit.category');
@@ -100,7 +100,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     //////////////////////// All Sub Category Route ////////////////////////
 
     Route::controller(CategoryController::class)->group(function(){
-        Route::get('/all/subcategory','AllSubCategory')->name('all.subcategory');
+        Route::get('/all/subcategory','AllSubCategory')->name('all.subcategory')->middleware('permission:subcategory.all');
         Route::get('/add/subcategory','AddSubCategory')->name('add.subcategory');
         Route::post('/store/subcategory','StoreSubCategory')->name('store.subcategory');
         Route::get('/edit/subcategory/{id}','EditSubCategory')->name('edit.subcategory');
@@ -110,22 +110,22 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // all instructor route
     Route::controller(AdminController::class)->group(function(){
-        Route::get('/all/instructor','AllInstructor')->name('all.instructor');
+        Route::get('/all/instructor','AllInstructor')->name('all.instructor')->middleware('permission:instructor.all');
         Route::post('/update/userstatus','UpdateUserStatus')->name('update.userstatus');
     });
 
 
     // all review route
     Route::controller(ReviewController::class)->group(function(){
-        Route::get('/admin/pending/review','AdminPendingReview')->name('admin.pending.review');
+        Route::get('/admin/pending/review','AdminPendingReview')->name('admin.pending.review')->middleware('permission:review.pending');
         Route::post('/update/review/status','UpdateReviewStatus')->name('update.review.status');
-        Route::get('/admin/active/review','AdminActiveReview')->name('admin.active.review');
+        Route::get('/admin/active/review','AdminActiveReview')->name('admin.active.review')->middleware('permission:review.active');
     });
 
 
     // admin  all courses route
     Route::controller(AdminController::class)->group(function(){
-        Route::get('/admin/all/courses','AllCourse')->name('admin.all.courses');
+        Route::get('/admin/all/courses','AllCourse')->name('admin.all.courses')->middleware('permission:course.all');
         Route::get('/admin/course/details/{id}','AdminCourseDetails')->name('admin.course.details');
         Route::post('/update/coursestatus','UpdateCourseStatus')->name('update.coursestatus');
     });
@@ -221,7 +221,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 
         //========================admin role in permission list =========================
-        
+
         Route::get('/admin/role/permission','AdminRolePermission')->name('admin.role.permission');
         Route::get('/admin/all/role/in/permission','AdminAllRoleInPermission')->name('admin.all.role.permission');
         Route::post('/store/role/in/permission','AdminStoreRoleInPermission')->name('store.role.in.permission');
@@ -230,6 +230,22 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/delete/role/in/permission/{id}','AdminDeleteRoleInPermission')->name('delete.role.in.permission');
 
 
+
+
+
+
+    });
+
+
+    Route::controller(AdminController::class)->group(function(){
+         //========================admin Manage all admin list =========================
+        Route::get('/admin/manage/all/admin','AdminManageAllAdmin')->name('manage.all.admin');
+        Route::get('/add/admin','AdminAddAdmin')->name('add.admin');
+        Route::post('/store/admin/data','AdminStoreAdminData')->name('store.admindata');
+
+        Route::get('/edit/admin/{id}','EditAdmin')->name('edit.admin');
+        Route::post('/update/admindata/{id}','AdminUpdateData')->name('update.admindata');
+        Route::get('/delete/admin/{id}','AdminDeleteData')->name('delete.admin');
     });
 
 

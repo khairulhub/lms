@@ -90,7 +90,7 @@
                                         @php
                                         $reviewCount = App\Models\Review::where('course_id', $course->id)->where('status', 1)->latest()->get();
                                         $avarage = App\Models\Review::where('course_id', $course->id)->where('status', 1)->avg('rating');
-                                    @endphp
+                                        @endphp
                                         <div class="review-stars">
                                             <span class="rating-number">{{ round($avarage,1) }}</span>
                                             @if ($avarage == 0)
@@ -142,13 +142,13 @@
                                        @endif
 
 
-{{-- wish List work  function--}}
-                                    <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
+                                        {{-- wish List work  function--}}
+                                        <div class="shadow-sm cursor-pointer icon-element icon-element-sm"
                                             title="Add to Wishlist" id="{{$course->id}}" onclick="addToWishList(this.id)" ><i class="la la-heart-o"></i>
                                         </div>
 
 
-{{-- wish List work  end function--}}
+                                        {{-- wish List work  end function--}}
 
 
 

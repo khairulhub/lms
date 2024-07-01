@@ -27,7 +27,7 @@
                             <div class="card-body">
                                 <div class="text-center d-flex flex-column align-items-center">
                                     <img src="{{ !empty($profileData->photo) ? url('upload/admin_image/' . $profileData->photo) : url('upload/noimage.jpg') }}"
-                                        alt="Admin" class="p-1 rounded-circle bg-primary" width="110">
+                                        alt="Admin" class="p-1 rounded bg-primary" width="110">
                                     <div class="mt-3">
                                         <h4>{{ $profileData->name }}</h4>
                                         <p class="mb-1 text-secondary">{{ $profileData->username }}</p>
@@ -143,14 +143,14 @@
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-12">
                                             <h6 class="mb-0">Profile Image</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input id="image" type="file" name="photo" class="form-control" />
                                             <img id="showImage"
                                                 src="{{ !empty($profileData->photo) ? url('upload/admin_image/' . $profileData->photo) : url('upload/noimage.jpg') }}"
-                                                alt="Admin" class="p-1 mt-2 rounded-circle bg-primary" width="60">
+                                                alt="Admin" class="p-1 mt-2 rounded bg-primary" width="60">
                                         </div>
 
                                     </div>

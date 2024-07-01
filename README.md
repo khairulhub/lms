@@ -144,6 +144,12 @@ by using toggle button take the value inactive and active
 
 
 
+ --user registration -- {{route('register')}}
+ --user login -- {{route('login')}}
+
+
+
+
  -- pdf generator command -- composer require barryvdh/laravel-dompdf
 
 
