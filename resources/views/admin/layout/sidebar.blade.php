@@ -238,7 +238,8 @@
                 <li> <a href="{{ route('admin.role.permission') }}"><i class='bx bx-radio-circle'></i>Role In Permission</a>
                 </li>
                 @endif
-                @if(Auth::user()->can('all.role.in.permission'))
+
+                @if(Auth::user()->can('all.role.permission'))
                 <li> <a href="{{ route('admin.all.role.permission') }}"><i class='bx bx-radio-circle'></i>All Role In Permission</a>
                 </li>
                 @endif
@@ -255,7 +256,7 @@
                 <div class="menu-title">Manage Admin</div>
             </a>
             <ul>
-                
+
                 @if(Auth::user()->can('manage.all.admin'))
                 <li> <a href="{{ route('manage.all.admin') }}"><i class='bx bx-radio-circle'></i>All Admin</a>
                 </li>

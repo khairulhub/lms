@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\Backend\BlogController;
+use App\Http\Controllers\Backend\ChatController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\Backend\CuponController;
@@ -59,6 +60,11 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(QuestionController::class)->group(function(){
         Route::post('/user/question','UserQuestion')->name('user.question');
+        // Route::get('/course/view/{course_id}','MyCoursesView')->name('course.view');
+
+    });
+    Route::controller(ChatController::class)->group(function(){
+        Route::get('/live/chat','LiveChat')->name('live.chat');
         // Route::get('/course/view/{course_id}','MyCoursesView')->name('course.view');
 
     });
@@ -396,6 +402,13 @@ Route::post('/store/review', [ReviewController::class, 'StoreReview'])->name('st
 Route::get('/blog/details/{slug}', [BlogController::class, 'BlogDetailsPage']);
 Route::get('/blog/category/list/{id}', [BlogController::class, 'BlogCategoryList']);
 Route::post('/view/all/posts', [BlogController::class, 'ViewAllPosts']);
+
+
+
+//================chat controller
+Route::post('/send-message', [ChatController::class, 'SendMessage']);
+Route::get('/get-all-users', [ChatController::class, 'GetAllUsers']);
+Route::get('/get-user-message/{userId}', [ChatController::class, 'GetUserMessage']);
 
 
 

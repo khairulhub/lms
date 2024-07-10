@@ -22,6 +22,7 @@
                     <p class="lh-18">{{ $instructor->email }}</p>
                 </div>
             </div><!-- end media -->
+           
             <ul class="social-icons social-icons-styled social--icons-styled">
                 <li><a href="{{ $instructor->facebook }}"><i class="la la-facebook"></i></a></li>
                 <li><a href="{{ $instructor->twitter }}"><i class="la la-twitter"></i></a></li>
@@ -204,6 +205,7 @@
     <div class="py-5 bg-gray">
         <div class="container">
             <ul class="nav nav-tabs generic-tab justify-content-center" id="myTab" role="tablist">
+                
                 <li class="nav-item">
                     <a class="nav-link active" id="about-me-tab" data-toggle="tab" href="#about-me" role="tab" aria-controls="about-me" aria-selected="false">
                         About Me
@@ -277,6 +279,54 @@
                     </div>
                 </div><!-- end tab-pane -->
             </div><!-- end tab-content -->
+            @auth
+            <section class="cat-area pt-80px pb-80px bg-gray position-relative">
+                <span class="ring-shape ring-shape-1"></span>
+                <span class="ring-shape ring-shape-2"></span>
+                <span class="ring-shape ring-shape-3"></span>
+                <span class="ring-shape ring-shape-4"></span>
+                <span class="ring-shape ring-shape-5"></span>
+                <span class="ring-shape ring-shape-6"></span>
+                <span class="ring-shape ring-shape-7"></span>
+                <div class="container">
+                    <div class="text-center cta-content-wrap">
+                        <div class="section-heading">
+                            <h5 class="mb-2 ribbon ribbon-lg">Start online learning</h5>
+                            <h2 class="section__title fs-45 lh-55">Enhance Your Skills with <br> Live Chat </h2>
+                        </div><!-- end section-heading -->
+                        <div class="cat-btn-box mt-28px">
+                            <button  class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Lets Talk<i class="ml-1 la la-arrow-right icon"></i></button>
+                            <div id="app">
+                                <send-message :receiverid="{{ $instructor->id }}" receivername="{{ $instructor->name }}"></send-message>
+                            </div>
+                        </div><!-- end cat-btn-box -->
+                    </div><!-- end cta-content-wrap -->
+                </div><!-- end container -->
+            </section><!-- end cta-area -->
+            @else
+            <section class="cat-area pt-80px pb-80px bg-gray position-relative">
+                <span class="ring-shape ring-shape-1"></span>
+                <span class="ring-shape ring-shape-2"></span>
+                <span class="ring-shape ring-shape-3"></span>
+                <span class="ring-shape ring-shape-4"></span>
+                <span class="ring-shape ring-shape-5"></span>
+                <span class="ring-shape ring-shape-6"></span>
+                <span class="ring-shape ring-shape-7"></span>
+                <div class="container">
+                    <div class="text-center cta-content-wrap">
+                        <div class="section-heading">
+                            <h5 class="mb-2 ribbon ribbon-lg">Start online learning</h5>
+                            <h2 class="section__title fs-45 lh-55">Enhance Your Skills with <br> Live Chat </h2>
+                        </div><!-- end section-heading -->
+                        <div class="cat-btn-box mt-28px">
+                            <a href="{{ route('login') }}"  class="btn btn-danger">Login<i class="ml-1 la la-arrow-right icon"></i></a>
+                            
+                        </div><!-- end cat-btn-box -->
+                    </div><!-- end cta-content-wrap -->
+                </div><!-- end container -->
+            </section><!-- end cta-area -->
+            @endauth
+
         </div><!-- end container -->
     </div>
 </section><!-- end teacher-details-area -->

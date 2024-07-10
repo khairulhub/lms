@@ -10,6 +10,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title')</title>
+    @vite(['resources/js/app.js'])
 
     <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">

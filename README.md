@@ -159,4 +159,6 @@ by using toggle button take the value inactive and active
 
  Add to cart take form -- https://packagist.org/packages/anayarojo/shoppingcart
 
+ vue js plugin  npm i @vitejs/plugin-vue
+
 
