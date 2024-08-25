@@ -91,9 +91,13 @@
                                                         for="flexSwitchCheckChecked">Remember Me</label>
                                                 </div>
                                             </div>
+                                            @if (Route::has('password.request'))
+                                            
+                                           
                                             <div class="col-md-6 text-end"> <a
-                                                    href="authentication-forgot-password.html">Forgot Password ?</a>
+                                                    href="{{ route('password.request') }}">Forgot Password ?</a>
                                             </div>
+                                            @endif
                                             <div class="col-12">
                                                 <div class="d-grid">
                                                     <button type="submit" class="btn btn-primary">Sign in</button>

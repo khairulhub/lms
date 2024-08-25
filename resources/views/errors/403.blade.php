@@ -1,3 +1,6 @@
+@php
+    $setting = App\Models\SiteSetting::find(1);
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,13 +28,13 @@
 		<nav class="bg-white rounded shadow-sm navbar navbar-expand-lg navbar-light fixed-top rounded-0">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#">
-					<img src="{{ asset('/backend/assets/images/logo-img.png') }}" width="140" alt="" />
+					<img src="{{ asset($setting->logo) }}" width="140" alt="" />
 				</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent1">
 					<ul class="mb-2 navbar-nav ms-auto mb-lg-0">
-						<li class="nav-item"> <a class="nav-link active" aria-current="page" href="{{ url('/admin/dashboard') }}"><i class='bx bx-home-alt me-1'></i>Home</a>
+						<li class="nav-item"> <a class="nav-link active" aria-current="page" href="javascript:history.back()"><i class='bx bx-home-alt me-1'></i>Home</a>
 						</li>
 						
 					</ul>
@@ -49,8 +52,8 @@
 								<p>You have reached the edge of the universe.
 									<br>The page you requested could not be found.
 									<br>Dont'worry and return to the previous page.</p>
-								<div class="mt-5"> <a href="{{ url('/admin/dashboard') }}" class="btn btn-primary btn-lg px-md-5 radius-30">Go Home</a>
-									<a href="{{ url('/admin/dashboard') }}" class="btn btn-outline-dark btn-lg ms-3 px-md-5 radius-30">Back</a>
+								<div class="mt-5"> <a href="javascript:history.back()" class="btn btn-primary btn-lg px-md-5 radius-30">Go Home</a>
+									<a href="javascript:history.back()" class="btn btn-outline-dark btn-lg ms-3 px-md-5 radius-30">Back</a>
 								</div>
 							</div>
 						</div>

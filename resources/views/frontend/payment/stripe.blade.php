@@ -37,6 +37,15 @@
     <!-- end inject -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
     <script src="https://js.stripe.com/v3/"></script>
+
+    <style>
+            a{
+                text-decoration:none;
+                color:black;
+                font-width:bold;
+            }
+            
+    </style>
 </head>
 
 <body>
@@ -122,15 +131,15 @@
                             <div class="input-box col-lg-6">
                                 <label class="label-text">Name</label>
                                 <div class="form-group">
-                                    <input class="form-control form--control" type="text" name="name" value="{{ Auth::user()->name }}">
-                                    <span class="la la-user input-icon"></span>
+                                    <input class="form-control form--control" type="text" name="name" value="{{ Auth::user()->name }}"> 
+                                    
                                 </div>
                             </div><!-- end input-box -->
                             <div class="input-box col-lg-6">
                                 <label class="label-text">User Name</label>
                                 <div class="form-group">
                                     <input class="form-control form--control" type="text" name="username" value="{{ Auth::user()->username }}">
-                                    <span class="la la-user input-icon"></span>
+                                    
                                 </div>
                             </div><!-- end input-box -->
                          
@@ -138,14 +147,14 @@
                                 <label class="label-text">Email Address</label>
                                 <div class="form-group">
                                     <input class="form-control form--control" type="email" name="email" value="{{ Auth::user()->email }}">
-                                    <span class="la la-envelope input-icon"></span>
+                                    
                                 </div>
                             </div><!-- end input-box -->
                             <div class="input-box col-lg-12">
                                 <label class="label-text">Phone Number</label>
                                 <div class="form-group">
                                     <input class="form-control form--control" type="text" name="phone" value="{{ Auth::user()->phone }}">
-                                    <span class="la la-phone input-icon"></span>
+                                    
                                 </div>
                             </div><!-- end input-box -->
                           
@@ -153,7 +162,7 @@
                                 <label class="label-text">Address</label>
                                 <div class="form-group">
                                     <input class="form-control form--control" type="text" name="address" value="{{ Auth::user()->address }}">
-                                    <span class="la la-map-marker input-icon"></span>
+                                    
                                 </div>
                             </div><!-- end input-box -->
                        

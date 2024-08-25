@@ -3,8 +3,20 @@
 
 @php
     $id = Auth::user()->id;
+    $coursess = App\Models\Course::where('instructor_id',$id)->orderBy('id','desc')->get();
     $instructorid = App\Models\User::find($id);
     $status = $instructorid->status;
+
+    $totalOrders = App\Models\Order::get();
+    $setting = App\Models\SiteSetting::find(1);
+    $totalAmount = App\Models\Payment::sum('total_amount');//need to change for count amount
+    $totalStudents  = App\Models\User::where('role','user')->latest()->get();
+    $totalInstructor  = App\Models\User::where('role','instructor')->latest()->get();
+    $courses = App\Models\Course::withCount('orders')->get();
+
+
+    $courseNames = $courses->pluck('course_title')->toArray();
+    $courseCounts = $courses->pluck('orders_count')->toArray();
 @endphp
 
     <div class="page-content">
@@ -24,8 +36,8 @@
                         <div class="d-flex align-items-center">
                             <div>
                                 <p class="mb-0 text-secondary">Total Orders</p>
-                                <h4 class="my-1 text-info">4805</h4>
-                                <p class="mb-0 font-13">+2.5% from last week</p>
+                                <h4 class="my-1 text-info">{{count($totalOrders)}}</h4>
+                                {{-- <p class="mb-0 font-13">+2.5% from last week</p> --}}
                             </div>
                             <div class="text-white widgets-icons-2 rounded-circle bg-gradient-blues ms-auto"><i
                                     class='bx bxs-cart'></i>
@@ -39,9 +51,8 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div>
-                                <p class="mb-0 text-secondary">Total Revenue</p>
-                                <h4 class="my-1 text-danger">$84,245</h4>
-                                <p class="mb-0 font-13">+5.4% from last week</p>
+                                <p class="mb-0 text-secondary">Total Amount</p>
+                                <h4 class="my-1 text-danger">{{$setting->currency}}{{$totalAmount}}</h4>
                             </div>
                             <div class="text-white widgets-icons-2 rounded-circle bg-gradient-burning ms-auto">
                                 <i class='bx bxs-wallet'></i>
@@ -55,9 +66,8 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div>
-                                <p class="mb-0 text-secondary">Bounce Rate</p>
-                                <h4 class="my-1 text-success">34.6%</h4>
-                                <p class="mb-0 font-13">-4.5% from last week</p>
+                                <p class="mb-0 text-secondary">Total Students </p>
+                            <h4 class="my-1 text-success">{{count($totalStudents)}}</h4>
                             </div>
                             <div class="text-white widgets-icons-2 rounded-circle bg-gradient-ohhappiness ms-auto">
                                 <i class='bx bxs-bar-chart-alt-2'></i>
@@ -72,8 +82,7 @@
                         <div class="d-flex align-items-center">
                             <div>
                                 <p class="mb-0 text-secondary">Total Customers</p>
-                                <h4 class="my-1 text-warning">8.4K</h4>
-                                <p class="mb-0 font-13">+8.4% from last week</p>
+                                <h4 class="my-1 text-warning">{{count($totalInstructor)}}</h4>
                             </div>
                             <div class="text-white widgets-icons-2 rounded-circle bg-gradient-orange ms-auto">
                                 <i class='bx bxs-group'></i>
@@ -90,11 +99,10 @@
                     <div class="card-header">
                         <div class="d-flex align-items-center">
                             <div>
-                                <h6 class="mb-0">Sales Overview</h6>
+                                <h6 class="mb-0">Recent Orders</h6>
                             </div>
                             <div class="dropdown ms-auto">
-                                <a class="dropdown-toggle dropdown-toggle-nocaret" href="#"
-                                    data-bs-toggle="dropdown"><i
+                                <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
                                         class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -112,37 +120,40 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="gap-2 mb-3 d-flex align-items-center ms-auto font-13">
-                            <span class="px-1 border rounded cursor-pointer"><i class="bx bxs-circle me-1"
-                                    style="color: #14abef"></i>Sales</span>
-                            <span class="px-1 border rounded cursor-pointer"><i class="bx bxs-circle me-1"
-                                    style="color: #ffc107"></i>Visits</span>
-                        </div>
-                        <div class="chart-container-1">
-                            <canvas id="chart1"></canvas>
-                        </div>
-                    </div>
-                    <div class="text-center row row-cols-1 row-cols-md-3 row-cols-xl-3 g-0 row-group border-top">
-                        <div class="col">
-                            <div class="p-3">
-                                <h5 class="mb-0">24.15M</h5>
-                                <small class="mb-0">Overall Visitor <span> <i class="align-middle bx bx-up-arrow-alt"></i>
-                                        2.43%</span></small>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="p-3">
-                                <h5 class="mb-0">12:38</h5>
-                                <small class="mb-0">Visitor Duration <span> <i
-                                            class="align-middle bx bx-up-arrow-alt"></i> 12.65%</span></small>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="p-3">
-                                <h5 class="mb-0">639.82</h5>
-                                <small class="mb-0">Pages/Visit <span> <i class="align-middle bx bx-up-arrow-alt"></i>
-                                        5.62%</span></small>
-                            </div>
+                        <div class="table-responsive">
+                            <table class="table mb-0 align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Sl</th>
+                                        <th>Course Name</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($coursess as $key=> $item)
+                                    <tr class="h-full">
+                                        <td>{{ $key+1 }}</td>
+                                        
+                                        <td>{{ $item->course_name }}</td>
+                                       
+                                        <td>{{ $item->selling_price }}</td>
+                                        
+            
+            
+                                        <td>
+                                            <div class="gap-2 btn-group">
+                                                <a href="{{ route('edit.course', $item->id) }}" class="px-2 btn btn-success" title="Edit">Edit</a>
+                                                <a href="{{ route('delete.course', $item->id) }}" class="px-2 btn btn-danger" id="delete" title="Delete">Delete</a>
+                                                <a href="{{ route('add.course.lecture', $item->id) }}" class="px-2 text-white btn btn-warning" title="Lecture">lecture</a>
+            
+                                            </div>
+                                        </td>
+             
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -152,25 +163,9 @@
                     <div class="card-header">
                         <div class="d-flex align-items-center">
                             <div>
-                                <h6 class="mb-0">Trending Products</h6>
+                                <h6 class="mb-0">Trending Course</h6>
                             </div>
-                            <div class="dropdown ms-auto">
-                                <a class="dropdown-toggle dropdown-toggle-nocaret" href="#"
-                                    data-bs-toggle="dropdown"><i
-                                        class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="javascript:;">Action</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="javascript:;">Another action</a>
-                                    </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="javascript:;">Something else here</a>
-                                    </li>
-                                </ul>
-                            </div>
+                           
                         </div>
                     </div>
                     <div class="card-body">
@@ -179,167 +174,18 @@
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li
-                            class="bg-transparent list-group-item d-flex justify-content-between align-items-center border-top">
-                            Jeans <span class="badge bg-success rounded-pill">25</span>
-                        </li>
-                        <li class="bg-transparent list-group-item d-flex justify-content-between align-items-center">
-                            T-Shirts <span class="badge bg-danger rounded-pill">10</span>
-                        </li>
-                        <li class="bg-transparent list-group-item d-flex justify-content-between align-items-center">
-                            Shoes <span class="badge bg-primary rounded-pill">65</span>
-                        </li>
-                        <li class="bg-transparent list-group-item d-flex justify-content-between align-items-center">
-                            Lingerie <span class="badge bg-warning text-dark rounded-pill">14</span>
-                        </li>
+                        @foreach($courses as $course)
+                                <li class="bg-transparent list-group-item d-flex justify-content-between align-items-center border-top">
+                                    {{ $course->course_title }} <span class="badge bg-success rounded-pill">{{ $course->orders_count }}</span>
+                                </li>
+                            @endforeach
+
                     </ul>
                 </div>
             </div>
         </div><!--end row-->
 
-        <div class="card radius-10">
-            <div class="card-header">
-                <div class="d-flex align-items-center">
-                    <div>
-                        <h6 class="mb-0">Recent Orders</h6>
-                    </div>
-                    <div class="dropdown ms-auto">
-                        <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
-                                class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:;">Action</a>
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Another action</a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Something else here</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table mb-0 align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Product</th>
-                                <th>Photo</th>
-                                <th>Product ID</th>
-                                <th>Status</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Shipping</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Iphone 5</td>
-                                <td><img src="assets/images/products/01.png" class="product-img-2" alt="product img">
-                                </td>
-                                <td>#9405822</td>
-                                <td><span class="text-white shadow-sm badge bg-gradient-quepal w-100">Paid</span>
-                                </td>
-                                <td>$1250.00</td>
-                                <td>03 Feb 2020</td>
-                                <td>
-                                    <div class="progress" style="height: 6px;">
-                                        <div class="progress-bar bg-gradient-quepal" role="progressbar"
-                                            style="width: 100%"></div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>Earphone GL</td>
-                                <td><img src="assets/images/products/02.png" class="product-img-2" alt="product img">
-                                </td>
-                                <td>#8304620</td>
-                                <td><span class="text-white shadow-sm badge bg-gradient-blooker w-100">Pending</span>
-                                </td>
-                                <td>$1500.00</td>
-                                <td>05 Feb 2020</td>
-                                <td>
-                                    <div class="progress" style="height: 6px;">
-                                        <div class="progress-bar bg-gradient-blooker" role="progressbar"
-                                            style="width: 60%"></div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>HD Hand Camera</td>
-                                <td><img src="assets/images/products/03.png" class="product-img-2" alt="product img">
-                                </td>
-                                <td>#4736890</td>
-                                <td><span class="text-white shadow-sm badge bg-gradient-bloody w-100">Failed</span>
-                                </td>
-                                <td>$1400.00</td>
-                                <td>06 Feb 2020</td>
-                                <td>
-                                    <div class="progress" style="height: 6px;">
-                                        <div class="progress-bar bg-gradient-bloody" role="progressbar"
-                                            style="width: 70%"></div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>Clasic Shoes</td>
-                                <td><img src="assets/images/products/04.png" class="product-img-2" alt="product img">
-                                </td>
-                                <td>#8543765</td>
-                                <td><span class="text-white shadow-sm badge bg-gradient-quepal w-100">Paid</span>
-                                </td>
-                                <td>$1200.00</td>
-                                <td>14 Feb 2020</td>
-                                <td>
-                                    <div class="progress" style="height: 6px;">
-                                        <div class="progress-bar bg-gradient-quepal" role="progressbar"
-                                            style="width: 100%"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Sitting Chair</td>
-                                <td><img src="assets/images/products/06.png" class="product-img-2" alt="product img">
-                                </td>
-                                <td>#9629240</td>
-                                <td><span class="text-white shadow-sm badge bg-gradient-blooker w-100">Pending</span>
-                                </td>
-                                <td>$1500.00</td>
-                                <td>18 Feb 2020</td>
-                                <td>
-                                    <div class="progress" style="height: 6px;">
-                                        <div class="progress-bar bg-gradient-blooker" role="progressbar"
-                                            style="width: 60%"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Hand Watch</td>
-                                <td><img src="assets/images/products/05.png" class="product-img-2" alt="product img">
-                                </td>
-                                <td>#8506790</td>
-                                <td><span class="text-white shadow-sm badge bg-gradient-bloody w-100">Failed</span>
-                                </td>
-                                <td>$1800.00</td>
-                                <td>21 Feb 2020</td>
-                                <td>
-                                    <div class="progress" style="height: 6px;">
-                                        <div class="progress-bar bg-gradient-bloody" role="progressbar"
-                                            style="width: 40%"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+       
 
 
 
@@ -347,3 +193,62 @@
 
     </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var ctx2 = document.getElementById('chart2').getContext('2d');
+
+        var gradientStroke1 = ctx2.createLinearGradient(0, 0, 0, 300);
+        gradientStroke1.addColorStop(0, '#fc4a1a');
+        gradientStroke1.addColorStop(1, '#f7b733');
+
+        var gradientStroke2 = ctx2.createLinearGradient(0, 0, 0, 300);
+        gradientStroke2.addColorStop(0, '#4776e6');
+        gradientStroke2.addColorStop(1, '#8e54e9');
+
+        var gradientStroke3 = ctx2.createLinearGradient(0, 0, 0, 300);
+        gradientStroke3.addColorStop(0, '#ee0979');
+        gradientStroke3.addColorStop(1, '#ff6a00');
+
+        var gradientStroke4 = ctx2.createLinearGradient(0, 0, 0, 300);
+        gradientStroke4.addColorStop(0, '#42e695');
+        gradientStroke4.addColorStop(1, '#3bb2b8');
+
+        var courseNames = @json($courseNames);
+        var courseCounts = @json($courseCounts);
+
+        var myChart2 = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: courseNames,
+                datasets: [{
+                    backgroundColor: [
+                        gradientStroke1,
+                        gradientStroke2,
+                        gradientStroke3,
+                        gradientStroke4
+                    ],
+                    hoverBackgroundColor: [
+                        gradientStroke1,
+                        gradientStroke2,
+                        gradientStroke3,
+                        gradientStroke4
+                    ],
+                    data: courseCounts,
+                    borderWidth: [1, 1, 1, 1]
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                cutout: 82,
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                }
+            }
+        });
+
+        // Repeat for other charts if needed
+    });
+</script>
+

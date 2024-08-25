@@ -1,3 +1,7 @@
+@php
+    $setting = App\Models\SiteSetting::find(1);
+@endphp
+
 @extends('./admin.admin_dashboard')
 @section('admin')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -158,7 +162,7 @@
                                                 <td class="col-md-2">{{ $item->course->category->category_name }}</td>
                                                 <td class="col-md-2">{{ $item->instructor->name }}</td>
 
-                                                <td class="col-md-1">${{ $item->price }}</td>
+                                                <td class="col-md-1">{{ $setting->currency }}{{ $item->price }}</td>
                                             </tr>
 
                                             @php
@@ -173,7 +177,7 @@
                                                     <strong >Total Price:</strong>
                                                 </td>
                                                 <td class="col-md-3">
-                                                    <strong>${{$totalPrice}}</strong>
+                                                    <strong>{{ $setting->currency }}{{$totalPrice}}</strong>
                                                 </td>
 
                                             </tr>

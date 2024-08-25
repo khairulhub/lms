@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\Role;
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -15,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'role' => 'App\Http\Middleware\Role',
+            'token' => 'App\Http\Middleware\VerifyCsrfToken',
             'RedirectIfAuthenticated' => 'App\Http\Middleware\RedirectIfAuthenticated',
             'roles' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,

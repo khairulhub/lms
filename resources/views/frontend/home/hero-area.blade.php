@@ -13,7 +13,7 @@
                         </p>
                     </div><!-- end section-heading -->
                     <div class="flex-wrap pt-1 hero-btn-box d-flex align-items-center">
-                        <a href="admission.html" class="mb-4 mr-4 btn theme-btn">Join with Us <i
+                        <a href="{{route('login')}}" class="mb-4 mr-4 btn theme-btn">Join with Us <i
                                 class="ml-1 la la-arrow-right icon"></i></a>
                         <a href="#" class="mb-4 btn-text video-play-btn" data-fancybox
                             data-src="https://www.youtube.com/watch?v=cRXm1p-CNyk">
@@ -35,7 +35,7 @@
                         </p>
                     </div><!-- end section-heading -->
                     <div class="flex-wrap pt-1 hero-btn-box d-flex align-items-center justify-content-center">
-                        <a href="admission.html" class="mb-4 mr-4 btn theme-btn">Get Started <i
+                        <a href="{{route('login')}}" class="mb-4 mr-4 btn theme-btn">Get Started <i
                                 class="ml-1 la la-arrow-right icon"></i></a>
                         <a href="#" class="mb-4 btn-text video-play-btn" data-fancybox
                             data-src="https://www.youtube.com/watch?v=cRXm1p-CNyk">
@@ -61,7 +61,7 @@
                             data-src="https://www.youtube.com/watch?v=cRXm1p-CNyk">
                             <i class="mr-2 la la-play icon-btn"></i>Watch Preview
                         </a>
-                        <a href="admission.html" class="mb-4 btn theme-btn"><i
+                        <a href="{{route('login')}}" class="mb-4 btn theme-btn"><i
                                 class="mr-1 la la-arrow-left icon"></i>Get Enrolled </a>
                     </div><!-- end hero-btn-box -->
                 </div><!-- end hero-content -->

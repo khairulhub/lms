@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\ChatController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\Backend\CuponController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Backend\ActiveController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Frontend\WishListController;
 use App\Http\Controllers\Backend\SmtpSettingController;
+use App\Http\Controllers\SslCommerzPaymentControllerNew;
 
 
 
@@ -65,13 +67,26 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(ChatController::class)->group(function(){
         Route::get('/live/chat','LiveChat')->name('live.chat');
-        // Route::get('/course/view/{course_id}','MyCoursesView')->name('course.view');
+
+    });
+
+
+    // course for user front end
+    Route::controller(CourseController::class)->group(function(){
+        Route::get('/all/courses','AllCourses')->name('all.course.user');
 
     });
 
 
 
 
+
+
+
+
+Route::post('/stripe/order', [CartController::class, 'StripeOrder'])->name('stripe.order');
+Route::post('/mark-notification-as-read/{id}', [CartController::class, 'MarkRead']);
+Route::post('/mark-notification-as-read/admin/{id}', [CartController::class, 'MarkReadAdmin']);
 
 
 
@@ -92,7 +107,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 
     // //////////////// Category Controller all route parameters ////////////////
-
+//
     Route::controller(CategoryController::class)->group(function(){
         Route::get('/all/category','AllCategory')->name('all.category')->middleware('permission:all.category');
         Route::get('/add/category','AddCategory')->name('add.category');
@@ -387,11 +402,25 @@ Route::get('/cupon-remove', [CartController::class, 'CuponRemove']);
 
 //checkout page  related route
 Route::get('/checkout', [CartController::class, 'CheckoutCreate'])->name('checkout');
-Route::post('/payment', [CartController::class, 'Payment'])->name('payment');
-Route::post('/stripe/order', [CartController::class, 'StripeOrder'])->name('stripe.order');
-Route::post('/mark-notification-as-read/{id}', [CartController::class, 'MarkRead']);
-Route::post('/mark-notification-as-read/admin/{id}', [CartController::class, 'MarkReadAdmin']);
 
+
+
+
+
+
+
+
+
+    Route::post('/pay-via-ajax', [SslCommerzPaymentControllerNew::class, 'payViaAjax'])->name('pay-via-ajax');
+    Route::post('/success', [SslCommerzPaymentControllerNew::class, 'success']);
+    Route::post('/fail', [SslCommerzPaymentControllerNew::class, 'fail']);
+    Route::post('/cancel', [SslCommerzPaymentControllerNew::class, 'cancel']);
+    Route::post('/ipn', [SslCommerzPaymentControllerNew::class, 'ipn']);
+
+
+
+
+Route::post('/payment', [CartController::class, 'Payment'])->name('payment');
 
 
 Route::post('/store/review', [ReviewController::class, 'StoreReview'])->name('store.review');
@@ -399,17 +428,35 @@ Route::post('/store/review', [ReviewController::class, 'StoreReview'])->name('st
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Route::get('/blog/details/{slug}', [BlogController::class, 'BlogDetailsPage']);
 Route::get('/blog/category/list/{id}', [BlogController::class, 'BlogCategoryList']);
 Route::post('/view/all/posts', [BlogController::class, 'ViewAllPosts']);
+Route::get('/view/all/post', [BlogController::class, 'ViewAllPost']);
 
 
 
-//================chat controller
+//================chat controller for user
 Route::post('/send-message', [ChatController::class, 'SendMessage']);
 Route::get('/get-all-users', [ChatController::class, 'GetAllUsers']);
 Route::get('/get-user-message/{userId}', [ChatController::class, 'GetUserMessage']);
 
+//instructor live chat
+Route::get('/instructor/live-chat', [ChatController::class, 'InstructorLiveChat'])->name('instructor.live.chat');
 
 
 

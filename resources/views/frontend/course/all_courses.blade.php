@@ -1,3 +1,9 @@
+@extends('frontend.master')
+@section('home')
+
+@section('title')
+All Courses | Code Tree
+@endsection
 
 @php
     $courses = App\Models\Course::where('status',1)->orderBy('id','ASC')->limit(6)->get();
@@ -13,8 +19,8 @@
 <section class="course-area pb-120px">
     <div class="container">
         <div class="text-center section-heading">
-            <h5 class="mb-2 ribbon ribbon-lg">Choose your desired courses</h5>
-            <h2 class="section__title">The world's largest selection of courses</h2>
+            {{-- <h5 class="mb-2 ribbon ribbon-lg">Choose your desired courses</h5> --}}
+            <h2 class="section__title">Course List</h2>
             <span class="section-divider"></span>
         </div><!-- end section-heading -->
         <ul class="pb-4 nav nav-tabs generic-tab justify-content-center" id="myTab" role="tablist">
@@ -228,10 +234,7 @@
 
 
             </div><!-- end tab-content -->
-            <div class="mt-4 text-center more-btn-box">
-                <a href="{{ url('/all/courses') }}" class="btn theme-btn">Browse all Courses <i
-                        class="ml-1 la la-arrow-right icon"></i></a>
-            </div><!-- end more-btn-box -->
+
         </div><!-- end container -->
     </div><!-- end card-content-wrapper -->
 </section><!-- end courses-area -->
@@ -307,3 +310,4 @@
     </div>
 </div><!-- end tooltip_templates -->
 @endforeach
+@endsection

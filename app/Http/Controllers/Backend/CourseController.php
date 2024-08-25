@@ -18,6 +18,16 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class CourseController extends Controller
 {
+    //================= user front pages all courses
+    public function AllCourses(){
+        $courses = Course::latest()->paginate(10);
+        return view('frontend.course.all_courses', compact('courses'));
+
+    }//end method allCourses
+
+
+
+
     public function AllCourse(){
         $id = Auth::user()->id;
         $courses = Course::where('instructor_id',$id)->orderBy('id','desc')->get();
@@ -377,7 +387,7 @@ public function UpdateCourseLecture(Request $request){
 
 public function DeleteLecture($id){
     CourseLecture::find($id)->delete();
-     
+
     $notification = array(
         'message' => 'Course Lecture Deleted Successfully',
         'alert-type' => 'success'

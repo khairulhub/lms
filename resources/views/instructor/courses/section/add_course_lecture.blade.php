@@ -143,7 +143,7 @@
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',

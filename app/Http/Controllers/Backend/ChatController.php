@@ -123,22 +123,15 @@ class ChatController extends Controller
     
     
 
+    //instructor live chat 
+    public function InstructorLiveChat(){
+        return view('instructor.chat.live_chat');
+    }
 
 
 
 
 
-
-    // public function SendMessage(Request $request) {
-    //     $message = ChatMessage::create([
-    //         'sender_id' => auth()->id(),
-    //         'receiver_id' => $request->receiver_id,
-    //         'msg' => $request->msg,
-    //     ]);
-
-    //     $message->load('user');
-
-    //     return response()->json($message);
-    // }
+    
 
 }

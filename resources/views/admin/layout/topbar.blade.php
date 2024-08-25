@@ -171,7 +171,7 @@
         })
         .then(response => response.text())  // Change to text to log the response
         .then(data => {
-            console.log(data);  // Log the response
+            
             try {
                 const jsonData = JSON.parse(data);
                 document.getElementById('notification-count').textContent = jsonData.count;

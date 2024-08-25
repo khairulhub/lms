@@ -8,8 +8,8 @@
 
 <section class="category-area pb-90px">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-9">
+        <div class="row align-items-center text-center">
+            <div class="col-lg-12">
                 <div class="category-content-wrap">
                     <div class="section-heading">
                         <h5 class="mb-2 ribbon ribbon-lg">Categories</h5>
@@ -18,12 +18,7 @@
                     </div><!-- end section-heading -->
                 </div>
             </div><!-- end col-lg-9 -->
-            <div class="col-lg-3">
-                <div class="text-right category-btn-box">
-                    <a href="categories.html" class="btn theme-btn">All Categories <i
-                            class="ml-1 la la-arrow-right icon"></i></a>
-                </div><!-- end category-btn-box-->
-            </div><!-- end col-lg-3 -->
+           
         </div><!-- end row -->
         <div class="category-wrapper mt-30px">
             <div class="row">

@@ -30,7 +30,7 @@
                         <h5 class="pt-4 pb-2 card-title">Become a Learner</h5>
                         <p class="card-text">Learn what you love! transform your life through education</p>
                         <div class="btn-box mt-20px">
-                            <a href="admission.html" class="btn theme-btn theme-btn-sm theme-btn-white lh-30"><i
+                            <a href="{{ route('login') }}" class="btn theme-btn theme-btn-sm theme-btn-white lh-30"><i
                                     class="mr-1 la la-file-text-o"></i>Start Learning</a>
                         </div><!-- end btn-box -->
                     </div><!-- end card-body -->
@@ -45,7 +45,7 @@
                         <p class="card-text">Get unlimited access to 5,000+ of Aduca's top courses for your team
                         </p>
                         <div class="btn-box mt-20px">
-                            <a href="for-business.html" class="btn theme-btn theme-btn-sm theme-btn-white lh-30"><i
+                            <a href="{{ route('login') }}" class="btn theme-btn theme-btn-sm theme-btn-white lh-30"><i
                                     class="mr-1 la la-briefcase"></i>Get aduca for business</a>
                         </div><!-- end btn-box -->
                     </div><!-- end card-body -->

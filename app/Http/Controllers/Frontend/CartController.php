@@ -3,19 +3,19 @@
 namespace App\Http\Controllers\Frontend;
 
 // use session;
+use DB;
+use Stripe;
 use Carbon\Carbon;
-
 use App\Models\User;
-use App\Models\Cupon;
 
-use App\Notifications\OrderComplete;
-use Illuminate\Support\Facades\Notification;
+use App\Models\Cupon;
+use App\Models\Order;
 
 use App\Models\Course;
+use App\Models\Payment;
 use App\Models\Category;
 use App\Models\WishList;
-use App\Models\Payment;
-use App\Models\Order;
+use App\Mail\Orderconfirm;
 
 use App\Models\Course_goal;
 use App\Models\SubCategory;
@@ -23,17 +23,20 @@ use Illuminate\Http\Request;
 use App\Models\CourseLecture;
 use App\Models\CourseSection;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Notifications\OrderComplete;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
-use Intervention\Image\ImageManager;
 
-use App\Mail\Orderconfirm;
+use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Intervention\Image\Drivers\Gd\Driver;
 
-use Stripe;
+
+use Illuminate\Support\Facades\Notification;
+use App\Library\SslCommerz\SslCommerzNotification;
 
 class CartController extends Controller
 {
@@ -442,6 +445,99 @@ class CartController extends Controller
 
         return redirect()->route('index')->with($notification);
     }//end method 
+
+    public function payViaAjax(Request $request)
+    {
+        // Validate CSRF token
+        $request->validate([
+            '_token' => 'required|string'
+        ]);
+
+        // Validate other incoming request data as needed
+
+        // Example: Prepare data to send to the payment gateway
+        $post_data = [
+            'total_amount' => $request->total_amount,
+            'tran_id' => uniqid(), // Generate a unique transaction ID
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+        ];
+
+        // Update payment status to Pending in your database
+        $update_product = DB::table('payments')
+            ->where('transaction_id', $post_data['tran_id'])
+            ->updateOrInsert([
+                'name' => $post_data['name'],
+                'email' => $post_data['email'],
+                'phone' => $post_data['phone'],
+                'address' => $post_data['address'],
+                'total_amount' => $post_data['total_amount'],
+                'status' => 'Pending',
+                'transaction_id' => $post_data['tran_id'],
+            ]);
+
+        // Call SSLCommerz API or handle the payment gateway logic here
+        $sslc = new SslCommerzNotification();
+        $payment_options = $sslc->makePayment($post_data, 'checkout', 'json');
+
+        // Handle the response from SSLCommerz and proceed accordingly
+        if (!is_array($payment_options)) {
+            // Log or handle the error response
+            // Example:
+            Log::error('SSLCommerz Payment Error:', ['message' => $payment_options]);
+
+            $notification = [
+                'message' => 'SSLCommerz Payment failed. Please try again later.',
+                'alert-type' => 'error',
+            ];
+
+            return response()->json($notification);
+        } else {
+            // If payment succeeds, update status to Paid in your database
+            $order_id = Payment::insertGetId([
+                'name' => $post_data['name'],
+                'email' => $post_data['email'],
+                'phone' => $post_data['phone'],
+                'address' => $post_data['address'],
+                'total_amount' => $post_data['total_amount'],
+                'payment_type' => 'SSLCommerz',
+                'invoice_no' => 'EOS' . mt_rand(10000000, 99999999),
+                'order_date' => Carbon::now()->format('d-F-Y'),
+                'order_month' => Carbon::now()->format('F'),
+                'order_year' => Carbon::now()->format('Y'),
+                'status' => 'Paid', // Update status to Paid upon successful payment
+                'created_at' => Carbon::now(),
+            ]);
+
+            // Insert order details into database
+            $carts = Cart::content();
+            foreach ($carts as $cart) {
+                Order::create([
+                    'payment_id' => $order_id,
+                    'user_id' => Auth::user()->id,
+                    'course_id' => $cart->id,
+                    'instructor_id' => $cart->options->instructor_id,
+                    'course_title' => $cart->name,
+                    'price' => $cart->price,
+                ]);
+            }
+
+            // Clear session and cart after successful payment
+            if (Session::has('cupon')) {
+                Session::forget('cupon');
+            }
+            Cart::destroy();
+
+            $notification = [
+                'message' => 'SSLCommerz Payment done successfully',
+                'alert-type' => 'success',
+            ];
+
+            return response()->json($notification);
+        }
+    }
 
 
 

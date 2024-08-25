@@ -127,7 +127,7 @@
             url: "/edit/blog/category/"+id,
             dataType: "JSON",
             success: function (data) {
-                console.log(data);
+               
                 $('#cat').val(data.category_name);
                 $('#cat_id').val(data.id);
                 $('#category').modal('toggle');

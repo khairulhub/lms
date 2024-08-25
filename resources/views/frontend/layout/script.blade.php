@@ -437,7 +437,7 @@ var currencySymbol = "{{ $currencySymbol }}"; // Pass the PHP variable to JavaSc
                 dataType: 'json',
 
                 success:function(data){
-                    // console.log(data);
+                    
 
                     if(data.total){
                         $('#cuponCalField').html(`<h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>
@@ -572,7 +572,7 @@ var currencySymbol = "{{ $currencySymbol }}"; // Pass the PHP variable to JavaSc
                 dataType: 'json',
 
                 success:function(data){
-                    // console.log(data);
+                  
 
                     if(data.total){
                         $('#cuponCalField').html(`<h3 class="pb-3 fs-18 font-weight-bold">Cart Totals</h3>

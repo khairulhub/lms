@@ -136,15 +136,15 @@ $categories = App\Models\Category::orderBy('category_name', 'ASC')->get();
 
                                     </li>
                                     <li>
-                                        <a href="#">courses <i class="la la-angle-down fs-12"></i></a>
-                                        <ul class="dropdown-menu-item">
-                                            <li><a href="course-grid.html">course grid</a></li>
+                                        <a href="{{ url('/all/courses') }}">courses </a>
+                                        {{-- <ul class="dropdown-menu-item">
+                                            <li><a href="">course grid</a></li>
 
-                                        </ul>
+                                        </ul> --}}
                                     </li>
 
                                     <li>
-                                        <a href="{{ url('view/all/posts') }}">blog </a>
+                                        <a href="{{ url('view/all/post') }}">blog </a>
 
                                     </li>
                                 </ul><!-- end ul -->
@@ -197,7 +197,7 @@ $categories = App\Models\Category::orderBy('category_name', 'ASC')->get();
                                 </ul>
                             </div><!-- end shop-cart -->
                             <div class="nav-right-button">
-                                <a href="admission.html" class="btn theme-btn d-none d-lg-inline-block"><i
+                                <a href="{{route('login')}}" class="btn theme-btn d-none d-lg-inline-block"><i
                                         class="mr-1 la la-user-plus"></i> Admission</a>
                             </div><!-- end nav-right-button -->
                         </div><!-- end menu-wrapper -->
@@ -265,7 +265,7 @@ $categories = App\Models\Category::orderBy('category_name', 'ASC')->get();
                     <li><a href="for-business.html">for business</a></li>
                     <li><a href="become-a-teacher.html">become an instructor</a></li>
                     <li><a href="faq.html">FAQs</a></li>
-                    <li><a href="admission.html">admission</a></li>
+                    <li><a href="{{route('login')}}">admission</a></li>
                     <li><a href="gallery.html">gallery</a></li>
                     <li><a href="pricing-table.html">pricing tables</a></li>
                     <li><a href="contact.html">contact</a></li>

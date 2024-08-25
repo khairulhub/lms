@@ -187,7 +187,7 @@ class BlogController extends Controller
         $blogCategory = BlogCategory::latest()->get();
         $postblog = BlogPost::latest()->limit(3)->get();
         return view('frontend.blog.blog_post_details',compact('post','tag','blogCategory','postblog'));
-    }//end method 
+    }//end method
 
     public function BlogCategoryList($id){
         $blog = BlogPost::where('blogcat_id',$id)->paginate(8);
@@ -197,6 +197,12 @@ class BlogController extends Controller
         return view('frontend.blog.blog_category_list',compact('blog','postblog','blogCategory','blogCat'));
     }//end methoed
 
+    public function ViewAllPost(){
+        // $blog = BlogPost::latest()->paginate(8);
+        // $postblog = BlogPost::latest()->limit(3)->get();
+        // $blogCategory = BlogCategory::latest()->get();
+        return view('frontend.blog.view_all_post');
+    }
     public function ViewAllPosts(){
         $blog = BlogPost::latest()->paginate(8);
         $postblog = BlogPost::latest()->limit(3)->get();

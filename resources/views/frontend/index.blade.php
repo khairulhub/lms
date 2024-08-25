@@ -1,5 +1,6 @@
 @extends('frontend.master')
 @section('home')
+<meta name="csrf-token" content="{{ csrf_token() }}">
     @section('title')
         Code Tree | Home
      @endsection

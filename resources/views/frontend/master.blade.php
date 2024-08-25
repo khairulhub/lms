@@ -2,13 +2,11 @@
 <html lang="en">
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="author" content="TechyDevs">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>@yield('title')</title>
     @vite(['resources/js/app.js'])
 
@@ -108,6 +106,11 @@
     </script>
 
     <script type="text/javascript">
+      $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
     $(document).ready(function() {
         @if(Session::has('message'))
         var type = "{{ Session::get('alert-type', 'info') }}";

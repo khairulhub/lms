@@ -100,7 +100,12 @@ Login | Code Tree
                                             <label class="custom-control-label custom--control-label"
                                                 for="rememberMeCheckbox">Remember Me</label>
                                         </div><!-- end custom-control -->
-                                        <a href="recover.html" class="btn-text">Forgot my password?</a>
+
+                                        @if (Route::has('password.request'))
+                                        <a href="{{ route('password.request') }}" class="btn-text">Forgot my password?</a>
+                                        @endif
+
+
                                     </div>
                                     <button class="btn theme-btn" type="submit">Login Account <i
                                             class="ml-1 la la-arrow-right icon"></i></button>

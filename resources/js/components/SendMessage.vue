@@ -50,7 +50,7 @@ export default {
         .then((res) => {
             this.form.message = "",
             this.successMessage = res.data;
-            console.log(res.data);
+            
         }).catch((err) => {
             this.errors = err.response.data.errors;
         })

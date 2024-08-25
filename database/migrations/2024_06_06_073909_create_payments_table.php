@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('total_amount')->nullable();
             $table->string('payment_type')->nullable();
             $table->string('invoice_no')->nullable();
+            $table->string('transaction_id')->nullable();
             $table->string('order_date')->nullable();
             $table->string('order_month')->nullable();
             $table->string('order_year')->nullable();

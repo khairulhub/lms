@@ -70,9 +70,9 @@ $categories = App\Models\Category::orderBy('category_name', 'ASC')->get();
                     <span class="section-divider section--divider"></span>
                     <div class="mobile-app">
                         <p class="pb-3 lh-24">Download our mobile app and learn on the go.</p>
-                        <a href="#" class="mb-2 d-block hover-s"><img src="images/appstore.png"
+                        <a href="" class="mb-2 d-block hover-s"><img src="{{ asset('./frontend/images/appstore.png') }}"
                                 alt="App store" class="img-fluid"></a>
-                        <a href="#" class="d-block hover-s"><img src="images/googleplay.png"
+                        <a href="" class="d-block hover-s"><img src="{{ asset('./frontend/images/googleplay.png') }}"
                                 alt="Google play store" class="img-fluid"></a>
                     </div>
                 </div><!-- end footer-item -->

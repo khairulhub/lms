@@ -125,47 +125,7 @@ Checkout | Code Tree
                                 </div>
                             </div>
 
-                            {{-- <div class="payment-tab">
-                                <div class="payment-tab-toggle">
-                                    <input type="radio" name="cash_delivery" id="creditCart" value="creditCard">
-                                    <label for="creditCart">Credit / Debit Card</label>
-                                    <img class="payment-logo" src="images/payment-img.png" alt="">
-                                </div>
-                                <div class="payment-tab-content">
-                                    <form action="#" class="row">
-                                        <div class="input-box col-lg-6">
-                                            <label class="label-text">Name on Card</label>
-                                            <div class="form-group">
-                                                <input class="pl-3 form-control form--control" type="text" name="cardName" placeholder="Card Name">
-                                            </div>
-                                        </div>
-                                        <div class="input-box col-lg-6">
-                                            <label class="label-text">Card Number</label>
-                                            <div class="form-group">
-                                                <input class="pl-3 form-control form--control" type="text" name="cardNumber" placeholder="1234  5678  9876  5432">
-                                            </div>
-                                        </div>
-                                        <div class="input-box col-lg-4">
-                                            <label class="label-text">Expiry Month</label>
-                                            <div class="form-group">
-                                                <input class="pl-3 form-control form--control" type="text" name="expiryMonth" placeholder="MM">
-                                            </div>
-                                        </div>
-                                        <div class="input-box col-lg-4">
-                                            <label class="label-text">Expiry Year</label>
-                                            <div class="form-group">
-                                                <input class="pl-3 form-control form--control" type="text" name="expiryYear" placeholder="YY">
-                                            </div>
-                                        </div>
-                                        <div class="input-box col-lg-4">
-                                            <label class="label-text">CVV</label>
-                                            <div class="form-group">
-                                                <input class="pl-3 form-control form--control" type="text" name="cvv" placeholder="cvv">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div> --}}
+                            
                         </div>
 
                     </div><!-- end card-body -->

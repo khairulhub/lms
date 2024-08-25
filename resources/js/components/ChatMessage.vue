@@ -24,63 +24,69 @@
       </ul>
     </div>
 
+
+
+
+
+
+
     <div class="col-md-9" v-if="allmessages && allmessages.user">
       <div class="card">
         <div class="text-center card-header myrow">
           <strong>Selected {{ allmessages.user.name }}</strong>
         </div>
+
+
+
         <div class="card-body chat-msg">
-          <ul class="chat" v-for="(message, index) in allmessages.messages" :key="index">
-            <li
-              class="clearfix sender"
-              v-if="allmessages.user.id === message.sender_id"
-            >
-              <span class="clearfix mx-2 chat-img left">
-                <img
-                  :src="'/upload/instructor_images/' + message.user.photo"
+          <ul class="chat" v-for="(message,index) in allmessages.messages" :key="index" >
+           <li class="sender clearfix" v-if="allmessages.user.id === message.sender_id" >
+              <span class="chat-img left clearfix mx-2">
+              <img :src="'/upload/instructor_image/'+ message.user.photo"
                   class="userImg"
                   alt="userImg"
                 />
               </span>
-              <div class="clearfix chat-body2">
-                <div class="clearfix header">
+              <div class="chat-body2 clearfix">
+                <div class="header clearfix">
                   <strong class="primary-font">{{ message.user.name }}</strong>
                   <small class="right text-muted">
-                    {{ formatDate(message.created_at) }}
+                    {{  formatDate(message.created_at) }}
                   </small>
-                  <div class="text-center">
-                    product name
-                    <img
-                      src="/frontend/avatar-3.png"
-                      alt="productImg"
-                      width="60px;"
-                    />
-                  </div>
+                  
                 </div>
                 <p>{{ message.message }}</p>
               </div>
             </li>
-
-            <li class="clearfix buyer">
-              <span class="clearfix mx-2 chat-img right"></span>
-              <div class="clearfix chat-body">
-                <div class="clearfix header">
-                  <small class="left text-muted">
-                    {{ formatDate(message.created_at) }}
-                  </small>
-                  <div class="text-center">
-                    Product name
-                    <img
-                      src="/frontend/avatar-5.png"
-                      alt="productImage"
-                      width="60px;"
-                    />
-                  </div>
+        <!-- my part  -->
+            <li class="buyer clearfix" v-else>
+              <span class="chat-img right clearfix mx-2">
+                <img :src="'/upload/user_image/'+ message.user.photo"
+                  class="userImg"
+                  alt="userImg"
+                />
+                 </span>
+              <div class="chat-body clearfix">
+                <div class="header clearfix">
+                  <small class="left text-muted"
+                    >{{  formatDate(message.created_at) }}</small>
+                  <strong class="right primary-font">{{ message.user.name }} </strong>  
+                  
                 </div>
+                <p>{{ message.message }}</p>
               </div>
+            </li>
+        
+            <li class="sender clearfix">
+              <span class="chat-img left clearfix mx-2"> </span>
             </li>
           </ul>
         </div>
+
+
+
+
+
         <div class="card-footer">
           <div class="input-group">
             <input
@@ -100,62 +106,8 @@
   </div>
 </template>
 
-<!--
-<script>
-  export default {
-    data(){
-        return{
-            users: {},
-            allmessages: {},
-            selectedUser: {},
-            message:'',
 
-        }
-    },
-    created(){
-        this.getAllUsers();
-    },
-    methods:{
-        getAllUsers(){
-            axios.get('/get-all-users')
-            .then((res) => {
-                this.users = res.data;
-                console.log(res.data);
-            }).catch((err) => {
-                console.log(err);
-            })
-        },
-        userMessage(userId){
-            //send message to user with userId
-            axios.get('/get-user-message/'+userId)
-            .then((res) => {
-                this.selectedUser = userId;
-                this.allmessages = res.data;
-                console.log(res.data);
-                console.log(userId);
-            }).catch((err) => {
-                console.log(err);
-            })
-        },
-        sendMessage() {
-        axios.post('/send-message', {receiver_id:this.selectedUser,message:this.message})
-        .then((res) => {
-            this.message = "",
-            this.userMessage(this.selectedUser);
-            // console.log(res.data);
-        }).catch((err) => {
-            this.errors = err.response.data.errors;
-        })
-        },
 
-        formatDate(dateString){
-            const options = { year: 'numeric', month: 'short', day: 'numeric', hour:'2-digit', minute:'2-digit' };
-            return new Date(dateString).toLocaleDateString('en-US', options);
-        }
-
-    }
-  };
-  </script> -->
   <script>
 export default {
   data() {
@@ -168,8 +120,13 @@ export default {
   },
   created() {
     this.getAllUsers();
+
+    setInterval(() => {
+      this.userMessage(this.selectedUser);
+    },1000);
   },
   methods: {
+    
     getAllUsers() {
       axios.get('/get-all-users')
         .then((res) => {
@@ -217,7 +174,7 @@ export default {
   .username {
     color: #000;
     margin-left: 5px;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .myrow{
@@ -230,7 +187,9 @@ export default {
        overflow-y: scroll;
       /* height: 100%; */
       background: #F2F6FA;
+
   }
+ 
   .user li {
     list-style: none;
     margin-top: 20px;
@@ -252,12 +211,12 @@ export default {
   }
 
   .chat li {
-    margin-bottom: 40px;
-    padding-bottom: 5px;
-    margin-top: 20px;
-    width: 80%;
-    height: 10px;
-  }
+  margin-bottom: 30px;
+  padding-bottom: 5px;
+  margin-top: 20px;
+  width: 85%;
+  height: 10px;
+}
 
   .chat li .chat-body p {
     margin: 0;
@@ -280,16 +239,16 @@ export default {
   }
   .chat-msg .chat-body {
     display: inline-block;
-    max-width: 45%;
-    margin-right: -73px;
-    background-color: #891631;
+    max-width: 85%;
+    margin-right: -60px  !important;
+    background-color: #f5dfe4;
     border-radius: 12.5px;
     padding: 15px;
   }
   .chat-msg .chat-body2 {
     display: inline-block;
-    max-width: 80%;
-    margin-left: -64px;
+    max-width: 85%;
+    margin-left: -60px !important;
     background-color: #080000;
     border-radius: 12.5px;
     padding: 15px;
@@ -319,5 +278,11 @@ export default {
   .clearfix {
     clear: both;
   }
+  .clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
   </style>
 

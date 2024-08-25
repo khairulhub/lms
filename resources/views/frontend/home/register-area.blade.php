@@ -8,34 +8,34 @@
                         <div class="divider"><span></span></div>
                         <form method="post">
                             <div class="input-box">
-                                <label class="label-text">Name</label>
+                                <label for="name" class="label-text">Name</label>
                                 <div class="form-group">
-                                    <input class="form-control form--control" type="text" name="name"
-                                        placeholder="Your Name">
+                                    <input class="form-control form--control" id="name" type="text" name="name"
+                                        placeholder="Your Name" autocomplete="off">
                                     <span class="la la-user input-icon"></span>
                                 </div>
                             </div><!-- end input-box -->
                             <div class="input-box">
-                                <label class="label-text">Email</label>
+                                <label for="email" class="label-text">Email</label>
                                 <div class="form-group">
-                                    <input class="form-control form--control" type="email" name="email"
-                                        placeholder="Email Address">
+                                    <input class="form-control form--control" id="email" type="email" name="email"
+                                        placeholder="Email Address" autocomplete="off">
                                     <span class="la la-envelope input-icon"></span>
                                 </div>
                             </div><!-- end input-box -->
                             <div class="input-box">
-                                <label class="label-text">Phone Number</label>
+                                <label for="phone" class="label-text">Phone Number</label>
                                 <div class="form-group">
-                                    <input class="form-control form--control" type="text" name="phone"
-                                        placeholder="Phone Number">
+                                    <input class="form-control form--control" id="phone" type="text" name="phone"
+                                        placeholder="Phone Number" autocomplete="off">
                                     <span class="la la-phone input-icon"></span>
                                 </div>
                             </div><!-- end input-box -->
                             <div class="input-box">
-                                <label class="label-text">Subject</label>
+                                <label for="subject" class="label-text">Subject</label>
                                 <div class="form-group">
-                                    <input class="form-control form--control" type="text" name="subject"
-                                        placeholder="Subject">
+                                    <input class="form-control form--control" id="subject" type="text" name="subject"
+                                        placeholder="Subject" autocomplete="off">
                                     <span class="la la-book input-icon"></span>
                                 </div>
                             </div><!-- end input-box -->
@@ -62,7 +62,7 @@
                             culpa dicta facere maiores quam quas, quis sapiente voluptatem? Nulla, voluptatem.</p>
                     </div><!-- end section-heading -->
                     <div class="btn-box pt-35px">
-                        <a href="sign-up.html" class="btn theme-btn"><i class="mr-1 la la-user"></i>Get
+                        <a href="{{route('register')}}" class="btn theme-btn"><i class="mr-1 la la-user"></i>Get
                             Started</a>
                     </div>
                 </div><!-- end register-content -->
