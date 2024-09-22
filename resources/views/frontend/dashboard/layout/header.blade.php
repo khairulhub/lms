@@ -30,97 +30,6 @@
                                 <div class="user-action-wrap d-flex align-items-center">
 
 
-                                    <div class="pr-3 mr-3 shop-cart wishlist-cart border-right border-right-gray">
-                                        <ul>
-                                            <li>
-                                                <p class="shop-cart-btn">
-                                                    <i class="la la-heart-o"></i>
-                                                    <span class="dot-status bg-1"></span>
-                                                </p>
-                                                <ul class="cart-dropdown-menu after-none">
-                                                    <li>
-                                                        <div class="media media-card">
-                                                            <a href="course-details.html" class="media-img">
-                                                                <img class="mr-3" src="images/small-img.jpg" alt="Cart image">
-                                                            </a>
-                                                            <div class="media-body">
-                                                                <h5><a href="course-details.html">The Complete JavaScript Course 2021: From Zero to Expert!</a></h5>
-                                                                <span class="py-1 d-block lh-18">Kamran Ahmed</span>
-                                                                <p class="text-black font-weight-semi-bold lh-18">$12.99 <span class="before-price fs-14">$129.99</span></p>
-                                                            </div>
-                                                        </div>
-                                                        <a href="#" class="mt-3 btn theme-btn theme-btn-sm theme-btn-transparent lh-28 w-100">Add to cart <i class="ml-1 la la-arrow-right icon"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <div class="media media-card">
-                                                            <a href="course-details.html" class="media-img">
-                                                                <img class="mr-3" src="images/small-img.jpg" alt="Cart image">
-                                                            </a>
-                                                            <div class="media-body">
-                                                                <h5><a href="course-details.html">The Complete JavaScript Course 2021: From Zero to Expert!</a></h5>
-                                                                <span class="py-1 d-block lh-18">Kamran Ahmed</span>
-                                                                <p class="text-black font-weight-semi-bold lh-18">$12.99 <span class="before-price fs-14">$129.99</span></p>
-                                                            </div>
-                                                        </div>
-                                                        <a href="#" class="mt-3 btn theme-btn theme-btn-sm theme-btn-transparent lh-28 w-100">Add to cart <i class="ml-1 la la-arrow-right icon"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="my-courses.html" class="btn theme-btn w-100">Got to wishlist <i class="ml-1 la la-arrow-right icon"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div><!-- end shop-cart -->
-                                    <div class="pr-3 mr-3 shop-cart notification-cart border-right border-right-gray">
-                                        <ul>
-                                            <li>
-                                                <p class="shop-cart-btn">
-                                                    <i class="la la-bell"></i>
-                                                    <span class="dot-status bg-1"></span>
-                                                </p>
-                                                <ul class="p-0 cart-dropdown-menu after-none notification-dropdown-menu">
-                                                    <li class="menu-heading-block d-flex align-items-center justify-content-between">
-                                                        <h4>Notifications</h4>
-                                                        <span class="ribbon fs-14">18</span>
-                                                    </li>
-                                                    <li>
-                                                        <div class="notification-body">
-                                                            <a href="dashboard.html" class="media media-card align-items-center">
-                                                                <div class="flex-shrink-0 mr-3 text-white icon-element icon-element-sm bg-1">
-                                                                    <i class="la la-bolt"></i>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <h5>Your resume updated!</h5>
-                                                                    <span class="pt-1 d-block lh-18 text-gray fs-13">1 hour ago</span>
-                                                                </div>
-                                                            </a>
-                                                            <a href="dashboard.html" class="media media-card align-items-center">
-                                                                <div class="flex-shrink-0 mr-3 text-white icon-element icon-element-sm bg-2">
-                                                                    <i class="la la-lock"></i>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <h5>You changed password</h5>
-                                                                    <span class="pt-1 d-block lh-18 text-gray fs-13">November 12, 2019</span>
-                                                                </div>
-                                                            </a>
-                                                            <a href="dashboard.html" class="media media-card align-items-center">
-                                                                <div class="flex-shrink-0 mr-3 text-white icon-element icon-element-sm bg-3">
-                                                                    <i class="la la-user"></i>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <h5>Your account has been created successfully</h5>
-                                                                    <span class="pt-1 d-block lh-18 text-gray fs-13">November 12, 2019</span>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </li>
-                                                    <li class="menu-heading-block">
-                                                        <a href="dashboard.html" class="btn theme-btn w-100">Show All Notifications <i class="ml-1 la la-arrow-right icon"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div><!-- end shop-cart -->
                                     @php
     $id = Auth::user()->id;
     $profileData = App\Models\User::find($id);
@@ -134,6 +43,10 @@
                                                     </div>
                                                     <span class="dot-status bg-1"></span>
                                                 </div>
+
+
+
+
                                                 <ul class="p-0 cart-dropdown-menu after-none notification-dropdown-menu">
                                                     <li class="menu-heading-block d-flex align-items-center">
                                                         <a href="teacher-detail.html" class="flex-shrink-0 avatar-sm d-block">
@@ -144,6 +57,11 @@
                                                             <span class="d-block fs-14 lh-20">{{ $profileData->email }}</span>
                                                         </div>
                                                     </li>
+
+
+
+
+
                                                     <li>
                                                         <div class="theme-picker d-flex align-items-center justify-content-center lh-40">
                                                             <button class="theme-picker-btn dark-mode-btn w-100 font-weight-semi-bold justify-content-center" title="Dark mode">
@@ -168,54 +86,39 @@
                                                             </button>
                                                         </div>
                                                     </li>
+
+
+
+
+
                                                     <li>
                                                         <ul class="generic-list-item">
 
 
 
                                                             <li><div class="section-block"></div></li>
-                                                            <li>
-                                                                <a href="dashboard-settings.html">
-                                                                    <i class="mr-1 la la-gear"></i> Settings
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="dashboard-purchase-history.html">
-                                                                    <i class="mr-1 la la-history"></i> Purchase history
-                                                                </a>
-                                                            </li>
+                                            
+                                                            
                                                             <li><div class="section-block"></div></li>
                                                             <li>
-                                                                <a href="student-detail.html">
-                                                                    <i class="mr-1 la la-user"></i> Public profile
+                                                                <a href="{{route('my.course')}}">
+                                                                    <i class="mr-1 la la-user"></i> Courses
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="dashboard-settings.html">
+                                                                <a href="{{ route('user.profile') }}">
                                                                     <i class="mr-1 la la-edit"></i> Edit profile
                                                                 </a>
                                                             </li>
                                                             <li><div class="section-block"></div></li>
+                                                            
                                                             <li>
-                                                                <a href="#">
-                                                                    <i class="mr-1 la la-question"></i> Help
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="index.html">
+                                                                <a href="{{ route('user.logout') }}">
                                                                     <i class="mr-1 la la-power-off"></i> Logout
                                                                 </a>
                                                             </li>
                                                             <li><div class="section-block"></div></li>
-                                                            <li>
-                                                                <a href="#" class="position-relative">
-                                                                    <span class="fs-17 font-weight-semi-bold d-block">Aduca for Business</span>
-                                                                    <span class="lh-20 d-block fs-14 text-gray">Bring learning to your company</span>
-                                                                    <span class="top-0 right-0 mt-3 mr-3 position-absolute fs-18 text-gray">
-                                                                    <i class="la la-external-link"></i>
-                                                                </span>
-                                                                </a>
-                                                            </li>
+                                                            
                                                         </ul>
                                                     </li>
                                                 </ul>

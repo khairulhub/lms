@@ -17,6 +17,9 @@
             </a>
         </li>
 
+
+
+        
         {{-- Manage Category --}}
         @if(Auth::user()->can('category.menu'))
         <li id="menu-category" class="menu-item">
@@ -227,22 +230,6 @@
             </ul>
         </li>
         @endif
-
-        {{-- Documentation --}}
-        <li>
-            <a href="https://codervent.com/rocker/documentation/index.html" target="_blank">
-                <div class="parent-icon"><i class="bx bx-folder"></i></div>
-                <div class="menu-title">Documentation</div>
-            </a>
-        </li>
-
-        {{-- Support --}}
-        <li>
-            <a href="https://themeforest.net/user/codervent" target="_blank">
-                <div class="parent-icon"><i class="bx bx-support"></i></div>
-                <div class="menu-title">Support</div>
-            </a>
-        </li>
     </ul>
     <!--end navigation-->
 </div>

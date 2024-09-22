@@ -110,10 +110,10 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="mb-5 text-center login-separater"> <span>OR SIGN IN WITH</span>
+                                    {{-- <div class="mb-5 text-center login-separater"> <span>OR SIGN IN WITH</span>
                                         <hr>
-                                    </div>
-                                    <div class="text-center list-inline contacts-social">
+                                    </div> --}}
+                                    {{-- <div class="text-center list-inline contacts-social">
                                         <a href="javascript:;"
                                             class="text-white border-0 list-inline-item bg-facebook rounded-3"><i
                                                 class="bx bxl-facebook"></i></a>
@@ -126,7 +126,7 @@
                                         <a href="javascript:;"
                                             class="text-white border-0 list-inline-item bg-linkedin rounded-3"><i
                                                 class="bx bxl-linkedin"></i></a>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                             </div>
@@ -138,6 +138,11 @@
             </div>
         </div>
     </div>
+
+
+
+
+
     <!--end wrapper-->
     <!-- Bootstrap JS -->
     <script src="{{ asset('backend/assets/js/bootstrap.bundle.min.js') }}"></script>

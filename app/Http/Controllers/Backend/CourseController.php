@@ -167,17 +167,6 @@ class CourseController extends Controller
 
         ]);
 
-        // // Insert course goals into database
-        // $goals = count($request->course_goals);
-        // if($goals > 0){
-        //     for ($i = 0; $i < $goals; $i++) {
-        //         $Cgoals = new Course_goal();
-        //         $Cgoals->course_id = $course_id;
-        //         $Cgoals->goal_name = $request->course_goals[$i];
-        //         $Cgoals->save(); // Save each goal
-        //     }
-        // }
-
         $notification = array(
             'message' => 'Course Created Successfully',
             'alert-type' => 'success'

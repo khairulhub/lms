@@ -103,32 +103,17 @@
                                                     <button type="submit" class="btn btn-primary">Sign in</button>
                                                 </div>
                                             </div>
-                                            <div class="col-12">
+                                            {{-- <div class="col-12">
                                                 <div class="text-center ">
                                                     <p class="mb-0">Don't have an account yet? <a
                                                             href="authentication-signup.html">Sign up here</a>
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </form>
                                     </div>
-                                    <div class="mb-5 text-center login-separater"> <span>OR SIGN IN WITH</span>
-                                        <hr>
-                                    </div>
-                                    <div class="text-center list-inline contacts-social">
-                                        <a href="javascript:;"
-                                            class="text-white border-0 list-inline-item bg-facebook rounded-3"><i
-                                                class="bx bxl-facebook"></i></a>
-                                        <a href="javascript:;"
-                                            class="text-white border-0 list-inline-item bg-twitter rounded-3"><i
-                                                class="bx bxl-twitter"></i></a>
-                                        <a href="javascript:;"
-                                            class="text-white border-0 list-inline-item bg-google rounded-3"><i
-                                                class="bx bxl-google"></i></a>
-                                        <a href="javascript:;"
-                                            class="text-white border-0 list-inline-item bg-linkedin rounded-3"><i
-                                                class="bx bxl-linkedin"></i></a>
-                                    </div>
+                                   
+                                  
 
                                 </div>
                             </div>

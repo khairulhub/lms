@@ -62,6 +62,9 @@
                 <button class="btn theme-btn" type="submit">Change Password</button>
             </div><!-- end input-box -->
         </form>
+
+
+{{--         
         <form method="post" class="pt-5 mt-5 border-top border-top-gray">
             <h3 class="fs-17 font-weight-semi-bold pb-1">Forgot Password then Recover Password</h3>
             <p class="pb-4">Enter the email of your account to reset password. Then you will receive a link to email
@@ -77,7 +80,10 @@
             <div class="input-box py-2">
                 <button class="btn theme-btn">Recover Password</button>
             </div><!-- end input-box -->
-        </form>
+        </form> --}}
+
+
+        
     </div><!-- end setting-body -->
 
 

@@ -47,17 +47,22 @@ Login | Code Tree
                             <div class="section-block"></div>
                             <form method="POST" action="{{ route('login') }}" class="pt-4">
                                 @csrf
-                                <div class="flex-wrap pb-4 d-flex align-items-center">
+                                {{-- <div class="flex-wrap pb-4 d-flex align-items-center">
                                     <button class="mx-2 mb-2 btn theme-btn flex-grow-1"><i
                                             class="mr-2 la la-google"></i>Google</button>
                                     <button class="mx-2 mb-2 btn theme-btn flex-grow-1"><i
                                             class="mr-2 la la-facebook"></i>Facebook</button>
                                     <button class="mx-2 mb-2 btn theme-btn flex-grow-1"><i
                                             class="mr-2 la la-twitter"></i>Twitter</button>
-                                </div>
-                                <div class="pt-3 pb-4 text-center">
+                                </div> --}}
+                                {{-- <div class="pt-3 pb-4 text-center">
                                     <div class="shadow-sm icon-element icon-element-md fs-25">Or</div>
-                                </div>
+                                </div> --}}
+
+
+
+
+                                
                                 <div class="input-box">
                                     <label class="label-text">Email or Username</label>
                                     <div class="form-group">

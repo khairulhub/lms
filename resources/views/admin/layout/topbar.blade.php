@@ -59,6 +59,9 @@
                             </li>
                         </ul>
                     </li>
+
+
+                    
                     <li class="nav-item dark-mode d-none d-sm-flex">
                         <a class="nav-link dark-mode-icon" href="javascript:;"><i class='bx bx-moon'></i>
                         </a>
@@ -116,6 +119,10 @@
                     
                 </ul>
             </div>
+
+
+
+
             @php
                 $id = Auth::user()->id;
                 $profileData = App\Models\User::find($id);
@@ -142,12 +149,8 @@
                     <li><a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
                                 class="bx bx-home-circle fs-5"></i><span>Dashboard</span></a>
                     </li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
-                                class="bx bx-dollar-circle fs-5"></i><span>Earnings</span></a>
-                    </li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
-                                class="bx bx-download fs-5"></i><span>Downloads</span></a>
-                    </li>
+                  
+                   
                     <li>
                         <div class="mb-0 dropdown-divider"></div>
                     </li>
