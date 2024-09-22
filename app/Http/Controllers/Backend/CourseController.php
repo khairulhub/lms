@@ -34,11 +34,24 @@ class CourseController extends Controller
         return view('instructor.courses.all_course', compact('courses'));
     }//end method
 
+    // public function AdminAllCourse(){
+    //     $id = Auth::user()->id;
+    //     $courses = Course::where('instructor_id',$id)->orderBy('id','desc')->get();
+    //     return view('instructor.courses.all_course', compact('courses'));
+    // }//end method
+
     public function AddCourse(){
         $categories = Category::latest()->get();
         // $subcategories = SubCategory::all();
         return view('instructor.courses.add_course', compact('categories'));
     }//end method
+
+
+    // public function AdminAddCourse(){
+    //     $categories = Category::latest()->get();
+    //     // $subcategories = SubCategory::all();
+    //     return view('admin.backend.adminaddcourse.add_course', compact('categories'));
+    // }//end method
 
 
     // GetSubCategory
@@ -127,6 +140,84 @@ class CourseController extends Controller
         );
 
         return redirect()->route('all.course')->with($notification);
+    }//end method
+
+    public function AdminStoreCourse(Request $request){
+        $request->validate([
+            'video' => 'required|mimes:mp4|max:300000',
+            'course_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        // Handle course image
+        $courseImagePath = null;
+        if($request->file('course_image')){
+            $imageManager = new ImageManager(new Driver()); // No need to pass array configuration
+            $imageName = hexdec(uniqid()).'.'.$request->file('course_image')->getClientOriginalExtension();
+            $img = $imageManager->read($request->file('course_image'));
+            $img->resize(370, 246);
+
+            $courseImagePath = 'upload/course/thumbnail/' . $imageName;
+
+
+            $img->save(public_path($courseImagePath));
+        }
+
+        // Handle video
+        $videoPath = null;
+        if($request->file('video')){
+            $videoName = time().'.'.$request->file('video')->getClientOriginalExtension();
+            $videoPath = 'upload/course/video/' . $videoName;
+
+            // Ensure the directory exists
+            if (!file_exists(public_path('upload/course/video'))) {
+                mkdir(public_path('upload/course/video'), 0777, true);
+            }
+
+            $request->file('video')->move(public_path('upload/course/video'), $videoName);
+        }
+
+        // Insert course into database
+        $course_id = Course::insertGetId([
+            'category_id' => $request->category_id,
+            'subcategory_id' => $request->subcategory_id,
+            'instructor_id' => Auth::user()->id,
+            'course_name' => $request->course_name,
+            'course_name_slug' => strtolower(str_replace(' ', '-', $request->course_name)),
+            'course_title' => $request->course_title,
+            'video' => $videoPath,
+            'certificate' => $request->certificate,
+            'label' => $request->label,
+            'selling_price' => $request->selling_price,
+            'discount_price' => $request->discount_price,
+            'duration' => $request->duration,
+            'resources' => $request->resources,
+            'prerequisites' => $request->prerequisites,
+            'description' => $request->description,
+            'bestseller' => $request->bestseller,
+            'featured' => $request->featured,
+            'highestrated' => $request->highestrated,
+            'status' => 1,
+            'course_image' => $courseImagePath,
+            'created_at' => Carbon::now(),
+        ]);
+
+        // Insert course goals into database
+        $goals = count($request->course_goals);
+        if($goals > 0){
+            for ($i = 0; $i < $goals; $i++) {
+                $Cgoals = new Course_goal();
+                $Cgoals->course_id = $course_id;
+                $Cgoals->goal_name = $request->course_goals[$i];
+                $Cgoals->save(); // Save each goal
+            }
+        }
+
+        $notification = array(
+            'message' => 'Course Created Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin.all.course')->with($notification);
     }//end method
 
 

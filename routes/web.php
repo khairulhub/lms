@@ -129,11 +129,27 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
     });
 
+
     // all instructor route
     Route::controller(AdminController::class)->group(function(){
         Route::get('/all/instructor','AllInstructor')->name('all.instructor')->middleware('permission:instructor.all');
         Route::post('/update/userstatus','UpdateUserStatus')->name('update.userstatus');
     });
+
+
+    Route::controller(CourseController::class)->group(function(){
+        Route::get('admin/all/course','AdminAllCourse')->name('admin.all.course');
+        Route::get('admin/add/course','AdminAddCourse')->name('admin.add.course');
+        Route::get('/subcategory/ajax/{category_id}','GetSubCategory');
+        Route::post('/admin/store/course','AdminStoreCourse')->name('admin.store.course');
+        Route::get('/edit/course/{id}','EditCourse')->name('edit.course');
+        Route::post('/update/course','UpdateCourse')->name('update.course');
+        Route::post('/update/course/image','UpdateCourseImage')->name('update.course.image');
+        Route::post('/update/course/video','UpdateCourseVideo')->name('update.course.video');
+        Route::post('/update/course/goals','UpdateCourseGoals')->name('update.course.goals');
+        Route::get('/delete/course/{id}','DeleteCourse')->name('delete.course');
+    });
+
 
 
     // all review route

@@ -46,7 +46,7 @@
 
 
                         <div class="form-group col-md-6">
-                            <label for="image" class="form-label">Category Image / Photo</label>
+                            <label for="image" class="form-label">Course Image / Photo</label>
                             <input class="form-control" type="file" id="image"  name="course_image">
                         </div>
 

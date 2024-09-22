@@ -19,7 +19,7 @@
 
 
 
-        
+
         {{-- Manage Category --}}
         @if(Auth::user()->can('category.menu'))
         <li id="menu-category" class="menu-item">
@@ -66,8 +66,11 @@
             </a>
             <ul class="submenu">
                 @if(Auth::user()->can('course.all'))
-                <li><a href="{{ route('admin.all.courses') }}"><i class='bx bx-radio-circle'></i>All Course</a></li>
+                <li><a href="{{ route('admin.all.courses') }}"><i class='bx bx-radio-circle'></i>All Courses</a></li>
                 @endif
+                {{-- @if(Auth::user()->can('course.all')) --}}
+                {{-- <li><a href="{{ route('admin.add.course') }}"><i class='bx bx-radio-circle'></i>Add Course</a></li> --}}
+                {{-- @endif --}}
             </ul>
         </li>
         @endif
