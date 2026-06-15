@@ -1,164 +1,187 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-43baki
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 📚 Course Buy — Learning Management System
 
-## About Laravel
+> **A full-featured online course buying, selling & sharing platform built with Laravel & MySQL**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Project Overview
 
-## Learning Laravel
+**Course Buy** is a web-based Learning Management System developed for **Code Tree Academy**. It allows users to buy, sell, and share online courses through a streamlined, user-friendly platform. The system features three distinct role-based panels — Admin, Instructor, and Student.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+> 🎓 Developed as Practicum project — IUBAT, BSc in Computer Science & Engineering (Summer 2024)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ✨ Key Features
 
-## Laravel Sponsors
+### 👑 Admin Panel
+- Manage users, roles & permissions
+- Approve/reject instructor & course listings
+- Category & blog management
+- Coupon system management
+- View transaction & order history
+- Send email notifications to users
+- Full dashboard with analytics
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🎓 Instructor Panel
+- Create and manage courses & sections
+- Upload lectures and course materials
+- View orders, reviews & earnings
+- Create and manage coupons
+- Live chat with enrolled students
 
-### Premium Partners
+### 👤 Student Panel
+- Browse and search available courses
+- Buy courses with secure payment
+- Access purchased course content
+- Leave ratings & reviews
+- Live chat with instructor
+- Email verification on registration
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## 🛠️ Tech Stack
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Layer | Technology |
+|---|---|
+| Backend | PHP, Laravel Framework |
+| Frontend | HTML5, CSS3, JavaScript, Blade Templating |
+| Database | MySQL, phpMyAdmin |
+| Auth | Laravel Auth + Email Verification |
+| IDE | Visual Studio Code |
+| Methodology | Agile (Iterative Development) |
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🗄️ Database Design
 
-## Security Vulnerabilities
+The system includes the following core tables:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- `users` — Student, Instructor, Admin roles
+- `courses` — Course listings with details
+- `course_sections` — Course chapter/section management
+- `course_lectures` — Individual lecture entries
+- `orders` — Purchase transaction records
+- `payments` — Payment processing records
+- `categories` — Course categorization
+- `coupons` — Discount coupon management
+- `blog_posts` — Platform blog content
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📸 Screenshots
 
+### 🏠 Home Page
+![Home Page](screenshots/home1.png)
 
+### 📚 Course Listings
+![Courses](screenshots/courses.png)
 
-==========================>
-by using toggle button take the value inactive and active 
-## controller value 
-    // AllInstructor
-    public function AllInstructor(){
-        $allinstructor = User::where('role','instructor')->latest()->get();
-        return view('admin.backend.instructor.all_instructor',compact('allinstructor'));
-    }
+### 🖥️ Admin Dashboard
+![Admin Dashboard](screenshots/admin_dashboard.png)
 
-    // important code for getting all instructor information
+### ➕ Admin — Add Category
+![Add Category](screenshots/admin_category.png)
 
-    public function UpdateUserStatus(Request $request)
-    {
-        $userId = $request->input('user_id');
-        $isChecked = $request->input('is_checked', 0); // Default to 0 if not provided
-        $user = User::find($userId);
-    
-        if ($user) {
-            $user->status = $isChecked;
-            $user->save();
-            return redirect()->route('all.instructor');
-        } 
-    }
-    
+### 🎓 Instructor Dashboard
+![Instructor Dashboard](screenshots/instructor_dashboard.png)
 
-    ## web.route  admin should be login 
-      
-    Route::controller(AdminController::class)->group(function(){
-        Route::get('/all/instructor','AllInstructor')->name('all.instructor');
-        // Route::get('/add/subcategory','AddSubCategory')->name('add.subcategory');
-        // Route::post('/store/subcategory','StoreSubCategory')->name('store.subcategory');
-        // Route::get('/edit/subcategory/{id}','EditSubCategory')->name('edit.subcategory');
-        Route::post('/update/userstatus','UpdateUserStatus')->name('update.userstatus');
-        // Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
-    });
+### ✏️ Instructor — Add Course
+![Add Course](screenshots/instructor_add_course.png)
 
-    ## all instructor page manage 
-      <td>
-                                <form id="statusForm{{ $item->id }}" action="{{ route('update.userstatus') }}" method="POST">
-                                    @csrf
-                                   
-                                    <input type="hidden" name="user_id" value="{{ $item->id }}">
-                <input type="hidden" name="is_checked" value="{{ $item->status }}">
-                <div class="form-check form-switch">
-                    <input class="form-check-input status-toggle" type="checkbox" {{ $item->status == 1 ? 'checked' : '' }} onchange="updateStatus({{ $item->id }}, this)">
-                </div>
-                                </form>
-                            </td>
+---
 
-## js code for update status with status toggle disabled and disabled 
-<script>
-    function updateStatus(userId, checkbox) {
-        let form = document.getElementById('statusForm' + userId);
-        form.querySelector('input[name="is_checked"]').value = checkbox.checked ? 1 : 0;
-        form.submit();
-    }
-</script>
+## ⚙️ Installation & Setup
 
+```bash
+# 1. Clone the repository
+git clone https://github.com/Khairul-hub/course-buy-lms.git
+cd course-buy-lms
 
-    ====================================> finish the update 
+# 2. Install dependencies
+composer install
+npm install
 
+# 3. Configure environment
+cp .env.example .env
+php artisan key:generate
 
+# 4. Setup database
+# Create a MySQL database named: course_buy
+# Update .env with your DB credentials
 
+# 5. Run migrations
+php artisan migrate
 
+# 6. Seed sample data (optional)
+php artisan db:seed
 
+# 7. Serve the application
+php artisan serve
+```
 
+Then open: `http://localhost:8000`
 
+---
 
+## 🔐 Default Login Credentials
 
-  -- teacher details page route -- {{ route('instructor.details',$course->instructor_id) }}
-  -- course details url -- {{url('course/details/'.$course->id.'/'.$course->course_name_slug)}}
- -- wishlist  --   id="{{$course->id}}" onclick="addToWishList(this.id)"
- -- blog post details url -- {{url('blog/details/'.$item->post_slug)}}
+| Role | Email | Password |
+|---|---|---|
+| Admin | admin@coursebuy.com | password |
+| Instructor | instructor@coursebuy.com | password |
+| Student | student@coursebuy.com | password |
 
+---
 
+## 📋 System Requirements
 
+- PHP >= 8.0
+- Composer
+- MySQL >= 5.7
+- Node.js & NPM
+- Laravel >= 9.x
 
- --user registration -- {{route('register')}}
- --user login -- {{route('login')}}
+---
 
+## 🧪 Testing
 
+The system was tested using:
+- **Black Box Testing** — Functional behavior testing
+- **White Box Testing** — Internal logic & code path testing
 
+All 7 core test cases passed ✅
 
- -- pdf generator command -- composer require barryvdh/laravel-dompdf
+---
 
+## 🏢 Developed At
 
+**Code Tree IT Ltd**
+House 77 (Level-10), Road 13, Sector 10, Uttara, Dhaka-1230, Bangladesh
 
+---
 
+## 👨‍💻 Developer
 
+**Md Khairul Islam**
+- 🎓 BSc in Computer Science & Engineering — IUBAT (2024)
+- 💼 Full Stack Developer & Network Engineer
+- 🌐 Portfolio: [khairulhub.vercel.app](https://khairulhub.vercel.app)
+- 💻 GitHub: [@Khairul-hub](https://github.com/Khairul-hub)
+- 📧 Email: khairulhub@gmail.com
 
- Add to cart take form -- https://packagist.org/packages/anayarojo/shoppingcart
+---
 
- vue js plugin  npm i @vitejs/plugin-vue
+## 📄 License
 
+This project was developed for academic purposes as part of the IUBAT Practicum requirement (CSC490).
 
+---
+
+⭐ **If you found this project helpful, please give it a star!**
